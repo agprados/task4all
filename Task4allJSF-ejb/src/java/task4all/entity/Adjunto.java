@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Adjunto.findAll", query = "SELECT a FROM Adjunto a"),
     @NamedQuery(name = "Adjunto.findById", query = "SELECT a FROM Adjunto a WHERE a.id = :id"),
     @NamedQuery(name = "Adjunto.findByNombre", query = "SELECT a FROM Adjunto a WHERE a.nombre = :nombre"),
-    @NamedQuery(name = "Adjunto.findByTipo", query = "SELECT a FROM Adjunto a WHERE a.tipo = :tipo")})
+    @NamedQuery(name = "Adjunto.findByTipo", query = "SELECT a FROM Adjunto a WHERE a.tipo = :tipo"),
+    @NamedQuery(name = "Adjunto.findByUrl", query = "SELECT a FROM Adjunto a WHERE a.url = :url")})
 public class Adjunto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,9 +58,15 @@ public class Adjunto implements Serializable {
     @Lob
     @Column(name = "ARCHIVO")
     private Serializable archivo;
+    @Size(max = 3500)
+    @Column(name = "URL")
+    private String url;
     @JoinColumn(name = "TAREA_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Tarea tareaId;
+    @JoinColumn(name = "USUARIO_USUARIO", referencedColumnName = "USUARIO")
+    @ManyToOne(optional = false)
+    private Usuario usuarioUsuario;
 
     public Adjunto() {
     }
@@ -105,12 +112,28 @@ public class Adjunto implements Serializable {
         this.archivo = archivo;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public Tarea getTareaId() {
         return tareaId;
     }
 
     public void setTareaId(Tarea tareaId) {
         this.tareaId = tareaId;
+    }
+
+    public Usuario getUsuarioUsuario() {
+        return usuarioUsuario;
+    }
+
+    public void setUsuarioUsuario(Usuario usuarioUsuario) {
+        this.usuarioUsuario = usuarioUsuario;
     }
 
     @Override

@@ -6,35 +6,36 @@
 package task4all.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author aidag
  */
 @Entity
-@Table(name = "USUARIO_TAREA")
+@Table(name = "FONDO")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "UsuarioTarea.findAll", query = "SELECT u FROM UsuarioTarea u"),
-    @NamedQuery(name = "UsuarioTarea.findById", query = "SELECT u FROM UsuarioTarea u WHERE u.id = :id"),
-    @NamedQuery(name = "UsuarioTarea.findByUsuarioUsuario", query = "SELECT u FROM UsuarioTarea u WHERE u.usuarioUsuario = :usuarioUsuario"),
-    @NamedQuery(name = "UsuarioTarea.findByTarea", query = "SELECT u FROM UsuarioTarea u WHERE u.tareaId.id = :id"),
-    @NamedQuery(name = "UsuarioTarea.findByTareaAndUsuario", query = "SELECT u FROM UsuarioTarea u WHERE u.tareaId.id = :id AND u.usuarioUsuario.usuario = :u")})
-public class UsuarioTarea implements Serializable {
+    @NamedQuery(name = "Fondo.findAll", query = "SELECT f FROM Fondo f"),
+    @NamedQuery(name = "Fondo.findById", query = "SELECT f FROM Fondo f WHERE f.id = :id"),
+    @NamedQuery(name = "Fondo.findByOscuro", query = "SELECT f FROM Fondo f WHERE f.oscuro = :oscuro")})
+public class Fondo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -42,21 +43,29 @@ public class UsuarioTarea implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "SEQ_USUARIO_TAREA")
-    @SequenceGenerator(name="SEQ_USUARIO_TAREA", sequenceName = "USUARIO_TAREA_id_SEQ", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "SEQ_FONDO")
+    @SequenceGenerator(name="SEQ_FONDO", sequenceName = "FONDO_id_SEQ", allocationSize=1)
     private Integer id;
-    @JoinColumn(name = "TAREA_ID", referencedColumnName = "ID")
-    @ManyToOne(optional = false)
-    private Tarea tareaId;
-    @JoinColumn(name = "USUARIO_USUARIO", referencedColumnName = "USUARIO")
-    @ManyToOne(optional = false)
-    private Usuario usuarioUsuario;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "FONDO")
+    private Serializable fondo;
+    @Column(name = "OSCURO")
+    private Character oscuro;
+    @OneToMany(mappedBy = "fondoId")
+    private Collection<Proyecto> proyectoCollection;
 
-    public UsuarioTarea() {
+    public Fondo() {
     }
 
-    public UsuarioTarea(Integer id) {
+    public Fondo(Integer id) {
         this.id = id;
+    }
+
+    public Fondo(Integer id, Serializable fondo) {
+        this.id = id;
+        this.fondo = fondo;
     }
 
     public Integer getId() {
@@ -67,20 +76,29 @@ public class UsuarioTarea implements Serializable {
         this.id = id;
     }
 
-    public Tarea getTareaId() {
-        return tareaId;
+    public Serializable getFondo() {
+        return fondo;
     }
 
-    public void setTareaId(Tarea tareaId) {
-        this.tareaId = tareaId;
+    public void setFondo(Serializable fondo) {
+        this.fondo = fondo;
     }
 
-    public Usuario getUsuarioUsuario() {
-        return usuarioUsuario;
+    public Character getOscuro() {
+        return oscuro;
     }
 
-    public void setUsuarioUsuario(Usuario usuarioUsuario) {
-        this.usuarioUsuario = usuarioUsuario;
+    public void setOscuro(Character oscuro) {
+        this.oscuro = oscuro;
+    }
+
+    @XmlTransient
+    public Collection<Proyecto> getProyectoCollection() {
+        return proyectoCollection;
+    }
+
+    public void setProyectoCollection(Collection<Proyecto> proyectoCollection) {
+        this.proyectoCollection = proyectoCollection;
     }
 
     @Override
@@ -93,10 +111,10 @@ public class UsuarioTarea implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UsuarioTarea)) {
+        if (!(object instanceof Fondo)) {
             return false;
         }
-        UsuarioTarea other = (UsuarioTarea) object;
+        Fondo other = (Fondo) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -105,7 +123,7 @@ public class UsuarioTarea implements Serializable {
 
     @Override
     public String toString() {
-        return "task4all.entity.UsuarioTarea[ id=" + id + " ]";
+        return "task4all.entity.Fondo[ id=" + id + " ]";
     }
-
+    
 }

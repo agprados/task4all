@@ -15,7 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -59,7 +60,7 @@ public class Proyecto implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "NOMBRE")
     private String nombre;
-    @Size(max = 300)
+    @Size(max = 500)
     @Column(name = "DESCRIPCION")
     private String descripcion;
     @Basic(optional = false)
@@ -73,15 +74,15 @@ public class Proyecto implements Serializable {
     @Column(name = "FECHAFIN")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechafin;
-    @Lob
-    @Column(name = "FONDO")
-    private Serializable fondo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyectoId")
     private Collection<Lista> listaCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyectoId")
     private Collection<Comentario> comentarioCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyectoId")
     private Collection<Actividad> actividadCollection;
+    @JoinColumn(name = "FONDO_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private Fondo fondoId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyectoId")
     private Collection<UsuarioProyecto> usuarioProyectoCollection;
 
@@ -146,14 +147,6 @@ public class Proyecto implements Serializable {
         this.fechafin = fechafin;
     }
 
-    public Serializable getFondo() {
-        return fondo;
-    }
-
-    public void setFondo(Serializable fondo) {
-        this.fondo = fondo;
-    }
-
     @XmlTransient
     public Collection<Lista> getListaCollection() {
         return listaCollection;
@@ -179,6 +172,14 @@ public class Proyecto implements Serializable {
 
     public void setActividadCollection(Collection<Actividad> actividadCollection) {
         this.actividadCollection = actividadCollection;
+    }
+
+    public Fondo getFondoId() {
+        return fondoId;
+    }
+
+    public void setFondoId(Fondo fondoId) {
+        this.fondoId = fondoId;
     }
 
     @XmlTransient

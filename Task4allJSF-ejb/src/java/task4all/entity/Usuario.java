@@ -74,6 +74,8 @@ public class Usuario implements Serializable {
     @Column(name = "VERIFICADO")
     private Character verificado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioUsuario")
+    private Collection<Adjunto> adjuntoCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioUsuario")
     private Collection<Comentario> comentarioCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioUsuario")
     private Collection<Actividad> actividadCollection;
@@ -152,6 +154,15 @@ public class Usuario implements Serializable {
 
     public void setVerificado(Character verificado) {
         this.verificado = verificado;
+    }
+
+    @XmlTransient
+    public Collection<Adjunto> getAdjuntoCollection() {
+        return adjuntoCollection;
+    }
+
+    public void setAdjuntoCollection(Collection<Adjunto> adjuntoCollection) {
+        this.adjuntoCollection = adjuntoCollection;
     }
 
     @XmlTransient
