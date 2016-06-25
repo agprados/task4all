@@ -1,0 +1,166 @@
+html body {
+    margin: 0;
+    padding: 0;
+    background: #fafafa;
+}
+
+.container {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #888888;
+    border-radius: 5px;
+    box-shadow: 2px 2px 8px #cccccc;
+    background: white;
+}
+
+.header {
+    text-align: left;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #888888;
+    box-shadow: 2px 2px 8px #cccccc;
+    background: #eeeeee;
+}
+
+.usuario {
+    display: inline-block;
+    vertical-align: top;
+    min-width: 200px;
+    height: 75px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-top: 5px solid #008888;
+    border-radius: 5px;
+    background: #ffffff;
+    text-align: left;
+}
+
+.usuario-miembro {    
+    border-top: 5px solid #ff6e19;
+}
+
+.usuario-invitado {
+    border-top: 5px solid #7f7e7d;
+}
+
+.usuario-invitacion {
+    background: #efefef;
+    border-top: 5px solid #bbbbbb;
+}
+.usuario-invitacion:hover {
+    background: #ffffff;
+    box-shadow: 0px 0px 5px #cccccc;
+    border-top: 5px solid #ff6e19;
+}
+
+.containerHeader {
+    height: 80px;
+    background: #eeeeee;
+    margin: -10px -15px 10px -15px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: 1px solid #cccccc;
+    padding: 0 10px;
+}
+
+.containerFooter {
+    min-height: 50px;
+    background: #eeeeee;
+    margin: 10px -15px -10px -15px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top: 1px solid #cccccc;
+    padding: 0 10px;
+}
+
+.separador {
+    width: 100%;
+    height: 1px;
+    background: #cccccc;
+    margin: 10px 0;
+}
+.proyecto {
+    display: inline-block;
+    vertical-align: top;
+    width: 250px;
+    min-height: 100px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-top: 5px solid #008888;
+    border-radius: 5px;
+}
+
+.lista {
+    display: inline-block;
+    vertical-align: top;
+    width: 300px;
+    min-height: 100px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-top: 5px solid #880088;
+    border-radius: 5px;
+    text-align: left;
+    background: #ffffff;
+}
+
+.lista-crear {
+    background: #efefef;
+    border-top: 5px solid #bbbbbb;
+}
+
+.tarea {
+    width: 100%;
+    border: 1px solid #cccccc;
+    padding: 5px;
+    border-radius: 5px;
+    background: #fbfbfb;
+    margin: 10px 0;
+}
+
+.tarea:hover {
+    background: #efefef;
+}
+
+
+.tarea-crear {
+    background: #efefef;
+    text-align: center;
+}
+
+.tarea-crear:hover {
+    background: #dddddd;
+}
+
+.comments {
+    width: 100%;
+    border: 1px solid #cccccc;
+    height: 500px;
+}
+
+.comentario {
+    width: 600px;
+    background: white;
+    border: 1px solid #cccccc;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    text-align: left;
+    margin: 10px;
+}
+
+.comentarioCabecera {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 5px;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 1px solid #cccccc;
+    font-size: 18px;
+    background: #efefef;
+}
+
+.comentarioCuerpo {
+    padding: 10px;
+}

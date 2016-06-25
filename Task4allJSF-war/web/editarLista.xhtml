@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Task4all - Ediar tarea</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+        <!-- Compiled and minified Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <!-- Compiled and minified Bootstrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    </h:head>
+    <h:body>
+        #{usuarioBean.doCheckLogin()}
+        <ui:include src="/includes/header.xhtml" />
+        <center>
+            <div class="container" style="margin-top: 20px;">
+                <div class="containerHeader">
+                    <h2 style="float: left;">
+                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                        Editar lista <i>#{usuarioBean.listaSeleccionada.nombre}</i>
+                    </h2>
+                </div>
+                <h:form>
+                    <h:panelGroup rendered="#{!listaBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
+                        #{listaBean.error} 
+                    </h:panelGroup>
+
+
+                    <h4>Nombre *</h4>
+                    <div class="input-group input-group-lg" style="width: 300px;">
+                        <h:inputText value="#{listaBean.nombre}" style="border-radius: 5px" class="form-control" />
+                    </div>
+                    <br/>
+                    <h4>Descripción</h4>
+                    <div class="input-group input-group-lg" style="width: 500px;">
+                        <h:inputText value="#{usuarioBean.listaSeleccionada.descripcion}" style="border-radius: 5px" class="form-control" />
+                    </div>
+                    <br/>
+                    * Campo obligatorio
+                    <br/>
+                    <center>
+                        <h:button value="Cancelar" outcome="proyecto" class="btn btn-default" a:aria-expanded="false" />
+                        <h:commandButton value="Guardar" action="#{listaBean.doGuardar()}" class="btn btn-success" a:aria-expanded="false" style="margin-left: 5px;" />
+                    </center>
+                </h:form>
+            </div>
+        </center>
+        <ui:include src="/includes/footer.xhtml" />
+    </h:body>
+</html>

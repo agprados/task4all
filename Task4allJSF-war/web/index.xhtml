@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        #{usuarioBean.doCheckLogout()}
+        <title>Task4all</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+        <!-- Compiled and minified Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <!-- Compiled and minified Bootstrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    </h:head>
+    <h:body>
+        <center>
+            <h:link outcome="index">
+                <img style="margin: 20px 0px; cursor: pointer;" src="images/logo.png" alt="logo" width="600" />
+            </h:link>
+            <br/>
+            <h:form>
+                <h:button value="Iniciar sesión" outcome="login.xhtml" style="width: 150px; height: 40px; font-size: 18px; margin-right: 10px;" class="btn btn-success" />
+                <h:button value="Registrarse" outcome="registrar.xhtml" style="width: 150px; height: 40px; font-size: 18px;" class="btn btn-info" />
+            </h:form>
+        </center>
+        <br/>        
+        <div class="container" style="margin-top: 30px;">            
+            <h1>¿Qué es Task4all?</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel pellentesque enim. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+            <p>Praesent vitae lorem nec augue dapibus pellentesque non a massa. Suspendisse viverra porttitor enim ut sodales. In hac habitasse platea dictumst. Nunc sit amet nibh leo. Aenean eu sapien odio.</p>
+            <p>Phasellus id diam in elit pharetra maximus. Nullam id mauris ipsum. Curabitur tristique vehicula tellus in maximus. Aenean mollis bibendum ex eget vestibulum.</p>
+            <br/>
+            <h1>¿Por qué Task4all?</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel pellentesque enim. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+            <p>Phasellus id diam in elit pharetra maximus. Nullam id mauris ipsum. Curabitur tristique vehicula tellus in maximus. Aenean mollis bibendum ex eget vestibulum.</p>
+        </div>
+        <ui:include src="/includes/footer.xhtml" />
+        <br />       
+    </h:body>
+</html>

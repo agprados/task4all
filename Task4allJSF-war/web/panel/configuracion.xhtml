@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Task4all - Configuración</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+        <!-- Compiled and minified Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <!-- Compiled and minified Bootstrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    </h:head>
+    <h:body>
+        #{usuarioBean.doCheckLogin()}
+        <ui:include src="/includes/header.xhtml" />
+        <center>
+            <div class="container" style="margin-top: 20px;">
+                <div class="containerHeader">
+                    <h2 style="float: left;">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        Panel de usuario
+                    </h2>                
+                </div>           
+                <ul class="nav nav-tabs nav-justified">
+                    <li role="presentation"><h:link outcome="tareas">Tareas</h:link></li>
+                    <li role="presentation" class="active"><h:link outcome="configuracion">Configuración</h:link></li>
+                </ul>
+                <br/>
+                <h:panelGroup rendered="#{usuarioBean.errorConfiguracion.length() != 0}" layout="block" class="alert alert-danger" a:role="alert">
+                    <center>#{usuarioBean.errorConfiguracion}</center>                    
+                </h:panelGroup>
+                #{usuarioBean.setErrorConfiguracion("")}
+                <h:panelGroup rendered="#{usuarioBean.correctaConfiguracion.length() != 0}" layout="block" class="alert alert-success" a:role="alert">
+                   <center>#{usuarioBean.correctaConfiguracion}</center>                   
+                </h:panelGroup>
+                #{usuarioBean.setCorrectaConfiguracion("")}
+                <h2>Modifica tus datos</h2>
+                <br/>
+                <h:form>            
+                    <h4>Nombre:</h4>
+                    <div class="input-group input-group-lg" style="width: 300px;">
+                        <h:inputText value="#{usuarioBean.usuario.nombre}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
+                    </div>
+                    <br/>
+                    <h4>Apellidos:</h4>
+                    <div class="input-group input-group-lg" style="width: 500px;">
+                        <h:inputText value="#{usuarioBean.usuario.apellidos}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
+                    </div>
+                    <br/>
+                    <h4>Email:</h4>
+                    <div class="input-group input-group-lg" style="width: 500px;">
+                        #{usuarioBean.setEmail(usuarioBean.usuario.email)}
+                        <h:inputText value="#{usuarioBean.email}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1"/>
+                    </div>
+                    <br/>
+                    <div class="separador"></div>
+                    <h2>Cambia tu contraseña</h2>
+                    <br/>
+                    <h4>Contraseña nueva:</h4>
+                    <div class="input-group input-group-lg" style="width: 500px;">
+                        <h:inputSecret value="#{usuarioBean.contrasena}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
+                    </div>
+                    <h4>Confirma tu nueva contraseña:</h4>
+                    <div class="input-group input-group-lg" style="width: 500px;">
+                        <h:inputSecret value="#{usuarioBean.verificaContrasena}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
+                    </div>
+                    <br/>
+                    <div class="separador"></div>
+                    <center>
+                        <h:commandButton value="Guardar" action="#{usuarioBean.doEditar()}" style="font-size: 20px;" class="btn btn-success" />
+                    </center>
+                </h:form>
+            </div>
+        </center>
+        <ui:include src="/includes/footer.xhtml" />
+    </h:body>
+</html>
+

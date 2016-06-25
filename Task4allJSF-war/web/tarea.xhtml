@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Task4all - Tarea</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+        <!-- Compiled and minified Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <!-- Compiled and minified Bootstrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    </h:head>
+    <h:body>
+        #{usuarioBean.doCheckLogin()}
+        <ui:include src="/includes/header.xhtml" />
+        <center>
+            <div class="container" style="margin-top: 20px;">
+                <div class="containerHeader">
+                    <h2 style="float: left;">
+                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                        #{usuarioBean.tareaSeleccionada.listaId.nombre} > #{usuarioBean.tareaSeleccionada.nombre}
+                        <h:form style="float: right">
+                            <h:commandLink action="#{tareaBean.doEditar()}" style="margin: -5px 0 0 10px;" class="btn btn-default btn-lg">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar
+                            </h:commandLink>
+                        </h:form>
+                    </h2>         
+                    
+                    <div style="float: right; margin-top: 10px;">
+                        Creación:
+                        <h:outputText value="#{usuarioBean.tareaSeleccionada.fechacreacion}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="CET"/>
+                        </h:outputText>
+                        <h:outputText rendered="#{usuarioBean.tareaSeleccionada.fechacreacion == null}" value="--/--/--  --:--" />
+                        <br/>
+                        Objetivo:
+                        <h:outputText value="#{usuarioBean.tareaSeleccionada.fechaobjetivo}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="CET" />
+                        </h:outputText>
+                        <h:outputText rendered="#{usuarioBean.tareaSeleccionada.fechaobjetivo == null}" value="--/--/--  --:--" />
+                    </div>
+                </div>
+                <br/>
+                <center>
+                    <h:panelGroup rendered="#{usuarioBean.tareaSeleccionada.prioridad == 0}" layout="block" style="width: 300px; background: #efffef; padding: 10px; border: 1px solid #cccccc; border-radius: 5px;">
+                        <b>Prioridad:</b> Baja
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{usuarioBean.tareaSeleccionada.prioridad == 1}" layout="block" style="width: 300px; background: #efefff; padding: 10px; border: 1px solid #cccccc; border-radius: 5px;">
+                        <b>Prioridad:</b> Media
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{usuarioBean.tareaSeleccionada.prioridad == 2}" layout="block" style="width: 300px; background: #ffefef; padding: 10px; border: 1px solid #cccccc; border-radius: 5px;">
+                        <b>Prioridad:</b> Alta
+                    </h:panelGroup>
+                    <br/>
+                    <div class="separador"></div>
+                    <br/>
+                    #{usuarioBean.tareaSeleccionada.descripcion}
+                    <br/>
+                    <br/>                
+                </center>
+                <h3>Usuarios implicados</h3>
+                <div class="separador"></div>
+                <h:panelGroup rendered="#{not empty tareaBean.errorAsignado}" layout="block" class="alert alert-danger" a:role="alert">
+                    #{tareaBean.errorAsignado}
+                </h:panelGroup>
+                <h:form>
+                    <c:forEach items="#{tareaBean.listaAsignados}" var="asignado">                    
+                        <h:panelGroup rendered="#{asignado.rol.toLowerCase() eq 'líder'}">
+                            <div class="usuario">
+                                <h:commandLink action="#{tareaBean.doEliminarUsuario(asignado.usuarioUsuario)}" style="float: right; font-size: 12px; color: #bb0000">
+                                    Eliminar
+                                    <f:ajax execute="@form" render="@form"/>
+                                </h:commandLink>
+                                <b>#{asignado.usuarioUsuario.usuario}</b>
+                                <br/>
+                                #{asignado.usuarioUsuario.email}
+                                <br/>
+                                <i style="color: #aaaaaa;">#{asignado.rol.toLowerCase()}</i>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{asignado.rol.toLowerCase() eq 'miembro'}">
+                            <div class="usuario usuario-miembro">
+                                <h:commandLink action="#{tareaBean.doEliminarUsuario(asignado.usuarioUsuario)}" style="float: right; font-size: 12px; color: #bb0000">
+                                    Eliminar
+                                    <f:ajax execute="@form" render="@form"/>
+                                </h:commandLink>
+                                <b>#{asignado.usuarioUsuario.usuario}</b> 
+                                <br/>
+                                #{asignado.usuarioUsuario.email}
+                                <br/>
+                                <i style="color: #aaaaaa;">#{asignado.rol.toLowerCase()}</i>
+                            </div>     
+                        </h:panelGroup>
+                    </c:forEach>                       
+                    <a type="button"  data-toggle="modal" data-target="#invitacion" style="cursor: pointer; color: black; text-decoration: none;">
+                        <div class="usuario usuario-invitacion">
+                            <center>    
+                                <b>Asignar la tarea</b>
+                                <br/>
+                            </center>
+                        </div>
+                    </a>
+                    <div class="modal fade" id="invitacion" tabindex="-1" role="dialog" aria-labelledby="invitacionLbl">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h:link class="close" a:data-dismiss="modal" a:aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </h:link>
+                                    <h4 class="modal-title" id="invitacionLbl">Asigna la tarea a un usuario</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Puedes asignarles la tarea a los usuarios del proyecto.
+                                    <br/>
+                                    <c:forEach items="#{tareaBean.listaUsuariosSinAsignar}" var="noAsignado">                                       
+                                        <h:panelGroup rendered="#{noAsignado.rol.toLowerCase() eq 'líder'}">                                       
+                                            <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioUsuario)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario">
+                                                <b>#{noAsignado.usuarioUsuario.usuario}</b>
+                                                <br/>
+                                                #{noAsignado.usuarioUsuario.email}
+                                                <br/>
+                                                <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
+                                            </h:commandLink>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{noAsignado.rol.toLowerCase() eq 'miembro'}">
+                                            <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioUsuario)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario usuario-miembro">
+                                                <b>#{noAsignado.usuarioUsuario.usuario}</b>
+                                                <br/>
+                                                #{noAsignado.usuarioUsuario.email}
+                                                <br/>
+                                                <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
+                                            </h:commandLink>
+                                        </h:panelGroup>
+                                    </c:forEach>
+                                </div>
+                                <div class="modal-footer">
+                                    <h:link class="btn btn-default" a:data-dismiss="modal">Cancelar</h:link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>               
+                </h:form>
+
+                <div class="containerFooter">
+                    <center>
+                        <h:form>
+                            <h:button value="Volver al proyecto" style="margin-top: 8px;" outcome="proyecto" class="btn btn-default" a:aria-expanded="false" />
+                            <h:commandButton value="Eliminar tarea" action="#{tareaBean.doBorrar()}" style="margin: 8px 0 0 5px;" class="btn btn-danger" a:aria-expanded="false" />
+                        </h:form>
+                    </center>
+                </div>
+            </div>
+        </center>
+        <ui:include src="/includes/footer.xhtml" />
+    </h:body>
+</html>
