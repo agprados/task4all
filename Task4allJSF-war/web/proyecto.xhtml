@@ -55,7 +55,7 @@
                 <center>                    
                     <p style="font-style: italic; word-wrap:break-word;"> #{usuarioBean.proyectoSeleccionado.descripcion}</p>
                 </center>
-                
+
                 <h3 style="color: #000000">Usuarios</h3>                
                 <div class="separador"></div>
                 <h:form>
@@ -202,26 +202,29 @@
                 <div class="separador"></div>
                 <center>
                     <h:form>
-                        <c:forEach items="#{comentariosBean.listaComentarios}" var="comentario">
-                            <div class="comentario">
-                                <div class="comentarioCabecera">
-                                    <div style="text-align: right; font-weight: normal; font-size: 10px; float: right">
-                                        <h:outputText value="#{comentario.fecha}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy hh:ss" />
-                                        </h:outputText>
-                                        <br/>
-                                        <h:commandLink value="Eliminar" action="#{comentariosBean.doBorrar(comentario)}" rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') or comentario.usuarioUsuario.equals(usuarioBean.usuario)}" style="font-size: 12px; color: #bb0000;" >
-                                            <f:ajax execute="@form" render="@form" />
-                                        </h:commandLink>
+                        <div class="comentarios" style="#{comentariosBean.overflow()}">
+                            <c:forEach items="#{comentariosBean.listaComentarios}" var="comentario">
+                                <div class="comentario">
+                                    <div class="comentarioCabecera">
+                                        <div style="text-align: right; font-weight: normal; font-size: 10px; float: right">
+                                            <h:outputText value="#{comentario.fecha}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy hh:ss" />
+                                            </h:outputText>
+                                            <br/>
+                                            <h:commandLink value="Eliminar" action="#{comentariosBean.doBorrar(comentario)}" rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') or comentario.usuarioUsuario.equals(usuarioBean.usuario)}" style="font-size: 12px; color: #bb0000;" >
+                                                <f:ajax execute="@form" render="@form" />
+                                            </h:commandLink>
+                                        </div>
+                                        #{comentario.usuarioUsuario.usuario}
                                     </div>
-                                    #{comentario.usuarioUsuario.usuario}
+                                    <div class="comentarioCuerpo">
+                                        #{comentario.contenido}
+                                    </div>
                                 </div>
-                                <div class="comentarioCuerpo">
-                                    #{comentario.contenido}
-                                </div>
-                            </div>
-                        </c:forEach>
-                        <br/>
+                            </c:forEach>
+                            <br/>
+                        </div>
+                        
                         <h:panelGroup rendered="#{!comentariosBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
                             #{comentariosBean.error} 
                         </h:panelGroup>

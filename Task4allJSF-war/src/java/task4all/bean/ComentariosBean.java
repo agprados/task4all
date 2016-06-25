@@ -177,4 +177,9 @@ public class ComentariosBean {
         
         return actividad;
     }
+    
+    public String overflow() {
+        if (listaComentarios.size() > 5) return "height: 520px; overflow: auto;";
+        else return "";
+    }
 }

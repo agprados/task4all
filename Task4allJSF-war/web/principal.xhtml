@@ -20,97 +20,97 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     </h:head>
     <h:body>
-    #{usuarioBean.doCheckLogin()}
-    <ui:include src="/includes/header.xhtml" />
-    <center>
-        <div class="container" style="margin-top: 50px;">
-            <div class="containerHeader">
-                <h2 style="float: left;">
-                    <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
-                    Mis proyectos
-                </h2>
-                <div style="float: right; margin: 24px 10px;" class="dropdown">
-                    <h:link class="btn btn-info dropdown-toggle" id="dropdownProject" a:data-toggle="dropdown" a:aria-haspopup="true" a:aria-expanded="true">
-                        <span class="glyphicon glyphicon-plus"></span>
-                        Nuevo proyecto                        
-                    </h:link>
-                    <ul style="width: 300px;" class="dropdown-menu pull-right" aria-labelledby="dropdownProject">
-                        <li style="padding: 10px;">
-                            <h:form>
-                                <h:panelGroup rendered="#{!proyectosBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert" style="width: 280px;">
-                                    <center>#{proyectosBean.error} </center>
-                                </h:panelGroup>
-                                
-                                <center>
-                                    Serás el <b>líder</b> y podrás invitar a más usuarios a colaborar
-                                </center>
-                                <br/>
-                                <div class="input-group" style="width: 100%;">
-                                    <h:inputText value="#{proyectosBean.nombre}" class="form-control" a:placeholder="Nombre del proyecto" a:aria-describedby="basic-addon1" a:autofocus="true"/>
-                                </div>
-                                <br/>
-                                <center>
-                                    <h:commandButton value="Crear" action="#{proyectosBean.doCrearProyecto()}" class="btn btn-primary" a:aria-expanded="true" />   
-                                </center>
-                            </h:form>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <h3>Proyectos siendo l&iacute;der</h3>
-            <c:forEach items="#{proyectosBean.proyectosLider}" var="proyecto">
-                <h:form style="display: inline-block">
-                    <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="color: #000000; text-decoration: none;">
-                        <div class="proyecto">
-                            <h4><b>#{proyecto.nombre}</b></h4>                            
-                            #{proyecto.descripcion.substring(0, 40).concat("...")}
-                        </div>
-                    </h:commandLink>
-                </h:form>
-            </c:forEach>
-            <h:panelGroup rendered="#{proyectosBean.proyectosLider.size() == 0}" layout="block" class="proyecto" style="color:#999999; background: #efefef; border-top: 5px solid #bbbbbb;">
-                <center><h3>Sin proyectos</h3></center>
-            </h:panelGroup>
+        #{usuarioBean.doCheckLogin()}
+        <ui:include src="/includes/header.xhtml" />
+        <center>
+            <div class="container" style="margin-top: 50px;">
+                <div class="containerHeader">
+                    <h2 style="float: left;">
+                        <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
+                        Mis proyectos
+                    </h2>
+                    <div style="float: right; margin: 24px 10px;" class="dropdown">
+                        <h:link class="btn btn-info dropdown-toggle" id="dropdownProject" a:data-toggle="dropdown" a:aria-haspopup="true" a:aria-expanded="true">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Nuevo proyecto                        
+                        </h:link>
+                        <ul style="width: 300px;" class="dropdown-menu pull-right" aria-labelledby="dropdownProject">
+                            <li style="padding: 10px;">
+                                <h:form>
+                                    <h:panelGroup rendered="#{!proyectosBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert" style="width: 280px;">
+                                        <center>#{proyectosBean.error} </center>
+                                    </h:panelGroup>
 
-
-            <h3>Proyectos siendo miembro</h3>
-            <c:forEach items="#{proyectosBean.proyectosMiembro}" var="proyecto">
-                <h:form style="display: inline-block">
-                    <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="color: #000000; text-decoration: none;">
-                        <div style="border-top: 5px solid #ff6e19;" class="proyecto">
-                            <h4><b>#{proyecto.nombre}</b></h4>    
-                            #{proyecto.descripcion.substring(0, 40).concat("...")}
-                        </div>
-                    </h:commandLink>
-                </h:form>
-            </c:forEach>
-            <h:panelGroup rendered="#{proyectosBean.proyectosMiembro.size() == 0}" layout="block" class="proyecto" style="color:#999999; background: #efefef; border-top: 5px solid #bbbbbb;">
-                <center><h3>Sin proyectos</h3></center>
-            </h:panelGroup>
-            
-            
-            <h3>Invitaciones a proyectos</h3>
-            <h:panelGroup rendered="#{!usuarioBean.errorLogin.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
-                #{usuarioBean.errorLogin} 
-            </h:panelGroup>          
-            <c:forEach items="#{proyectosBean.proyectosInvitado}" var="proyecto">
-                <h:form style="display: inline-block">
-                    <div style="border-top: 5px solid #7f7e7d;" class="proyecto">
-                        <h4><b>#{proyecto.nombre}</b></h4> 
-                        #{proyecto.descripcion.substring(0, 40).concat("...")}
-                        <br/>
-                        <br/>
-                        <h:commandLink action="#{proyectosBean.doRechazarInvitacion(proyecto)}" style="color: #bb0000; float: left;">Rechazar</h:commandLink>
-                        <h:commandLink action="#{proyectosBean.doAceptarInvitacion(proyecto)}" style="float: right;">Aceptar</h:commandLink>
+                                    <center>
+                                        Serás el <b>líder</b> y podrás invitar a más usuarios a colaborar
+                                    </center>
+                                    <br/>
+                                    <div class="input-group" style="width: 100%;">
+                                        <h:inputText value="#{proyectosBean.nombre}" class="form-control" a:placeholder="Nombre del proyecto" a:aria-describedby="basic-addon1" a:autofocus="true"/>
+                                    </div>
+                                    <br/>
+                                    <center>
+                                        <h:commandButton value="Crear" action="#{proyectosBean.doCrearProyecto()}" class="btn btn-primary" a:aria-expanded="true" />   
+                                    </center>
+                                </h:form>
+                            </li>
+                        </ul>
                     </div>
-                </h:form>
-                
-            </c:forEach>
-            <h:panelGroup rendered="#{proyectosBean.proyectosInvitado.size() == 0}" layout="block" class="proyecto" style="color:#999999; background: #efefef; border-top: 5px solid #bbbbbb;">
-                <center><h3>Sin invitaciones</h3></center>
-            </h:panelGroup>
-        </div>
-    </center>
-    <ui:include src="/includes/footer.xhtml" />
-</h:body>
+                </div>
+                <h3>Proyectos siendo l&iacute;der</h3>
+                <c:forEach items="#{proyectosBean.proyectosLider}" var="proyecto">
+                    <h:form style="display: inline-block">
+                        <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="color: #000000; text-decoration: none;">
+                            <div class="proyecto">
+                                <h4><b>#{proyecto.nombre}</b></h4>
+                                #{proyecto.descripcion}
+                            </div>
+                        </h:commandLink>
+                    </h:form>
+                </c:forEach>
+                <h:panelGroup rendered="#{proyectosBean.proyectosLider.size() == 0}" layout="block" class="proyecto proyecto-no-elementos">
+                    <center><h3>Sin proyectos</h3></center>
+                </h:panelGroup>
+
+
+                <h3>Proyectos siendo miembro</h3>
+                <c:forEach items="#{proyectosBean.proyectosMiembro}" var="proyecto">
+                    <h:form style="display: inline-block">
+                        <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="color: #000000; text-decoration: none;">
+                            <div style="border-top-color: #ff6e19;" class="proyecto">
+                                <h4><b>#{proyecto.nombre}</b></h4>    
+                                #{proyecto.descripcion}
+                            </div>
+                        </h:commandLink>
+                    </h:form>
+                </c:forEach>
+                <h:panelGroup rendered="#{proyectosBean.proyectosMiembro.size() == 0}" layout="block" class="proyecto proyecto-no-elementos">
+                    <center><h3>Sin proyectos</h3></center>
+                </h:panelGroup>
+
+
+                <h3>Invitaciones a proyectos</h3>
+                <h:panelGroup rendered="#{!usuarioBean.errorLogin.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
+                    #{usuarioBean.errorLogin} 
+                </h:panelGroup>          
+                <c:forEach items="#{proyectosBean.proyectosInvitado}" var="proyecto">
+                    <h:form style="display: inline-block">
+                        <div style="border-top-color: #7f7e7d;" class="proyecto">
+                            <h4><b>#{proyecto.nombre}</b></h4>
+                            #{proyecto.descripcion}
+                            <br/>
+                            <br/>
+                            <h:commandLink action="#{proyectosBean.doRechazarInvitacion(proyecto)}" style="color: #bb0000; float: left;">Rechazar</h:commandLink>
+                            <h:commandLink action="#{proyectosBean.doAceptarInvitacion(proyecto)}" style="float: right;">Aceptar</h:commandLink>
+                        </div>
+                    </h:form>
+
+                </c:forEach>
+                <h:panelGroup rendered="#{proyectosBean.proyectosInvitado.size() == 0}" layout="block" class="proyecto proyecto-no-elementos">
+                    <center><h3>Sin invitaciones</h3></center>
+                </h:panelGroup>
+            </div>
+        </center>
+        <ui:include src="/includes/footer.xhtml" />
+    </h:body>
 </html>

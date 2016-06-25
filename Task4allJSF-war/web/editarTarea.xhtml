@@ -22,14 +22,33 @@
         <ui:include src="/includes/header.xhtml" />
         <center>
             <div class="container" style="margin-top: 50px;">
-                <div class="containerHeader">
-                    <h2 style="float: left;">
-                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                        <h:outputText rendered="#{usuarioBean.tareaSeleccionada.id eq null}" value=" Crear tarea"/>
-                        <h:outputText rendered="#{usuarioBean.tareaSeleccionada.id ne null}" value=" Editar tarea"/>
-                        <i>#{usuarioBean.tareaSeleccionada.nombre}</i>
-                    </h2>
-                </div>
+                <h:panelGroup rendered="#{usuarioBean.tareaSeleccionada.id eq null}">
+                    <div class="containerHeader">
+                        <h2 style="float: left;">
+                            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                            Crear tarea
+                        </h2>
+                    </div>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{usuarioBean.tareaSeleccionada.nombre.length() lt 60}">
+                    <div class="containerHeader">
+                        <h2 style="float: left;">
+                            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                            <h:outputText value=" Editar tarea "/>                                       
+                            <h:outputText style="font-style: italic;" value="#{usuarioBean.tareaSeleccionada.nombre}"/>
+                        </h2>
+                    </div>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{usuarioBean.tareaSeleccionada.nombre.length() ge 60}">
+                    <div class="containerHeader" style="height: 95px">
+                        <h2 style="float: left;">
+                            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                            <h:outputText value=" Editar tarea "/>                                       
+                            <h:outputText style="font-style: italic;" value="#{usuarioBean.tareaSeleccionada.nombre}"/>
+
+                        </h2>
+                    </div>
+                </h:panelGroup>
                 <h:form>
                     <h:panelGroup rendered="#{not empty tareaBean.error}" layout="block" class="alert alert-danger" a:role="alert">
                         <center>#{tareaBean.error}</center>
@@ -37,7 +56,8 @@
 
                     <h4>Nombre *</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
-                        <h:inputText value="#{tareaBean.nombre}" style="border-radius: 5px" class="form-control" />
+                        <h:inputText rendered="#{usuarioBean.tareaSeleccionada.id eq null}" value="#{tareaBean.nombre}" style="border-radius: 5px" class="form-control" a:autofocus="true"/>
+                        <h:inputText rendered="#{usuarioBean.tareaSeleccionada.id ne null}" value="#{tareaBean.nombre}" style="border-radius: 5px" class="form-control" />                       
                     </div>
                     <br/>
                     <h4>Descripción</h4>
@@ -59,12 +79,12 @@
                     * Campo obligatorio
                     <br/>
                     <div style="width: 300px; float: right;">
-                        <label>Prioridad:</label>
+                        <h4>Prioridad:</h4>
                         <div style="background: #efefef; padding: 10px; border: 1px solid #cccccc; border-radius: 5px;">
                             <h:selectOneRadio layout="pageDirection" value="#{usuarioBean.tareaSeleccionada.prioridad}">
-                                <f:selectItem itemValue="0" itemLabel="Baja" />
-                                <f:selectItem itemValue="1" itemLabel="Media" />
-                                <f:selectItem itemValue="2" itemLabel="Alta" />
+                                <f:selectItem itemValue="0" itemLabel="&nbsp;Baja" />
+                                <f:selectItem itemValue="1" itemLabel="&nbsp;Media" />
+                                <f:selectItem itemValue="2" itemLabel="&nbsp;Alta" />
                             </h:selectOneRadio>
                         </div>
                     </div>

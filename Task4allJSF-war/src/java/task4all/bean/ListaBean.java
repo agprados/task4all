@@ -80,7 +80,7 @@ public class ListaBean {
             usuarioBean.getProyectoSeleccionado().getListaCollection().add(lista);
             this.proyectoFacade.edit(usuarioBean.getProyectoSeleccionado());
             
-            proyectoBean.getListas().add(lista);
+            proyectoBean.setListas(this.listaFacade.findListasByProyecto(usuarioBean.getProyectoSeleccionado().getId()));
             proyectoBean.getTareas().add(new ArrayList<>(lista.getTareaCollection()));
             
             nombre = "";
