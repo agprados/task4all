@@ -32,7 +32,7 @@
                 <div style="float: right; margin: 24px 10px;" class="dropdown">
                     <h:link class="btn btn-info dropdown-toggle" id="dropdownProject" a:data-toggle="dropdown" a:aria-haspopup="true" a:aria-expanded="true">
                         <span class="glyphicon glyphicon-plus"></span>
-                        Crear nuevo proyecto                        
+                        Nuevo proyecto                        
                     </h:link>
                     <ul style="width: 300px;" class="dropdown-menu pull-right" aria-labelledby="dropdownProject">
                         <li style="padding: 10px;">
@@ -63,7 +63,7 @@
                     <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="color: #000000; text-decoration: none;">
                         <div class="proyecto">
                             <h4><b>#{proyecto.nombre}</b></h4>                            
-                            #{proyecto.descripcion}
+                            #{proyecto.descripcion.substring(0, 40).concat("...")}
                         </div>
                     </h:commandLink>
                 </h:form>
@@ -79,7 +79,7 @@
                     <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="color: #000000; text-decoration: none;">
                         <div style="border-top: 5px solid #ff6e19;" class="proyecto">
                             <h4><b>#{proyecto.nombre}</b></h4>    
-                            #{proyecto.descripcion}
+                            #{proyecto.descripcion.substring(0, 40).concat("...")}
                         </div>
                     </h:commandLink>
                 </h:form>
@@ -97,7 +97,7 @@
                 <h:form style="display: inline-block">
                     <div style="border-top: 5px solid #7f7e7d;" class="proyecto">
                         <h4><b>#{proyecto.nombre}</b></h4> 
-                        #{proyecto.descripcion}
+                        #{proyecto.descripcion.substring(0, 40).concat("...")}
                         <br/>
                         <br/>
                         <h:commandLink action="#{proyectosBean.doRechazarInvitacion(proyecto)}" style="color: #bb0000; float: left;">Rechazar</h:commandLink>

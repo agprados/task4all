@@ -20,6 +20,16 @@ html body {
     box-shadow: 2px 2px 8px #cccccc;
     background: #eeeeee;
 }
+    
+.header-logo {
+    display: block;
+    left: 50%;
+    margin-left: -50px;
+    top: 8px;
+    height: 40px;
+    position: absolute;
+    cursor: auto;    
+}
 
 .usuario {
     display: inline-block;
