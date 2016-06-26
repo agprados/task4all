@@ -48,13 +48,24 @@
                         <p:growl id="msgs" showDetail="true" />
                         <p:calendar id="popup" value="#{proyectoBean.fechaObjetivo}" pattern="dd/MM/yyyy" showOn="both"/>                      
                         <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">                            
-                                <h:outputText value="#{proyectoBean.fechaObjetivo}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                                </h:outputText>
+                            <h:outputText value="#{proyectoBean.fechaObjetivo}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
                         </p:dialog>
                     </div>
                     <br/>
+                    
+                    <center>
+                    <h4>Fondo</h4>
+                    <p:galleria value="#{fondoBean.images}" var="image" panelWidth="350" panelHeight="170" >
+                        <p:graphicImage value="images/#{image}" title="#{image}"/>
+                    </p:galleria>
+                    </center>
+                    
+                    <br/>
                     * Campo obligatorio
+                    <br/>
+                    
                     <div class="containerFooter">
                         <center>
                             <h:button value="Cancelar" outcome="proyecto" style="margin-top: 8px;" class="btn btn-default" a:aria-expanded="false" />
