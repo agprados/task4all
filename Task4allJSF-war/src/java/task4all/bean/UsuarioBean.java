@@ -49,7 +49,7 @@ public class UsuarioBean {
     private Lista listaSeleccionada;
     private String rolActual;
     private String emailRecuperacion;
-    private boolean ok;
+    private boolean okLogin;
 
     /**
      * Creates a new instance of UsuarioBean
@@ -59,7 +59,7 @@ public class UsuarioBean {
 
     @PostConstruct
     public void init() {
-        ok = false;
+        okLogin = false;
         errorLogin = "";        
         errorRegistro = "";
         errorRecuperacion = "";
@@ -184,12 +184,12 @@ public class UsuarioBean {
         this.email = email;
     }
 
-    public boolean isOk() {
-        return ok;
+    public boolean isOkLogin() {
+        return okLogin;
     }
 
-    public void setOk(boolean ok) {
-        this.ok = ok;
+    public void setOkLogin(boolean okLogin) {
+        this.okLogin = okLogin;
     }
 
     public String getErrorConfiguracion() {
@@ -214,6 +214,7 @@ public class UsuarioBean {
             errorLogin = "Hay campos vacíos";
             return "login";
         }
+        
         usuario = usuarioFacade.findUsuarioByUsuarioAndContrasena(identificador, contrasena);
 
         if (usuario == null) {
@@ -223,7 +224,7 @@ public class UsuarioBean {
                 return "login";
             }
         }
-        ok = true;
+        okLogin = true;
         return "principal";
     }
 
@@ -281,7 +282,7 @@ public class UsuarioBean {
     }
 
     public String doLogout() {
-        ok = false;
+        okLogin = false;
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "index";
     }
@@ -293,6 +294,7 @@ public class UsuarioBean {
         }
 
         Usuario u = usuarioFacade.findUsuarioByEmail(emailRecuperacion);
+        
         if (u == null) {
             errorRecuperacion = "No hay ningún usuario registrado con ese email";
             return "recuperar";
@@ -332,14 +334,13 @@ public class UsuarioBean {
             Transport t = session.getTransport("smtp");
             t.connect(remitente, contraseña);
             t.sendMessage(message, message.getAllRecipients());
-
             t.close();
         } catch (Exception e) {
         }
     }
 
     public void doCheckLogin() {
-        if (!ok) {
+        if (!okLogin) {
             try {
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
                 context.redirect(context.getRequestContextPath() + "/faces/login.xhtml");
@@ -350,12 +351,11 @@ public class UsuarioBean {
     }
 
     public void doCheckLogout() {
-        if (ok) {
+        if (okLogin) {
             try {
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
                 context.redirect(context.getRequestContextPath() + "/faces/principal.xhtml");
-            } catch (IOException ex) {      
-                
+            } catch (IOException e) {                
             }
         }
     }

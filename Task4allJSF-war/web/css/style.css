@@ -2,25 +2,28 @@ html body {
     margin: 0;
     padding: 0;
     background: #fcfcfc;
+    background: url(http://www.hddesktopbackgrounds.us/backgrounds-images/1920x1080/paove-desktop-1624526-1920x1080.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 .container {
     text-align: left;
     padding: 10px;
-    border: 1px solid #888888;
+    border: 1px solid #000000;
     border-radius: 5px;
-    box-shadow: 2px 2px 8px #cccccc;
     background: white;
 }
 
 .header {
     text-align: left;
     padding-bottom: 2px;
-    border-bottom: 1px solid #888888;
-    box-shadow: 2px 2px 8px #cccccc;
+    border-bottom: 1px solid #000000;
     background: #eeeeee;
 }
-    
+
 .header-logo {
     display: block;
     left: 50%;
@@ -71,7 +74,7 @@ html body {
     border-top-right-radius: 5px;
     border-bottom: 1px solid #cccccc;
     padding: 0 10px;
-    
+
 }
 
 .containerFooter {
@@ -184,4 +187,18 @@ html body {
 
 .comentarioCuerpo {
     padding: 10px;
+}
+
+.footer {
+    margin-top: 20px;
+    color: #5bc0de
+}
+
+.footer a {
+    color: #ffffff;    
+}
+
+.footer a:hover {
+    color: #ffffff;
+    cursor: pointer;
 }
