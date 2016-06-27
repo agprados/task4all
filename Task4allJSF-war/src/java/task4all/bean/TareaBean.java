@@ -6,8 +6,6 @@
 package task4all.bean;
 
 import java.math.BigInteger;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -157,9 +155,10 @@ public class TareaBean {
             return "editarTarea";
         }
 
-        if (fechaObjetivo != null && !fechaObjetivo.equals("")) {
-
+        if (fechaObjetivo != null && !fechaObjetivo.toString().isEmpty()) {
             usuarioBean.getTareaSeleccionada().setFechaobjetivo(fechaObjetivo);
+        } else {
+            usuarioBean.getTareaSeleccionada().setFechaobjetivo(null);
         }
 
         usuarioBean.getTareaSeleccionada().setNombre(nombre);

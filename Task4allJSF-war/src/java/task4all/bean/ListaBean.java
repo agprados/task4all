@@ -103,6 +103,8 @@ public class ListaBean {
         
         proyectoBean.setListas(this.listaFacade.findListasByProyecto(usuarioBean.getProyectoSeleccionado().getId()));
         
+        nombre = "";
+        
         return "proyecto";
     }
 

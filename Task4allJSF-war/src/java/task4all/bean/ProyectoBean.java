@@ -1,7 +1,5 @@
 package task4all.bean;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,7 +56,6 @@ public class ProyectoBean {
     private List<List<Tarea>> tareas;
     private String error;
     private String emailInvitacion;
-
     private String nombre;
     private Date fechaObjetivo;
 
@@ -167,8 +164,10 @@ public class ProyectoBean {
             return "editarProyecto";
         }
 
-        if (fechaObjetivo != null && !fechaObjetivo.equals("")) {
-            usuarioBean.getProyectoSeleccionado().setFechaobjetivo(fechaObjetivo);
+        if (fechaObjetivo != null && !fechaObjetivo.toString().isEmpty()) {
+            usuarioBean.getProyectoSeleccionado().setFechaobjetivo(fechaObjetivo);            
+        } else {
+             usuarioBean.getProyectoSeleccionado().setFechaobjetivo(null);
         }
 
         usuarioBean.getProyectoSeleccionado().setNombre(nombre);
@@ -283,9 +282,7 @@ public class ProyectoBean {
         Transport t = session.getTransport("smtp");
         t.connect(remitente, contraseña);
         t.sendMessage(message, message.getAllRecipients());
-
         t.close();
-
     }
 
 }
