@@ -225,15 +225,18 @@ public class ProyectoBean {
 
         if (u == null) {
             error = "El usuario no se encuentra registrado en el sistema";
+            emailInvitacion = "";
             return "proyecto";
         }
         if (usuarioProyectoFacade.findUsuarioProyectoByEmailAndProyecto(emailInvitacion, usuarioBean.getProyectoSeleccionado().getId()) != null) {
             error = "Ese usuario ya pertenece al proyecto";
+            emailInvitacion = "";
             return "proyecto";
         }
 
         try {
             mandarEmailInvitacion(emailInvitacion, usuarioBean.getProyectoSeleccionado().getId());
+            emailInvitacion = "";
         } catch (Exception e) {
             error = "Se ha producido un error al enviar la invitación";
             return "proyecto";
@@ -249,6 +252,8 @@ public class ProyectoBean {
         this.proyectoFacade.edit(usuarioBean.getProyectoSeleccionado());
 
         listaMiembrosRoles.add(up);
+        
+        emailInvitacion = "";
 
         return "proyecto";
     }

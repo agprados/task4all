@@ -5,7 +5,8 @@
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Task4all - Proyecto</title>
         <meta charset="UTF-8" />
@@ -14,8 +15,6 @@
 
         <!-- Compiled and minified Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
-        <!-- jQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <!-- Compiled and minified Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     </h:head>
@@ -58,84 +57,98 @@
 
                 <h3 style="color: #000000">Usuarios</h3>                
                 <div class="separador"></div>
-                <h:form>
+                <h:form id="usuarios">
                     <c:forEach items="#{proyectoBean.listaMiembrosRoles}" var="miembro">
                         <h:panelGroup rendered="#{miembro.rol.toLowerCase() eq 'líder'}">
                             <div class="usuario">
                                 <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and !miembro.usuarioUsuario.usuario.equals(usuarioBean.usuario.usuario) or (!usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and miembro.usuarioUsuario.usuario.equals(usuarioBean.usuario.usuario))}">
-                                    <h:commandLink action="#{proyectoBean.doEliminarUsuario(miembro.usuarioUsuario)}" style="float: right; font-size: 12px; color: #bb0000">Eliminar
-                                        <f:ajax execute="@form" render="@form" />
-                                    </h:commandLink>
+                                    <p:commandLink value="Eliminar" onclick="PF('eliminacionUsuario').show();" style="float: right; font-size: 12px; color: #bb0000" /> 
+                                    <p:dialog header="Eliminar usuario del proyecto" widgetVar="eliminacionUsuario" modal="true" resizable="false" closeOnEscape="true" closable="false">
+                                        <center>
+                                            ¿Estás seguro de eliminar al usuario del proyecto?
+                                            <br/>
+                                            <br/>                                           
+                                            <h:commandButton value="Cancelar" onclick="PF('eliminacionUsuario').hide();" class="btn btn-default"> 
+                                                <f:ajax/>
+                                            </h:commandButton>
+                                            <h:commandButton style="margin-left: 3px" value="Eliminar" action="#{proyectoBean.doEliminarUsuario(miembro.usuarioUsuario)}" class="btn btn-danger"> 
+                                                <!--<f:ajax execute="@this" render="usuarios"/>-->
+                                            </h:commandButton>
+                                        </center>
+                                    </p:dialog>
                                 </h:panelGroup>
-                                <b>#{miembro.usuarioUsuario.usuario}</b>
+                                <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioUsuario.usuario}"/></b>
                                 <br/>
                                 #{miembro.usuarioUsuario.email}
                                 <br/>
+                                <p:tooltip rendered="#{usuarioBean.usuario.nombre ne '' or usuarioBean.usuario.apellidos ne ''}" for="nombreUsuario" value=" #{usuarioBean.usuario.nombre} #{usuarioBean.usuario.apellidos}"/>
                                 <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
                             </div>
                         </h:panelGroup>
                         <h:panelGroup rendered="#{miembro.rol.toLowerCase() eq 'miembro'}">
                             <div class="usuario usuario-miembro">
                                 <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and !miembro.usuarioUsuario.usuario.equals(usuarioBean.usuario.usuario) or (!usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and miembro.usuarioUsuario.usuario.equals(usuarioBean.usuario.usuario))}">
-                                    <h:commandLink action="#{proyectoBean.doEliminarUsuario(miembro.usuarioUsuario)}" style="float: right; font-size: 12px; color: #bb0000">Eliminar
-                                        <f:ajax execute="@form" render="@form" /></h:commandLink>
+                                    <p:commandLink value="Eliminar" onclick="PF('eliminacionUsuario').show();" style="float: right; font-size: 12px; color: #bb0000" /> 
+                                    <p:dialog header="Eliminar usuario del proyecto" widgetVar="eliminacionUsuario" modal="true" resizable="false" closeOnEscape="true" closable="false">
+                                        <center>
+                                            ¿Estás seguro de eliminar al usuario del proyecto?
+                                            <br/>
+                                            <br/>                                           
+                                            <h:commandButton value="Cancelar" onclick="PF('eliminacionUsuario').hide();" class="btn btn-default"> 
+                                                <f:ajax/>
+                                            </h:commandButton>
+                                            <h:commandButton style="margin-left: 3px" value="Eliminar" action="#{proyectoBean.doEliminarUsuario(miembro.usuarioUsuario)}" class="btn btn-danger"> 
+                                                <!--<f:ajax execute="@this" render="usuarios"/>-->
+                                            </h:commandButton>
+                                        </center>
+                                    </p:dialog>
                                 </h:panelGroup>
-                                <b>#{miembro.usuarioUsuario.usuario}</b>
+                                <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioUsuario.usuario}"/></b>
                                 <br/>
                                 #{miembro.usuarioUsuario.email}
                                 <br/>
+                                <p:tooltip rendered="#{usuarioBean.usuario.nombre ne '' or usuarioBean.usuario.apellidos ne ''}" for="nombreUsuario" value=" #{usuarioBean.usuario.nombre} #{usuarioBean.usuario.apellidos}"/>
                                 <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
                             </div>
                         </h:panelGroup>
                         <h:panelGroup rendered="#{miembro.rol.toLowerCase() eq 'invitado'}">
                             <div class="usuario usuario-invitado">
                                 <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and !miembro.usuarioUsuario.usuario.equals(usuarioBean.usuario.usuario)}">
-                                    <h:commandLink action="#{proyectoBean.doEliminarUsuario(miembro.usuarioUsuario)}" style="float: right; font-size: 12px; color: #bb0000">Eliminar
-                                        <f:ajax execute="@form" render="@form" /></h:commandLink>
+                                    <p:commandLink value="Eliminar" onclick="PF('eliminacionUsuario').show();" style="float: right; font-size: 12px; color: #bb0000" /> 
+                                    <p:dialog header="Eliminar usuario del proyecto" widgetVar="eliminacionUsuario" modal="true" resizable="false" closeOnEscape="true" closable="false">
+                                        <center>
+                                            ¿Estás seguro de eliminar al usuario del proyecto?
+                                            <br/>
+                                            <br/>                                           
+                                            <h:commandButton value="Cancelar" onclick="PF('eliminacionUsuario').hide();" class="btn btn-default"> 
+                                                <f:ajax/>
+                                            </h:commandButton>
+                                            <h:commandButton style="margin-left: 3px" value="Eliminar" action="#{proyectoBean.doEliminarUsuario(miembro.usuarioUsuario)}" class="btn btn-danger"> 
+                                                <!--<f:ajax execute="@this" render="usuarios"/>-->
+                                            </h:commandButton>
+                                        </center>
+                                    </p:dialog>
                                 </h:panelGroup>
-                                <b>#{miembro.usuarioUsuario.usuario}</b>
+                                <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioUsuario.usuario}"/></b>
                                 <br/>
                                 #{miembro.usuarioUsuario.email}
                                 <br/>
+                                <p:tooltip rendered="#{usuarioBean.usuario.nombre ne '' or usuarioBean.usuario.apellidos ne ''}" for="nombreUsuario" value=" #{usuarioBean.usuario.nombre} #{usuarioBean.usuario.apellidos}"/>
                                 <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
                             </div>
                         </h:panelGroup>                
                     </c:forEach>                
                     <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" layout="block">
-                        <a type="button"  data-toggle="modal" data-target="#invitacion" style="cursor: pointer; color: black; text-decoration: none;">
-                            <div class="usuario usuario-invitacion">
-                                <center>    
-                                    <b>Invitar usuario</b>
-                                    <br/>
-                                    <br/>
-                                </center>
-                            </div>
-                        </a>
-                        <div class="modal fade" id="invitacion" tabindex="-1" role="dialog" aria-labelledby="invitacionLbl">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="invitacionLbl">Invita a alguien al proyecto</h4>
-                                    </div>
-                                    <h:form>
-                                        <div class="modal-body">
-                                            Puedes invitar a tantas personas como quieras.
-                                            <br/>
-                                            <br/>
-                                            Email: 
-                                            <div class="input-group" style="width: 100%;">
-                                                <h:inputText value="#{proyectoBean.emailInvitacion}" class="form-control" a:placeholder="ejemplo@gmail.com" a:aria-describedby="basic-addon1" a:autofocus="true"/>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <h:link class="btn btn-default" a:data-dismiss="modal">Cerrar</h:link>
-                                            <h:commandButton value="Invitar" action="#{proyectoBean.doInvitar()}" class="btn btn-primary" />
-                                        </div>
-                                    </h:form>
-                                </div>
-                            </div>
-                        </div>
+                        <p:commandButton class="btn btn-default usuario-invitacion" style="font-size: 20pt; padding: 0px" value="+" onclick="PF('invitacion').show();"/>
+                        <p:dialog header="Invitación al proyecto" widgetVar="invitacion" modal="true" resizable="false" showEffect="clip" closeOnEscape="true">
+                            Puedes invitar a tantas personas como quieras (registradas o no en Task4all)
+                            <br/>
+                            <br/>
+                            <h:panelGrid columns="2">
+                                <h:inputText size="54" value="#{proyectoBean.emailInvitacion}" class="form-control" a:placeholder="Email o nombre de usuario" a:autofocus="true"/>
+                                <h:commandButton style="margin-left: 3px" value="Invitar" action="#{proyectoBean.doInvitar()}" class="btn btn-primary" />
+                            </h:panelGrid>
+                        </p:dialog>
                     </h:panelGroup>
                 </h:form>
                 <h3 style="color: #000000">Listas de tareas</h3>
@@ -166,10 +179,20 @@
                                 <h:commandLink action="#{listaBean.doEditarLista(lista)}" style="float: right; font-size: 12px; margin-top: 3px;">
                                     Modificar
                                 </h:commandLink>
-                                <h:commandLink action="#{listaBean.doBorrar(lista)}" style="font-size: 12px; color: #bb0000">
-                                    Eliminar
-                                    <f:ajax execute="@form" render="@form"/>
-                                </h:commandLink>
+                                <h:commandLink value="Eliminar" style="font-size: 12px; color: #bb0000" onclick="PF('eliminacionLista').show(); return false;" />
+                                <p:dialog header="Eliminar lista" widgetVar="eliminacionLista" modal="true" resizable="false" closeOnEscape="true" closable="false">
+                                    <center>
+                                        ¿Estás seguro de eliminar la lista?                                        
+                                        <br/>
+                                        <br/>                                           
+                                        <h:commandButton value="Cancelar" onclick="PF('eliminacionLista').hide();" class="btn btn-default"> 
+                                            <f:ajax/>
+                                        </h:commandButton>
+                                        <h:commandButton style="margin-left: 3px" value="Eliminar" action="#{listaBean.doBorrar(lista)}" class="btn btn-danger">
+                                            <!--<f:ajax execute="@this" render="@form"/>-->
+                                        </h:commandButton>
+                                    </center>
+                                </p:dialog>
                             </div>
                         </c:forEach>
                         <div class="lista lista-crear">
@@ -224,7 +247,7 @@
                             </c:forEach>
                             <br/>
                         </div>
-                        
+
                         <h:panelGroup rendered="#{!comentariosBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
                             #{comentariosBean.error} 
                         </h:panelGroup>
@@ -239,8 +262,21 @@
                 <div class="containerFooter">
                     <center>
                         <h:form>
-                            <h:button value="Volver" outcome="principal" style="margin-top: 8px;" class="btn btn-default" a:aria-expanded="false" />
-                            <h:commandButton value="Eliminar proyecto" action="#{proyectoBean.doBorrarProyecto()}" rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" style="margin: 8px 0 0 5px;" class="btn btn-danger" a:aria-expanded="false" />                   
+                            <h:button value="Volver" outcome="principal" style="margin-top: 8px;" class="btn btn-default" />
+                            <h:commandButton rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" value="Eliminar proyecto" style="margin-top: 8px; margin-left: 5px" onclick="PF('eliminacionProyecto').show(); return false;" class="btn btn-danger" />
+                            <p:dialog header="Eliminar proyecto" widgetVar="eliminacionProyecto" modal="true" resizable="false" closeOnEscape="true" closable="false">
+                                <center>
+                                    ¿Estás seguro de eliminar el proyecto?
+                                    <br/>
+                                    Se perderán todas las listas y tareas. Puedes pasarle el liderezgo a otra persona.
+                                    <br/>
+                                    <br/>                                           
+                                    <h:commandButton value="Cancelar" onclick="PF('eliminacionProyecto').hide();" class="btn btn-default"> 
+                                        <f:ajax/>
+                                    </h:commandButton>
+                                    <h:commandButton style="margin-left: 3px" value="Eliminar" action="#{proyectoBean.doBorrarProyecto()}" class="btn btn-danger"/>
+                                </center>
+                            </p:dialog>                            
                         </h:form>
                     </center>
                 </div>

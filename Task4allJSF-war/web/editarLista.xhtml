@@ -32,8 +32,7 @@
                     <h:panelGroup rendered="#{!listaBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
                         #{listaBean.error} 
                     </h:panelGroup>
-
-
+                    
                     <h4>Nombre *</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
                         <h:inputText value="#{listaBean.nombre}" style="border-radius: 5px" class="form-control" />
@@ -47,7 +46,7 @@
                     * Campo obligatorio
                     <br/>
                     <center>
-                        <h:button value="Cancelar" outcome="proyecto" class="btn btn-default" a:aria-expanded="false" />
+                        <h:button value="Cancelar" outcome="proyecto" class="btn btn-default" />
                         <h:commandButton value="Guardar" action="#{listaBean.doGuardar()}" class="btn btn-success" a:aria-expanded="false" style="margin-left: 5px;" />
                     </center>
                 </h:form>

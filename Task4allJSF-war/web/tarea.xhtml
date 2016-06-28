@@ -5,7 +5,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Task4all - Tarea</title>
         <meta charset="UTF-8" />
@@ -14,8 +15,6 @@
 
         <!-- Compiled and minified Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
-        <!-- jQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <!-- Compiled and minified Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     </h:head>
@@ -29,12 +28,12 @@
                         <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                         #{usuarioBean.tareaSeleccionada.listaId.nombre} > #{usuarioBean.tareaSeleccionada.nombre}
                         <h:form style="float: right">
-                        <h:commandLink action="#{tareaBean.doEditar()}" style="margin: -5px 0 0 10px;" class="btn btn-default btn-lg">
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar
-                        </h:commandLink>
-                    </h:form> 
+                            <h:commandLink action="#{tareaBean.doEditar()}" style="margin: -5px 0 0 10px;" class="btn btn-default btn-lg">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar
+                            </h:commandLink>
+                        </h:form> 
                     </h2>         
-                    
+
                     <div style="float: right; margin-top: 10px;">
                         Creación:
                         <h:outputText value="#{usuarioBean.tareaSeleccionada.fechacreacion}">
@@ -100,61 +99,68 @@
                                 <i style="color: #aaaaaa;">#{asignado.rol.toLowerCase()}</i>
                             </div>     
                         </h:panelGroup>
-                    </c:forEach>                       
-                    <a type="button"  data-toggle="modal" data-target="#invitacion" style="cursor: pointer; color: black; text-decoration: none;">
-                        <div class="usuario usuario-invitacion">
-                            <center>    
-                                <b>Asignar la tarea</b>
+                    </c:forEach>      
+
+                    <p:commandButton class="btn btn-default usuario-invitacion" style="font-size: 20pt; padding: 0px" value="+" onclick="PF('asignacion').show();"/>
+                    <p:dialog header="Asignación de la tarea" widgetVar="asignacion" modal="true" resizable="false" closeOnEscape="true" showEffect="drop">
+                        <h:panelGroup rendered="#{tareaBean.listaUsuariosSinAsignar.isEmpty()}">
+                            No tienes usuarios para asignar a la tarea. Puede deberse a:
+                            <br/>
+                            <br/>
+                            &emsp;&emsp;- Tener a todos los usuarios del proyecto asignados a ella
+                            <br/>
+                            <br/>
+                            &emsp;&emsp;- Estar solo en el proyecto. Invita gente!! :)
+                            <br/>                          
+                        </h:panelGroup>  
+
+                        <h:panelGroup rendered="#{!tareaBean.listaUsuariosSinAsignar.isEmpty()}">
+                            Puedes asignar a la tarea los siguientes usuarios:
+                            <br/>
+                            <center>
+                                <c:forEach items="#{tareaBean.listaUsuariosSinAsignar}" var="noAsignado">                                   
+                                    <h:panelGroup rendered="#{noAsignado.rol.toLowerCase() eq 'líder'}">                                       
+                                        <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioUsuario)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario">
+                                            <b>#{noAsignado.usuarioUsuario.usuario}</b>
+                                            <br/>
+                                            #{noAsignado.usuarioUsuario.email}
+                                            <br/>
+                                            <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
+                                        </h:commandLink>
+                                    </h:panelGroup>
+                                    <h:panelGroup rendered="#{noAsignado.rol.toLowerCase() eq 'miembro'}">
+                                        <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioUsuario)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario usuario-miembro">
+                                            <b>#{noAsignado.usuarioUsuario.usuario}</b>
+                                            <br/>
+                                            #{noAsignado.usuarioUsuario.email}
+                                            <br/>
+                                            <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
+                                        </h:commandLink>
+                                    </h:panelGroup>                             
+                                </c:forEach> 
                                 <br/>
                             </center>
-                        </div>
-                    </a>
-                    <div class="modal fade" id="invitacion" tabindex="-1" role="dialog" aria-labelledby="invitacionLbl">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h:link class="close" a:data-dismiss="modal" a:aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </h:link>
-                                    <h4 class="modal-title" id="invitacionLbl">Asigna la tarea a un usuario</h4>
-                                </div>
-                                <div class="modal-body">
-                                    Puedes asignarles la tarea a los usuarios del proyecto.
-                                    <br/>
-                                    <c:forEach items="#{tareaBean.listaUsuariosSinAsignar}" var="noAsignado">                                       
-                                        <h:panelGroup rendered="#{noAsignado.rol.toLowerCase() eq 'líder'}">                                       
-                                            <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioUsuario)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario">
-                                                <b>#{noAsignado.usuarioUsuario.usuario}</b>
-                                                <br/>
-                                                #{noAsignado.usuarioUsuario.email}
-                                                <br/>
-                                                <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
-                                            </h:commandLink>
-                                        </h:panelGroup>
-                                        <h:panelGroup rendered="#{noAsignado.rol.toLowerCase() eq 'miembro'}">
-                                            <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioUsuario)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario usuario-miembro">
-                                                <b>#{noAsignado.usuarioUsuario.usuario}</b>
-                                                <br/>
-                                                #{noAsignado.usuarioUsuario.email}
-                                                <br/>
-                                                <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
-                                            </h:commandLink>
-                                        </h:panelGroup>
-                                    </c:forEach>
-                                </div>
-                                <div class="modal-footer">
-                                    <h:link class="btn btn-default" a:data-dismiss="modal">Cancelar</h:link>
-                                </div>
-                            </div>
-                        </div>
-                    </div>               
+                        </h:panelGroup>
+                    </p:dialog>
+
                 </h:form>
 
                 <div class="containerFooter">
                     <center>
                         <h:form>
-                            <h:button value="Volver" style="margin-top: 8px;" outcome="proyecto" class="btn btn-default" a:aria-expanded="false" />
-                            <h:commandButton value="Eliminar tarea" action="#{tareaBean.doBorrar()}" style="margin: 8px 0 0 5px;" class="btn btn-danger" a:aria-expanded="false" />
+                            <h:button value="Volver" style="margin-top: 8px;" outcome="proyecto" class="btn btn-default" />
+                            <h:commandButton value="Eliminar tarea" style="margin-top: 8px; margin-left: 5px" onclick="PF('eliminacion').show(); return false;" class="btn btn-danger" />
+                            <p:dialog header="Eliminar tarea" widgetVar="eliminacion" modal="true" resizable="false" closeOnEscape="true" closable="false">
+                                <center>
+                                    ¿Estás seguro de eliminar la tarea?
+                                    <br/>
+                                    <br/>                                           
+                                    <h:commandButton value="Cancelar" onclick="PF('eliminacion').hide();" class="btn btn-default"> 
+                                        <f:ajax/>
+                                    </h:commandButton>
+                                    <h:commandButton style="margin-left: 3px" value="Eliminar" action="#{tareaBean.doBorrar()}" class="btn btn-danger"/>
+                                </center>
+                            </p:dialog>
                         </h:form>
                     </center>
                 </div>
