@@ -75,7 +75,7 @@
                 </h:panelGroup>
                 <h:form id="asignados">
                     <c:forEach items="#{tareaBean.listaAsignados}" var="asignado">                    
-                        <h:panelGroup rendered="#{asignado.rol.toLowerCase() eq 'líder'}">
+                        <h:panelGroup rendered="#{asignado.rol.toLowerCase().equalsIgnoreCase('líder')}">
                             <div class="usuario">
                                 <center>
                                     <b><h:outputText value="#{asignado.usuarioUsuario.usuario}"/></b>
@@ -91,7 +91,7 @@
                                 </center>
                             </div>
                         </h:panelGroup>
-                        <h:panelGroup rendered="#{asignado.rol.toLowerCase() eq 'miembro'}">
+                        <h:panelGroup rendered="#{asignado.rol.toLowerCase().equalsIgnoreCase('miembro')}">
                             <div class="usuario usuario-miembro">
                                 <center>
                                     <b><h:outputText value="#{asignado.usuarioUsuario.usuario}"/></b>
@@ -109,8 +109,8 @@
                         </h:panelGroup>
                         <p:dialog header="Información del usuario" widgetVar="#{asignado.usuarioUsuario.usuario}Informacion" modal="true" resizable="false" closeOnEscape="true" >
                             <center>
-                                <h:graphicImage rendered="#{asignado.rol eq 'lider'}" value="/images/avatar_lider.jpg" height="80" width="80"/>
-                                <h:graphicImage rendered="#{asignado.rol eq 'miembro'}" value="/images/avatar_miembro.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{asignado.rol.equalsIgnoreCase('líder')}" value="/images/avatar_lider.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{asignado.rol.equalsIgnoreCase('miembro')}" value="/images/avatar_miembro.jpg" height="80" width="80"/>
                                 <br/>
                                 <br/>
                                 Usuario: #{asignado.usuarioUsuario.usuario}
@@ -142,7 +142,7 @@
                             <br/>
                             <center>
                                 <c:forEach items="#{tareaBean.listaUsuariosSinAsignar}" var="noAsignado">                                   
-                                    <h:panelGroup rendered="#{noAsignado.rol.toLowerCase() eq 'líder'}">                                       
+                                    <h:panelGroup rendered="#{noAsignado.rol.toLowerCase().equalsIgnoreCase('líder')}">                                       
                                         <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioUsuario)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario">
                                             <center>
                                                 <b><h:outputText value="#{noAsignado.usuarioUsuario.usuario}"/></b>
@@ -154,7 +154,7 @@
                                             </center>
                                         </h:commandLink>
                                     </h:panelGroup>
-                                    <h:panelGroup rendered="#{noAsignado.rol.toLowerCase() eq 'miembro'}">
+                                    <h:panelGroup rendered="#{noAsignado.rol.toLowerCase().equalsIgnoreCase('miembro')}">
                                         <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioUsuario)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario usuario-miembro">
                                             <center>
                                                 <b><h:outputText value="#{noAsignado.usuarioUsuario.usuario}"/></b>

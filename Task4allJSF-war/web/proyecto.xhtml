@@ -61,7 +61,7 @@
                 <div class="separador"></div>
                 <h:form id="usuarios">
                     <c:forEach items="#{proyectoBean.listaMiembrosRoles}" var="miembro">
-                        <h:panelGroup rendered="#{miembro.rol.toLowerCase() eq 'líder'}">
+                        <h:panelGroup rendered="#{miembro.rol.toLowerCase().equalsIgnoreCase('líder')}">
                             <div class="usuario">
                                 <center>
                                     <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioUsuario.usuario}"/></b>
@@ -74,7 +74,7 @@
                                 </center>                                
                             </div>
                         </h:panelGroup>
-                        <h:panelGroup rendered="#{miembro.rol.toLowerCase() eq 'miembro'}">
+                        <h:panelGroup rendered="#{miembro.rol.toLowerCase().equalsIgnoreCase('miembro')}">
                             <div class="usuario usuario-miembro">
                                 <center>
                                     <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioUsuario.usuario}"/></b>
@@ -96,7 +96,7 @@
                                 </center>       
                             </div>
                         </h:panelGroup>
-                        <h:panelGroup rendered="#{miembro.rol.toLowerCase() eq 'invitado'}">
+                        <h:panelGroup rendered="#{miembro.rol.toLowerCase().equalsIgnoreCase('invitado')}">
                             <div class="usuario usuario-invitado">                                
                                 <center>
                                     <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioUsuario.usuario}"/></b>
@@ -142,7 +142,9 @@
                         </p:dialog>
                         <p:dialog header="Información del usuario" widgetVar="#{miembro.usuarioUsuario.usuario}Informacion" modal="true" resizable="false" closeOnEscape="true" >
                             <center>
-                                <h:graphicImage value="/images/avatar.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.rol.equalsIgnoreCase('líder')}" value="/images/avatar_lider.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.rol.equalsIgnoreCase('miembro')}" value="/images/avatar_miembro.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.rol.equalsIgnoreCase('invitado')}" value="/images/avatar_invitado.jpg" height="80" width="80"/>
                                 <br/>
                                 <br/>
                                 Usuario: #{miembro.usuarioUsuario.usuario}
