@@ -18,7 +18,7 @@
         <!-- Compiled and minified Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     </h:head>
-    <h:body>
+    <h:body style="overflow-y: scroll">
         #{usuarioBean.doCheckLogin()}
         <ui:include src="/includes/header.xhtml" />
         <center>
@@ -97,7 +97,6 @@
                         <div style="border-top-color: #7f7e7d;" class="proyecto">
                             <h4><b>#{proyecto.nombre}</b></h4>
                             #{proyecto.descripcion}
-                            <br/>
                             <br/>
                             <h:commandLink action="#{proyectosBean.doRechazarInvitacion(proyecto)}" style="color: #bb0000; float: left;">Rechazar</h:commandLink>
                             <h:commandLink action="#{proyectosBean.doAceptarInvitacion(proyecto)}" style="float: right;">Aceptar</h:commandLink>

@@ -37,10 +37,12 @@ html body {
 .usuario {
     display: inline-block;
     vertical-align: top;
-    min-width: 200px;
-    height: 75px;
+    min-width: 155px;
+    height: 135px;
     margin: 10px;
     padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     border: 1px solid #cccccc;
     border-top: 5px solid #008888;
     border-radius: 5px;
@@ -57,7 +59,7 @@ html body {
 }
 
 .usuario-invitacion {
-    height: 75px;
+    height: 135px;
     margin: 10px;
 }
 

@@ -1,6 +1,7 @@
 package task4all.bean;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -70,6 +71,7 @@ public class ProyectoBean {
         this.error = "";
         emailInvitacion = "";
         listaMiembrosRoles = this.usuarioProyectoFacade.findUsuarioProyectoByProyecto(usuarioBean.getProyectoSeleccionado().getId());
+        ordenarListaMiembros();
 
         listas = this.listaFacade.findListasByProyecto(usuarioBean.getProyectoSeleccionado().getId());
         tareas = new ArrayList<>();
@@ -83,6 +85,49 @@ public class ProyectoBean {
                 break;
             }
         }
+    }
+
+    private void ordenarListaMiembros() {
+        Collections.sort(listaMiembrosRoles, (UsuarioProyecto o1, UsuarioProyecto o2) -> {
+            switch (o1.getRol().toUpperCase()) {
+                case "LÍDER":
+                    if (o2.getRol().equalsIgnoreCase("LÍDER")) {
+                        return 0;
+                    }
+                    if (o2.getRol().equalsIgnoreCase("MIEMBRO")) {
+                        return -1;
+                    }
+                    if (o2.getRol().equalsIgnoreCase("INVITADO")) {
+                        return -1;
+                    }
+                    break;
+                case "MIEMBRO":
+                    if (o2.getRol().equalsIgnoreCase("LÍDER")) {
+                        return 1;
+                    }
+                    if (o2.getRol().equalsIgnoreCase("MIEMBRO")) {
+                        return 0;
+                    }
+                    if (o2.getRol().equalsIgnoreCase("INVITADO")) {
+                        return -1;
+                    }
+                    break;
+                case "INVITADO":
+                    if (o2.getRol().equalsIgnoreCase("LÍDER")) {
+                        return 1;
+                    }
+                    if (o2.getRol().equalsIgnoreCase("MIEMBRO")) {
+                        return 1;
+                    }
+                    if (o2.getRol().equalsIgnoreCase("INVITADO")) {
+                        return 0;
+                    }
+                    break;
+                default:
+                    return 0;
+            }
+            return 0;
+        });
     }
 
     public void setUsuarioBean(UsuarioBean usuarioBean) {
@@ -165,9 +210,9 @@ public class ProyectoBean {
         }
 
         if (fechaObjetivo != null && !fechaObjetivo.toString().isEmpty()) {
-            usuarioBean.getProyectoSeleccionado().setFechaobjetivo(fechaObjetivo);            
+            usuarioBean.getProyectoSeleccionado().setFechaobjetivo(fechaObjetivo);
         } else {
-             usuarioBean.getProyectoSeleccionado().setFechaobjetivo(null);
+            usuarioBean.getProyectoSeleccionado().setFechaobjetivo(null);
         }
 
         usuarioBean.getProyectoSeleccionado().setNombre(nombre);
@@ -196,6 +241,28 @@ public class ProyectoBean {
                 }
             }
         }
+
+        return "proyecto";
+    }
+
+    public String doPasarLiderazgo(UsuarioProyecto usuario) {
+        boolean encontrado = false;
+        int i = 0;
+        while (!encontrado || i < listaMiembrosRoles.size()) {
+            if (listaMiembrosRoles.get(i).getRol().equalsIgnoreCase("líder")) {
+                UsuarioProyecto lider = listaMiembrosRoles.get(i);
+                lider.setRol("miembro");
+                usuarioProyectoFacade.edit(lider);
+                encontrado = true;
+            }
+            i++;
+        }
+
+        usuario.setRol("líder");
+        usuarioProyectoFacade.edit(usuario);
+        
+        usuarioBean.setRolActual("miembro");
+        ordenarListaMiembros();
 
         return "proyecto";
     }
@@ -252,7 +319,7 @@ public class ProyectoBean {
         this.proyectoFacade.edit(usuarioBean.getProyectoSeleccionado());
 
         listaMiembrosRoles.add(up);
-        
+
         emailInvitacion = "";
 
         return "proyecto";

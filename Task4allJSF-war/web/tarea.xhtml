@@ -17,6 +17,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
         <!-- Compiled and minified Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <!-- Font Awesome -->
+        <script src="https://use.fontawesome.com/26be38d20f.js"></script>
     </h:head>
     <h:body>
         #{usuarioBean.doCheckLogin()}
@@ -71,39 +73,59 @@
                 <h:panelGroup rendered="#{not empty tareaBean.errorAsignado}" layout="block" class="alert alert-danger" a:role="alert">
                     #{tareaBean.errorAsignado}
                 </h:panelGroup>
-                <h:form>
+                <h:form id="asignados">
                     <c:forEach items="#{tareaBean.listaAsignados}" var="asignado">                    
                         <h:panelGroup rendered="#{asignado.rol.toLowerCase() eq 'líder'}">
                             <div class="usuario">
-                                <h:commandLink action="#{tareaBean.doEliminarUsuario(asignado.usuarioUsuario)}" style="float: right; font-size: 12px; color: #bb0000">
-                                    Eliminar
-                                    <f:ajax execute="@form" render="@form"/>
-                                </h:commandLink>
-                                <b>#{asignado.usuarioUsuario.usuario}</b>
-                                <br/>
-                                #{asignado.usuarioUsuario.email}
-                                <br/>
-                                <i style="color: #aaaaaa;">#{asignado.rol.toLowerCase()}</i>
+                                <center>
+                                    <b><h:outputText value="#{asignado.usuarioUsuario.usuario}"/></b>
+                                    <br/>
+                                    <h:graphicImage value="/images/avatar_lider.jpg" height="65" width="65"/>
+                                    <br/>
+                                    <i style="color: #aaaaaa;">#{asignado.rol.toLowerCase()}</i>
+                                    <br/>
+                                    <h:panelGroup>
+                                        <p:commandLink styleClass="glyphicon glyphicon-remove" action="#{tareaBean.doEliminarUsuario(asignado.usuarioUsuario)}" update="asignados" style="text-decoration: none; font-size: 13px; color: #bb0000" />
+                                    </h:panelGroup>
+                                    <p:commandLink styleClass="fa fa-info-circle" onclick="PF('#{asignado.usuarioUsuario.usuario}Informacion').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black" />                                                                       
+                                </center>
                             </div>
                         </h:panelGroup>
                         <h:panelGroup rendered="#{asignado.rol.toLowerCase() eq 'miembro'}">
                             <div class="usuario usuario-miembro">
-                                <h:commandLink action="#{tareaBean.doEliminarUsuario(asignado.usuarioUsuario)}" style="float: right; font-size: 12px; color: #bb0000">
-                                    Eliminar
-                                    <f:ajax execute="@form" render="@form"/>
-                                </h:commandLink>
-                                <b>#{asignado.usuarioUsuario.usuario}</b> 
-                                <br/>
-                                #{asignado.usuarioUsuario.email}
-                                <br/>
-                                <i style="color: #aaaaaa;">#{asignado.rol.toLowerCase()}</i>
+                                <center>
+                                    <b><h:outputText value="#{asignado.usuarioUsuario.usuario}"/></b>
+                                    <br/>
+                                    <h:graphicImage value="/images/avatar_miembro.jpg" height="65" width="65"/>
+                                    <br/>
+                                    <i style="color: #aaaaaa;">#{asignado.rol.toLowerCase()}</i>
+                                    <br/>
+                                    <h:panelGroup>
+                                        <p:commandLink styleClass="glyphicon glyphicon-remove" action="#{tareaBean.doEliminarUsuario(asignado.usuarioUsuario)}" update="asignados" style="text-decoration: none; font-size: 13px; color: #bb0000" />
+                                    </h:panelGroup>
+                                    <p:commandLink styleClass="fa fa-info-circle" onclick="PF('#{asignado.usuarioUsuario.usuario}Informacion').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black" />                                    
+                                </center>
                             </div>     
                         </h:panelGroup>
+                        <p:dialog header="Información del usuario" widgetVar="#{asignado.usuarioUsuario.usuario}Informacion" modal="true" resizable="false" closeOnEscape="true" >
+                            <center>
+                                <h:graphicImage rendered="#{asignado.rol eq 'lider'}" value="/images/avatar_lider.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{asignado.rol eq 'miembro'}" value="/images/avatar_miembro.jpg" height="80" width="80"/>
+                                <br/>
+                                <br/>
+                                Usuario: #{asignado.usuarioUsuario.usuario}
+                                <br/>
+                                Nombre: #{asignado.usuarioUsuario.nombre} #{asignado.usuarioUsuario.apellidos}
+                                <br/>
+                                Email: #{asignado.usuarioUsuario.email}
+                                <br/>
+                            </center>
+                        </p:dialog>
                     </c:forEach>      
 
                     <p:commandButton class="btn btn-default usuario-invitacion" style="font-size: 20pt; padding: 0px" value="+" onclick="PF('asignacion').show();"/>
-                    <p:dialog header="Asignación de la tarea" widgetVar="asignacion" modal="true" resizable="false" closeOnEscape="true" showEffect="drop">
-                        <h:panelGroup rendered="#{tareaBean.listaUsuariosSinAsignar.isEmpty()}">
+                    <p:dialog rendered="#{tareaBean.listaUsuariosSinAsignar.isEmpty()}" header="Asignación de la tarea" widgetVar="asignacion" modal="true" resizable="false" >
+                        <h:panelGroup>
                             No tienes usuarios para asignar a la tarea. Puede deberse a:
                             <br/>
                             <br/>
@@ -113,30 +135,37 @@
                             &emsp;&emsp;- Estar solo en el proyecto. Invita gente!! :)
                             <br/>                          
                         </h:panelGroup>  
-
-                        <h:panelGroup rendered="#{!tareaBean.listaUsuariosSinAsignar.isEmpty()}">
+                    </p:dialog>
+                    <p:dialog rendered="#{!tareaBean.listaUsuariosSinAsignar.isEmpty()}" header="Asignación de la tarea" widgetVar="asignacion" modal="true" resizable="false" showEffect="drop" hideEffect="drop">
+                        <h:panelGroup>
                             Puedes asignar a la tarea los siguientes usuarios:
                             <br/>
                             <center>
                                 <c:forEach items="#{tareaBean.listaUsuariosSinAsignar}" var="noAsignado">                                   
                                     <h:panelGroup rendered="#{noAsignado.rol.toLowerCase() eq 'líder'}">                                       
                                         <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioUsuario)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario">
-                                            <b>#{noAsignado.usuarioUsuario.usuario}</b>
-                                            <br/>
-                                            #{noAsignado.usuarioUsuario.email}
-                                            <br/>
-                                            <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
+                                            <center>
+                                                <b><h:outputText value="#{noAsignado.usuarioUsuario.usuario}"/></b>
+                                                <br/>
+                                                <h:graphicImage value="/images/avatar_lider.jpg" height="65" width="65"/>
+                                                <br/>
+                                                <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
+                                                <br/>                                                                                    
+                                            </center>
                                         </h:commandLink>
                                     </h:panelGroup>
                                     <h:panelGroup rendered="#{noAsignado.rol.toLowerCase() eq 'miembro'}">
                                         <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioUsuario)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario usuario-miembro">
-                                            <b>#{noAsignado.usuarioUsuario.usuario}</b>
-                                            <br/>
-                                            #{noAsignado.usuarioUsuario.email}
-                                            <br/>
-                                            <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
+                                            <center>
+                                                <b><h:outputText value="#{noAsignado.usuarioUsuario.usuario}"/></b>
+                                                <br/>
+                                                <h:graphicImage value="/images/avatar_miembro.jpg" height="65" width="65"/>
+                                                <br/>
+                                                <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
+                                                <br/>                                                                                    
+                                            </center>
                                         </h:commandLink>
-                                    </h:panelGroup>                             
+                                    </h:panelGroup>                                    
                                 </c:forEach> 
                                 <br/>
                             </center>
