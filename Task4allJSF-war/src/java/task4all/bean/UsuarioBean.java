@@ -317,22 +317,18 @@ public class UsuarioBean {
     
     public String doSetUsuario() {
         errorRegistro = "";
-        if(usuario.getUsuario() == null || usuario.getUsuario().equals("")) {
-            errorRegistro = "Ha ocurrido un error, vuelve al inicio";
-            return "loginSuccess";
-        }
         
-        if(identificador == null || identificador.equals("")) {
+        if(usuarioRegistro == null || usuarioRegistro.equals("")) {
             errorRegistro = "Nombre de usuario vacío";
             return "loginSuccess";
         }
         
-        if(usuarioFacade.findUsuarioByUsuario(identificador) != null) {
+        if(usuarioFacade.findUsuarioByUsuario(usuarioRegistro) != null) {
             errorRegistro = "El usuario ya existe";
             return "loginSuccess";
         }
-        usuario.setUsuario(identificador);
-        //usuarioFacade.edit(usuario);
+        
+        this.doNuevo();
         okLogin = true;
         
         errorRegistro = "";
@@ -442,13 +438,11 @@ public class UsuarioBean {
                             okLogin = true;
                         } else {
                             usuario = new Usuario();
-                            usuarioRegistro = new BigInteger(50, random).toString(10);
                             usuario.setNombre(infoResult.getString("first_name"));
                             usuario.setApellidos(infoResult.getString("last_name"));
                             email = infoResult.getString("email");
                             contrasena = new BigInteger(50, random).toString(32);
                             verificaContrasena = contrasena;
-                            this.doNuevo();
                         }
                     } else {
                         try {

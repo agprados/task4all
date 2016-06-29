@@ -34,9 +34,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByApellidos", query = "SELECT u FROM Usuario u WHERE u.apellidos = :apellidos"),
     @NamedQuery(name = "Usuario.findByAvatar", query = "SELECT u FROM Usuario u WHERE u.avatar = :avatar"),
     @NamedQuery(name = "Usuario.findByVerificado", query = "SELECT u FROM Usuario u WHERE u.verificado = :verificado"),
-    @NamedQuery(name = "Usuario.findByUsuarioAndContrasena", query = "SELECT u FROM Usuario u WHERE u.usuario = :usuario AND u.contrasena = :contrasena"),
-    @NamedQuery(name = "Usuario.findByEmailAndContrasena", query = "SELECT u FROM Usuario u WHERE u.email = :email AND u.contrasena = :contrasena"),
-    @NamedQuery(name = "Usuario.findByUsuarioOrEmail", query = "SELECT u FROM Usuario u WHERE u.usuario = :usuario OR u.email = :email")})
+    @NamedQuery(name = "Usuario.findByUsuarioAndContrasena", query = "SELECT u FROM Usuario u WHERE UPPER(u.usuario) = UPPER(:usuario) AND u.contrasena = :contrasena"),
+    @NamedQuery(name = "Usuario.findByEmailAndContrasena", query = "SELECT u FROM Usuario u WHERE UPPER(u.email) = UPPER(:email) AND u.contrasena = :contrasena"),
+    @NamedQuery(name = "Usuario.findByUsuarioOrEmail", query = "SELECT u FROM Usuario u WHERE UPPER(u.usuario) = UPPER(:usuario) OR UPPER(u.email) = UPPER(:email)")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
