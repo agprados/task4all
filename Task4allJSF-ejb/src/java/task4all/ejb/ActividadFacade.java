@@ -11,10 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import task4all.entity.Actividad;
 
-/**
- *
- * @author aidag
- */
+
 @Stateless
 public class ActividadFacade extends AbstractFacade<Actividad> {
 

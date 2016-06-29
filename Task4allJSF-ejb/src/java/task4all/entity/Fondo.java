@@ -6,7 +6,6 @@
 package task4all.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -14,26 +13,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author aidag
- */
+
 @Entity
 @Table(name = "FONDO")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Fondo.findAll", query = "SELECT f FROM Fondo f"),
     @NamedQuery(name = "Fondo.findById", query = "SELECT f FROM Fondo f WHERE f.id = :id"),
+    @NamedQuery(name = "Fondo.findByNombre", query = "SELECT f FROM Fondo f WHERE f.nombre = :nombre"),
+    @NamedQuery(name = "Fondo.findByUrl", query = "SELECT f FROM Fondo f WHERE f.url = :url"),
     @NamedQuery(name = "Fondo.findByOscuro", query = "SELECT f FROM Fondo f WHERE f.oscuro = :oscuro")})
 public class Fondo implements Serializable {
 
@@ -48,9 +46,14 @@ public class Fondo implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Lob
-    @Column(name = "FONDO")
-    private Serializable fondo;
+    @Size(min = 1, max = 50)
+    @Column(name = "NOMBRE")
+    private String nombre;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "URL")
+    private String url;
     @Column(name = "OSCURO")
     private Character oscuro;
     @OneToMany(mappedBy = "fondoId")
@@ -63,9 +66,10 @@ public class Fondo implements Serializable {
         this.id = id;
     }
 
-    public Fondo(Integer id, Serializable fondo) {
+    public Fondo(Integer id, String nombre, String url) {
         this.id = id;
-        this.fondo = fondo;
+        this.nombre = nombre;
+        this.url = url;
     }
 
     public Integer getId() {
@@ -76,12 +80,20 @@ public class Fondo implements Serializable {
         this.id = id;
     }
 
-    public Serializable getFondo() {
-        return fondo;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setFondo(Serializable fondo) {
-        this.fondo = fondo;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Character getOscuro() {

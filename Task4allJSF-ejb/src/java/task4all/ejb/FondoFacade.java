@@ -10,10 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import task4all.entity.Fondo;
 
-/**
- *
- * @author aidag
- */
+
 @Stateless
 public class FondoFacade extends AbstractFacade<Fondo> {
 

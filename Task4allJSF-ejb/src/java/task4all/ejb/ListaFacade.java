@@ -12,10 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import task4all.entity.Lista;
 
-/**
- *
- * @author aidag
- */
+
 @Stateless
 public class ListaFacade extends AbstractFacade<Lista> {
 

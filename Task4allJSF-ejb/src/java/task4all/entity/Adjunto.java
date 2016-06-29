@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,10 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author aidag
- */
+
 @Entity
 @Table(name = "ADJUNTO")
 @XmlRootElement
@@ -52,13 +48,14 @@ public class Adjunto implements Serializable {
     @Size(min = 1, max = 180)
     @Column(name = "NOMBRE")
     private String nombre;
-    @Size(max = 20)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
     @Column(name = "TIPO")
     private String tipo;
-    @Lob
-    @Column(name = "ARCHIVO")
-    private Serializable archivo;
-    @Size(max = 3500)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 3500)
     @Column(name = "URL")
     private String url;
     @JoinColumn(name = "TAREA_ID", referencedColumnName = "ID")
@@ -75,9 +72,10 @@ public class Adjunto implements Serializable {
         this.id = id;
     }
 
-    public Adjunto(Integer id, String nombre) {
+    public Adjunto(Integer id, String tipo, String url) {
         this.id = id;
-        this.nombre = nombre;
+        this.tipo = tipo;
+        this.url = url;
     }
 
     public Integer getId() {
@@ -102,14 +100,6 @@ public class Adjunto implements Serializable {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
-    }
-
-    public Serializable getArchivo() {
-        return archivo;
-    }
-
-    public void setArchivo(Serializable archivo) {
-        this.archivo = archivo;
     }
 
     public String getUrl() {

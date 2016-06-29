@@ -8,10 +8,7 @@ package task4all.ejb;
 import java.util.List;
 import javax.persistence.EntityManager;
 
-/**
- *
- * @author aidag
- */
+
 public abstract class AbstractFacade<T> {
 
     private Class<T> entityClass;

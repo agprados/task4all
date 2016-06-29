@@ -10,10 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import task4all.entity.Adjunto;
 
-/**
- *
- * @author aidag
- */
+
 @Stateless
 public class AdjuntoFacade extends AbstractFacade<Adjunto> {
 

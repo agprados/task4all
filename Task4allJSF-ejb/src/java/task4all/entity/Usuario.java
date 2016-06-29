@@ -12,7 +12,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -22,10 +21,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author aidag
- */
+
 @Entity
 @Table(name = "USUARIO")
 @XmlRootElement
@@ -36,6 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email"),
     @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre"),
     @NamedQuery(name = "Usuario.findByApellidos", query = "SELECT u FROM Usuario u WHERE u.apellidos = :apellidos"),
+    @NamedQuery(name = "Usuario.findByAvatar", query = "SELECT u FROM Usuario u WHERE u.avatar = :avatar"),
     @NamedQuery(name = "Usuario.findByVerificado", query = "SELECT u FROM Usuario u WHERE u.verificado = :verificado"),
     @NamedQuery(name = "Usuario.findByUsuarioAndContrasena", query = "SELECT u FROM Usuario u WHERE u.usuario = :usuario AND u.contrasena = :contrasena"),
     @NamedQuery(name = "Usuario.findByEmailAndContrasena", query = "SELECT u FROM Usuario u WHERE u.email = :email AND u.contrasena = :contrasena"),
@@ -49,9 +46,7 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 20)
     @Column(name = "USUARIO")
     private String usuario;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
+    @Size(max = 25)
     @Column(name = "CONTRASENA")
     private String contrasena;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
@@ -66,13 +61,22 @@ public class Usuario implements Serializable {
     @Size(max = 80)
     @Column(name = "APELLIDOS")
     private String apellidos;
-    @Lob
+    @Size(max = 200)
     @Column(name = "AVATAR")
-    private Serializable avatar;
+    private String avatar;
     @Basic(optional = false)
     @NotNull
     @Column(name = "VERIFICADO")
     private Character verificado;
+    @Size(max = 40)
+    @Column(name = "FACEBOOKID")
+    private String facebookid;
+    @Size(max = 40)
+    @Column(name = "GOOGLEID")
+    private String googleid;
+    @Size(max = 40)
+    @Column(name = "TWITTERID")
+    private String twitterid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioUsuario")
     private Collection<Adjunto> adjuntoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioUsuario")
@@ -93,9 +97,8 @@ public class Usuario implements Serializable {
         this.usuario = usuario;
     }
 
-    public Usuario(String usuario, String contrasena, String email, Character verificado) {
+    public Usuario(String usuario, String email, Character verificado) {
         this.usuario = usuario;
-        this.contrasena = contrasena;
         this.email = email;
         this.verificado = verificado;
     }
@@ -140,11 +143,11 @@ public class Usuario implements Serializable {
         this.apellidos = apellidos;
     }
 
-    public Serializable getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Serializable avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 
@@ -154,6 +157,30 @@ public class Usuario implements Serializable {
 
     public void setVerificado(Character verificado) {
         this.verificado = verificado;
+    }
+
+    public String getFacebookid() {
+        return facebookid;
+    }
+
+    public void setFacebookid(String facebookid) {
+        this.facebookid = facebookid;
+    }
+
+    public String getGoogleid() {
+        return googleid;
+    }
+
+    public void setGoogleid(String googleid) {
+        this.googleid = googleid;
+    }
+
+    public String getTwitterid() {
+        return twitterid;
+    }
+
+    public void setTwitterid(String twitterid) {
+        this.twitterid = twitterid;
     }
 
     @XmlTransient

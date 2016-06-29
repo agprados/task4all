@@ -12,10 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import task4all.entity.Usuario;
 
-/**
- *
- * @author aidag
- */
+
 @Stateless
 public class UsuarioFacade extends AbstractFacade<Usuario> {
 

@@ -12,10 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import task4all.entity.Comentario;
 
-/**
- *
- * @author aidag
- */
+
 @Stateless
 public class ComentarioFacade extends AbstractFacade<Comentario> {
 
