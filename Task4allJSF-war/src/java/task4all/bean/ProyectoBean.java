@@ -346,7 +346,7 @@ public class ProyectoBean {
         message.setSubject("Invitación a proyecto en Task4all");
         message.setText(
                 "<p>Ha recibido una invitaci&oacute;n para unirse a un proyecto en Task4all.</p>"
-                + "<p><a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/faces/login.xhtml?email=" + email + "&proyectoId=" + proyectoId + "&ok=" + true + ">Unirse al proyecto</a></p>"
+                + "<p><a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?email=" + email + "&proyectoId=" + proyectoId + "&ok=" + true + ">Unirse al proyecto</a></p>"
                 + "<p>No responder a este mensaje.<p/>",
                 "ISO-8859-1",
                 "html");

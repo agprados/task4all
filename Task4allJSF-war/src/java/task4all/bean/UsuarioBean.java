@@ -5,7 +5,14 @@
  */
 package task4all.bean;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.security.SecureRandom;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +27,9 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import org.primefaces.json.JSONException;
+import org.primefaces.json.JSONObject;
 import task4all.ejb.UsuarioFacade;
 import task4all.entity.Lista;
 import task4all.entity.Proyecto;
@@ -49,8 +59,12 @@ public class UsuarioBean {
     private Lista listaSeleccionada;
     private String rolActual;
     private String emailRecuperacion;
+    private String facebookID;
+    private String googleID;
     private boolean okLogin;
-
+    private final String FB_ID = "747075862097456";
+    private final String FB_SECRET = "cb65b5382724343d60019074e274e058";
+    
     /**
      * Creates a new instance of UsuarioBean
      */
@@ -208,6 +222,22 @@ public class UsuarioBean {
         this.correctaConfiguracion = correctaConfiguracion;
     }
 
+    public String getFacebookID() {
+        return facebookID;
+    }
+
+    public void setFacebookID(String facebookID) {
+        this.facebookID = facebookID;
+    }
+
+    public String getGoogleID() {
+        return googleID;
+    }
+
+    public void setGoogleID(String googleID) {
+        this.googleID = googleID;
+    }
+
     public String doLogin() {
         errorLogin = "";
         if (identificador == null || identificador.isEmpty() || contrasena == null || contrasena.isEmpty()) {
@@ -249,7 +279,17 @@ public class UsuarioBean {
         usuario.setUsuario(usuarioRegistro);
         usuario.setEmail(email);
         usuario.setContrasena(contrasena);
-        usuario.setVerificado('0');
+        if(facebookID != null && !facebookID.equals("")) {
+            usuario.setFacebookid(facebookID);
+        }
+        if(googleID != null && !googleID.equals("")) {
+            usuario.setGoogleid(googleID);
+        }
+        if((facebookID != null && !facebookID.equals("")) || (googleID != null && !googleID.equals(""))) {
+            usuario.setVerificado('1');
+        } else {
+            usuario.setVerificado('0');
+        }
         this.usuarioFacade.create(usuario);
 
         errorRegistro = "";
@@ -326,7 +366,7 @@ public class UsuarioBean {
                     "<p>Estos son sus datos de acceso:</p>"
                     + "<li>Usuario: " + u.getUsuario() + "</li> "
                     + "<li>Contraseña: " + u.getContrasena() + "</li> "
-                    + "<p><a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/faces/login.xhtml>Acceder a Task4all</a></p>"
+                    + "<p><a href=\"http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do\">Acceder a Task4all</a></p>"
                     + "<p>No responder a este mensaje.<p/>",
                     "ISO-8859-1",
                     "html");
@@ -338,23 +378,94 @@ public class UsuarioBean {
         } catch (Exception e) {
         }
     }
-
+    
     public void doCheckLogin() {
-        if (!okLogin) {
-            try {
+        try {
+            if (!okLogin) {
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-                context.redirect(context.getRequestContextPath() + "/faces/login.xhtml");
-            } catch (IOException ex) {
-                Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+                context.redirect(context.getRequestContextPath() + "/login.do");
             }
+        } catch (IOException ex) {
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void doCheckFacebookLogin() {
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            String code = request.getParameter("code");
+
+            if (code != null && !code.equals("")) {
+                URL url;
+                URLConnection con;
+                BufferedReader in;
+                String content, linea;
+                JSONObject tokenResult, infoResult;
+
+                url = new URL("https://graph.facebook.com/v2.3/oauth/access_token?client_id=" + FB_ID + "&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FTask4allJSF-war%2Ffaces%2Fprincipal.xhtml&client_secret=" + FB_SECRET + "&code=" + code);
+                con = url.openConnection();
+                in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                content = "";
+                while ((linea = in.readLine()) != null) {
+                    content += linea;
+                }
+                tokenResult = new JSONObject(content);
+
+                if (tokenResult.getString("access_token") != null && !tokenResult.getString("access_token").equals("")) {
+                    url = new URL("https://graph.facebook.com/me?access_token="+tokenResult.getString("access_token")+"&fields=first_name,last_name,email");
+                    con = url.openConnection();
+                    in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    
+                    content = "";
+                    while ((linea = in.readLine()) != null) {
+                        content += linea;
+                    }
+                    infoResult = new JSONObject(content);
+                    
+                    SecureRandom random = new SecureRandom();
+                    this.facebookID = infoResult.getString("id");
+                    
+                    if(false) {
+                        //usuario = Buscar el usuario por el ID de Facebook
+                        okLogin = true;
+                    } else {
+                        usuarioRegistro = new BigInteger(50, random).toString(10);
+                        //usuario.setFacebookID(facebookID);
+                        usuario.setNombre(infoResult.getString("first_name"));
+                        usuario.setApellidos(infoResult.getString("last_name"));
+                        email = infoResult.getString("email");
+                        usuario.setVerificado('1');
+                        contrasena = new BigInteger(50, random).toString(32);
+                        verificaContrasena = contrasena;
+                        this.doNuevo();
+                    }
+                } else {
+                    try {
+                        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+                        context.redirect(context.getRequestContextPath() + "/login.do");
+                    } catch (IOException ex) {
+                        Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            } else if (!okLogin) {
+                ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+                context.redirect(context.getRequestContextPath() + "/login.do");
+            }
+
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | JSONException ex) {
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     public void doCheckLogout() {
         if (okLogin) {
             try {
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-                context.redirect(context.getRequestContextPath() + "/faces/principal.xhtml");
+                context.redirect(context.getRequestContextPath() + "/principal.do");
             } catch (IOException e) {                
             }
         }
