@@ -238,26 +238,6 @@ public class UsuarioBean {
         this.googleID = googleID;
     }
 
-    public String doLogin() {
-        errorLogin = "";
-        if (identificador == null || identificador.isEmpty() || contrasena == null || contrasena.isEmpty()) {
-            errorLogin = "Hay campos vacíos";
-            return "login";
-        }
-        
-        usuario = usuarioFacade.findUsuarioByUsuarioAndContrasena(identificador, contrasena);
-
-        if (usuario == null) {
-            usuario = usuarioFacade.findUsuarioByEmailAndContrasena(identificador, contrasena);
-            if (usuario == null) {
-                errorLogin = "Login incorrecto";
-                return "login";
-            }
-        }
-        okLogin = true;
-        return "principal";
-    }
-
     public String doNuevo() {
         errorRegistro = "";
         if(contrasena == null || contrasena.isEmpty() || usuarioRegistro == null || usuarioRegistro.isEmpty() || email == null || email.isEmpty()) {
@@ -390,7 +370,27 @@ public class UsuarioBean {
         }
     }
     
-    public void doCheckFacebookLogin() {
+    public String doLogin() {
+        errorLogin = "";
+        if (identificador == null || identificador.isEmpty() || contrasena == null || contrasena.isEmpty()) {
+            errorLogin = "Hay campos vacíos";
+            return "login";
+        }
+        
+        usuario = usuarioFacade.findUsuarioByUsuarioAndContrasena(identificador, contrasena);
+
+        if (usuario == null) {
+            usuario = usuarioFacade.findUsuarioByEmailAndContrasena(identificador, contrasena);
+            if (usuario == null) {
+                errorLogin = "Login incorrecto";
+                return "login";
+            }
+        }
+        okLogin = true;
+        return "principal";
+    }
+    
+    public void doFacebookLogin() {
         try {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             String code = request.getParameter("code");
@@ -402,7 +402,7 @@ public class UsuarioBean {
                 String content, linea;
                 JSONObject tokenResult, infoResult;
 
-                url = new URL("https://graph.facebook.com/v2.3/oauth/access_token?client_id=" + FB_ID + "&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FTask4allJSF-war%2Ffaces%2Fprincipal.xhtml&client_secret=" + FB_SECRET + "&code=" + code);
+                url = new URL("https://graph.facebook.com/v2.3/oauth/access_token?client_id=" + FB_ID + "&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FTask4allJSF-war%2FloginSuccess.do&client_secret=" + FB_SECRET + "&code=" + code);
                 con = url.openConnection();
                 in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
