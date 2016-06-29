@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         #{usuarioBean.doCheckLogout()}
         <title>Task4all - Login</title>
@@ -33,7 +34,12 @@
                     </h:panelGroup>
 
                     <br/>
-                    <h:button value="Iniciar con Facebook" outcome="/error/unsupported.xhtml" class="btn btn-primary" />
+                    <h:outputLink value="https://www.facebook.com/dialog/oauth" class="btn btn-primary">
+                        <f:param name="client_id" value="747075862097456" />
+                        <f:param name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=fb" />
+                        <f:param name="scope" value="public_profile,email" />
+                        <h:outputText value="Iniciar con Facebook" />
+                    </h:outputLink>
                     <br/>
                     <br/>
                     <h:button value="Iniciar con Google" outcome="/error/unsupported.xhtml" class="btn btn-danger" />

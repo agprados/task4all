@@ -106,4 +106,19 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
        return u;
     }
     
+    public Usuario findUsuarioByFacebookId(String facebookId) {
+       Query q;
+      
+       q = em.createQuery("SELECT u FROM Usuario u WHERE u.facebookid = :facebookId");
+       q.setParameter("facebookId", facebookId);
+       
+       Usuario u;
+       try {
+           u = (Usuario)q.getSingleResult();
+       } catch(NoResultException e) {
+           u = null;
+       }
+       return u;
+    }
+    
 }
