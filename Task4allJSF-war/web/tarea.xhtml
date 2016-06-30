@@ -80,7 +80,7 @@
                                 <center>
                                     <b><h:outputText value="#{asignado.usuarioUsuario.usuario}"/></b>
                                     <br/>
-                                    <h:graphicImage value="/images/avatar_lider.jpg" height="65" width="65"/>
+                                    <h:graphicImage value="/images/avatares/avatar_lider.jpg" height="65" width="65"/>
                                     <br/>
                                     <i style="color: #aaaaaa;">#{asignado.rol.toLowerCase()}</i>
                                     <br/>
@@ -96,7 +96,7 @@
                                 <center>
                                     <b><h:outputText value="#{asignado.usuarioUsuario.usuario}"/></b>
                                     <br/>
-                                    <h:graphicImage value="/images/avatar_miembro.jpg" height="65" width="65"/>
+                                    <h:graphicImage value="/images/avatares/avatar_miembro.jpg" height="65" width="65"/>
                                     <br/>
                                     <i style="color: #aaaaaa;">#{asignado.rol.toLowerCase()}</i>
                                     <br/>
@@ -109,8 +109,8 @@
                         </h:panelGroup>
                         <p:dialog header="Información del usuario" widgetVar="#{asignado.usuarioUsuario.usuario}Informacion" modal="true" resizable="false" closeOnEscape="true" >
                             <center>
-                                <h:graphicImage rendered="#{asignado.rol.equalsIgnoreCase('líder')}" value="/images/avatar_lider.jpg" height="80" width="80"/>
-                                <h:graphicImage rendered="#{asignado.rol.equalsIgnoreCase('miembro')}" value="/images/avatar_miembro.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{asignado.rol.equalsIgnoreCase('líder')}" value="/images/avatares/avatar_lider.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{asignado.rol.equalsIgnoreCase('miembro')}" value="/images/avatares/avatar_miembro.jpg" height="80" width="80"/>
                                 <br/>
                                 <br/>
                                 Usuario: #{asignado.usuarioUsuario.usuario}
@@ -147,7 +147,7 @@
                                             <center>
                                                 <b><h:outputText value="#{noAsignado.usuarioUsuario.usuario}"/></b>
                                                 <br/>
-                                                <h:graphicImage value="/images/avatar_lider.jpg" height="65" width="65"/>
+                                                <h:graphicImage value="/images/avatares/avatar_lider.jpg" height="65" width="65"/>
                                                 <br/>
                                                 <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
                                                 <br/>                                                                                    
@@ -159,7 +159,7 @@
                                             <center>
                                                 <b><h:outputText value="#{noAsignado.usuarioUsuario.usuario}"/></b>
                                                 <br/>
-                                                <h:graphicImage value="/images/avatar_miembro.jpg" height="65" width="65"/>
+                                                <h:graphicImage value="/images/avatares/avatar_miembro.jpg" height="65" width="65"/>
                                                 <br/>
                                                 <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
                                                 <br/>                                                                                    

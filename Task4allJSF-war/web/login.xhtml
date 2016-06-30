@@ -23,7 +23,7 @@
     </h:head>
     <h:body>
         <center>
-            <h:link outcome="/index.xhtml">
+            <h:link outcome="/index">
                 <img style="margin-top: 30px; cursor: pointer;" src="images/logo.png" alt="logo" width="300" />
             </h:link>
             <div class="container" style="margin-top: 30px; width: 400px;">
@@ -60,11 +60,10 @@
                         <f:param name="client_id" value="747075862097456" />
                         <f:param name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=fb" />
                         <f:param name="scope" value="public_profile,email" />
-                        <h:outputText value="Iniciar con Google" />
+                        <h:outputText value="Iniciar con Twitter" />
                     </h:outputLink>
                     <br/>
-                    <br/>
-                    <p style="font-weight: 300;">------------------ <span class="fa fa-dot-circle-o"></span> ------------------</p>
+                    <div class="separador"></div>
                     <br/>
                     <h:panelGroup rendered="#{!usuarioBean.errorLogin.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert" style="width: 300px;">
                         #{usuarioBean.errorLogin} 
@@ -82,9 +81,9 @@
                         <h:commandButton value="Iniciar sesión" action="#{usuarioBean.doLogin()}" class="btn btn-success"></h:commandButton> 
                     </h:form>
                     <br/>
-                    <h:link value="Recuperar contraseña" outcome="/recuperar.xhtml" />
+                    <h:link value="Recuperar contraseña" outcome="recuperar" />
                     <br/>
-                    <h:link value="¿No tienes cuenta?" outcome="/registrar.xhtml" />
+                    <h:link value="¿No tienes cuenta?" outcome="registrar" />
                     <br/>
                 </center>
             </div>

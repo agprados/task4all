@@ -66,7 +66,7 @@
                                 <center>
                                     <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioUsuario.usuario}"/></b>
                                     <br/>
-                                    <h:graphicImage value="/images/avatar_lider.jpg" height="65" width="65"/>
+                                    <h:graphicImage value="/images/avatares/avatar_lider.jpg" height="65" width="65"/>
                                     <br/>
                                     <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
                                     <br/>
@@ -79,7 +79,7 @@
                                 <center>
                                     <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioUsuario.usuario}"/></b>
                                     <br/>
-                                    <h:graphicImage value="/images/avatar_miembro.jpg" height="65" width="65"/>
+                                    <h:graphicImage value="/images/avatares/avatar_miembro.jpg" height="65" width="65"/>
                                     <br/>
                                     <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
                                     <br/>
@@ -90,7 +90,7 @@
                                     <p:commandLink rendered="#{!miembro.usuarioUsuario.usuario.equals(usuarioBean.usuario.usuario) and !usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioUsuario.usuario}Informacion').show();" style="text-decoration: none; font-size: 13px; color: black" /> 
                                     <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and !miembro.usuarioUsuario.usuario.equals(usuarioBean.usuario.usuario)}">
                                         <p:commandLink onclick="PF('#{miembro.usuarioUsuario.usuario}Liderazgo').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black;" >
-                                            <h:graphicImage style="margin-bottom: 3.5px" value="/images/crown.png" width="11" height="11"/>
+                                            <h:graphicImage style="margin-bottom: 3.5px" value="/images/iconos/crown.png" width="11" height="11"/>
                                         </p:commandLink>
                                     </h:panelGroup>
                                 </center>       
@@ -101,7 +101,7 @@
                                 <center>
                                     <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioUsuario.usuario}"/></b>
                                     <br/>
-                                    <h:graphicImage value="/images/avatar_invitado.jpg" height="65" width="65"/>
+                                    <h:graphicImage value="/images/avatares/avatar_invitado.jpg" height="65" width="65"/>
                                     <br/>
                                     <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
                                     <br/>
@@ -142,9 +142,9 @@
                         </p:dialog>
                         <p:dialog header="Información del usuario" widgetVar="#{miembro.usuarioUsuario.usuario}Informacion" modal="true" resizable="false" closeOnEscape="true" >
                             <center>
-                                <h:graphicImage rendered="#{miembro.rol.equalsIgnoreCase('líder')}" value="/images/avatar_lider.jpg" height="80" width="80"/>
-                                <h:graphicImage rendered="#{miembro.rol.equalsIgnoreCase('miembro')}" value="/images/avatar_miembro.jpg" height="80" width="80"/>
-                                <h:graphicImage rendered="#{miembro.rol.equalsIgnoreCase('invitado')}" value="/images/avatar_invitado.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.rol.equalsIgnoreCase('líder')}" value="/images/avatares/avatar_lider.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.rol.equalsIgnoreCase('miembro')}" value="/images/avatares/avatar_miembro.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.rol.equalsIgnoreCase('invitado')}" value="/images/avatares/avatar_invitado.jpg" height="80" width="80"/>
                                 <br/>
                                 <br/>
                                 Usuario: #{miembro.usuarioUsuario.usuario}
