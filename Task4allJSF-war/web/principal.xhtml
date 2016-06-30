@@ -22,18 +22,18 @@
         #{usuarioBean.doCheckLogin()}
         <ui:include src="/includes/header.xhtml" />
         <center>
-            <div class="container" style="margin-top: 50px;">
+            <div class="container">
                 <div class="containerHeader">
                     <h2 style="float: left;">
                         <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
                         Mis proyectos
                     </h2>
                     <div style="float: right; margin: 24px 10px;" class="dropdown">
-                        <h:link class="btn btn-info dropdown-toggle" id="dropdownProject" a:data-toggle="dropdown" a:aria-haspopup="true" a:aria-expanded="true">
+                        <h:link style="text-shadow: 1px 1px #1e7f94" class="btn btn-info dropdown-toggle" id="dropdownProject" a:data-toggle="dropdown" a:aria-haspopup="true" a:aria-expanded="true">
                             <span class="glyphicon glyphicon-plus"></span>
                             Nuevo proyecto                        
                         </h:link>
-                        <ul style="width: 300px;" class="dropdown-menu pull-right" aria-labelledby="dropdownProject">
+                        <ul style="width: 300px; color: black; text-shadow: none;" class="dropdown-menu pull-right" aria-labelledby="dropdownProject">
                             <li style="padding: 10px;">
                                 <h:form>
                                     <h:panelGroup rendered="#{!proyectosBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert" style="width: 280px;">
