@@ -5,7 +5,7 @@
     <h:body>
         <div class="header">
             <div style="float: left; margin: 4px;" class="dropdown">
-                <button style="background: #777; border: 1px solid #000; color: #fff;" class="btn btn-default dropdown-toggle" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <button style="background: #eee; border: 1px solid #000; color: #000;" class="btn btn-default dropdown-toggle" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
                     Proyectos
                 </button>
@@ -28,7 +28,7 @@
             </h:link>
 
             <div style="float: right; margin: 4px;" class="dropdown">
-                <button style="background: #777; border: 1px solid #000; color: #fff;" class="btn btn-default dropdown-toggle" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <button style="background: #eee; border: 1px solid #000; color: #000;" class="btn btn-default dropdown-toggle" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <span class="glyphicon glyphicon-user" aria-hidden="true"/>
                     <h:outputText rendered="#{(usuarioBean.usuario.nombre eq '' and usuarioBean.usuario.apellidos eq '') or (usuarioBean.usuario.nombre eq null and usuarioBean.usuario.apellidos eq null)}" value=" #{usuarioBean.usuario.usuario}" />
                     <h:outputText rendered="#{usuarioBean.usuario.nombre ne '' or usuarioBean.usuario.apellidos ne ''}" value=" #{usuarioBean.usuario.nombre} #{usuarioBean.usuario.apellidos}" />

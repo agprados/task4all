@@ -66,9 +66,9 @@ html body {
 
 .containerHeader {
     height: 80px;
-    background: url("/Task4allJSF-war/images/header-bg.png") #eeeeee;
-    color: white;
-    text-shadow: 1px 1px #333;
+    background:  #eeeeee;
+    color: black;
+    text-shadow: 1px 1px #fff;
     margin: -10px -15px 10px -15px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -110,7 +110,7 @@ html body {
 .proyecto-no-elementos {
     color:#999999; 
     background: #efefef; 
-    border-top: 5px solid #ffcc00;
+    border-top: 5px solid #ccc;
 }
 
 .lista {
@@ -191,7 +191,7 @@ html body {
 
 .footer {
     margin-top: 20px;
-    color: #5bc0de
+    color: #5bc0de;
 }
 
 .footer a {
