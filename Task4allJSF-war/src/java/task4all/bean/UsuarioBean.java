@@ -461,8 +461,13 @@ public class UsuarioBean {
                             okLogin = true;
                         } else {
                             usuario = usuarioFacade.findUsuarioByEmail(infoResult.getString("email"));
-                            if(usuario != null) {
+                            if(usuario != null && usuario.getVerificado()=='1') {
                                 usuario.setFacebookid(facebookID);
+                                usuarioFacade.edit(usuario);
+                                okLogin = true;
+                            } else if(usuario != null && usuario.getVerificado()=='0') {
+                                usuario.setFacebookid(facebookID);
+                                usuario.setContrasena("");
                                 usuarioFacade.edit(usuario);
                                 okLogin = true;
                             } else {
@@ -552,8 +557,13 @@ public class UsuarioBean {
                             okLogin = true;
                         } else {
                             usuario = usuarioFacade.findUsuarioByEmail(infoResult.getString("email"));
-                            if(usuario != null) {
+                            if(usuario != null && usuario.getVerificado()=='1') {
                                 usuario.setGoogleid(googleID);
+                                usuarioFacade.edit(usuario);
+                                okLogin = true;
+                            } else if(usuario != null && usuario.getVerificado()=='0') {
+                                usuario.setGoogleid(googleID);
+                                usuario.setContrasena("");
                                 usuarioFacade.edit(usuario);
                                 okLogin = true;
                             } else {
