@@ -14,6 +14,10 @@
 
         <!-- Compiled and minified Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+        <!-- Bootstrap social icons plugin -->
+        <link rel="stylesheet" href="includes/bootstrap-social-icons/bootstrap-social.css" />
+        <!-- FontAwesome css -->
+        <link href="http://designers.hubspot.com/hs-fs/hub/327485/file-2054199286-css/font-awesome.css" rel="stylesheet" />
         <!-- Compiled and minified Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     </h:head>
@@ -34,18 +38,32 @@
                     </h:panelGroup>
 
                     <br/>
-                    <h:outputLink value="https://www.facebook.com/dialog/oauth" class="btn btn-primary">
+                    <h:outputLink value="https://www.facebook.com/dialog/oauth" class="btn btn-block btn-social btn-facebook" style="width: 300px;">
+                        <span class="fa fa-facebook"></span>
                         <f:param name="client_id" value="747075862097456" />
                         <f:param name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=fb" />
                         <f:param name="scope" value="public_profile,email" />
                         <h:outputText value="Iniciar con Facebook" />
                     </h:outputLink>
                     <br/>
+                    <h:outputLink value="https://www.facebook.com/dialog/oauth" class="btn btn-block btn-social btn-google" style="width: 300px;">
+                        <span class="fa fa-google"></span>
+                        <f:param name="client_id" value="747075862097456" />
+                        <f:param name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=fb" />
+                        <f:param name="scope" value="public_profile,email" />
+                        <h:outputText value="Iniciar con Google" />
+                    </h:outputLink>
                     <br/>
-                    <h:button value="Iniciar con Google" outcome="/error/unsupported.xhtml" class="btn btn-danger" />
+                    <h:outputLink value="https://www.facebook.com/dialog/oauth" class="btn btn-block btn-social btn-twitter" style="width: 300px;">
+                        <span class="fa fa-twitter"></span>
+                        <f:param name="client_id" value="747075862097456" />
+                        <f:param name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=fb" />
+                        <f:param name="scope" value="public_profile,email" />
+                        <h:outputText value="Iniciar con Google" />
+                    </h:outputLink>
                     <br/>
                     <br/>
-                    <p>------------------ o ------------------</p>
+                    <p style="font-weight: 300;">------------------ <span class="fa fa-dot-circle-o"></span> ------------------</p>
                     <br/>
                     <h:panelGroup rendered="#{!usuarioBean.errorLogin.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert" style="width: 300px;">
                         #{usuarioBean.errorLogin} 
