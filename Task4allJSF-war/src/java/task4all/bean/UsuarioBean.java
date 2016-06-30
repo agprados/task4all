@@ -6,13 +6,13 @@
 package task4all.bean;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.security.SecureRandom;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,6 +65,8 @@ public class UsuarioBean {
     private boolean okLogin;
     private final String FB_ID = "747075862097456";
     private final String FB_SECRET = "cb65b5382724343d60019074e274e058";
+    private final String GOOGLE_ID = "720887194151-e2tbl9ti0v612god4l566mhe7bjocoa5.apps.googleusercontent.com";
+    private final String GOOGLE_SECRET = "NVJFgMbDMt-ab3H4szSblHnr";
     
     /**
      * Creates a new instance of UsuarioBean
@@ -452,19 +454,25 @@ public class UsuarioBean {
                         }
                         infoResult = new JSONObject(content);
 
-                        SecureRandom random = new SecureRandom();
                         this.facebookID = infoResult.getString("id");
                         usuario = usuarioFacade.findUsuarioByFacebookId(facebookID);
 
                         if (usuario != null) {
                             okLogin = true;
                         } else {
-                            usuario = new Usuario();
-                            usuario.setNombre(infoResult.getString("first_name"));
-                            usuario.setApellidos(infoResult.getString("last_name"));
-                            email = infoResult.getString("email");
-                            contrasena = "";
-                            verificaContrasena = contrasena;
+                            usuario = usuarioFacade.findUsuarioByEmail(infoResult.getString("email"));
+                            if(usuario != null) {
+                                usuario.setFacebookid(facebookID);
+                                usuarioFacade.edit(usuario);
+                                okLogin = true;
+                            } else {
+                                usuario = new Usuario();
+                                usuario.setNombre(infoResult.getString("first_name"));
+                                usuario.setApellidos(infoResult.getString("last_name"));
+                                email = infoResult.getString("email");
+                                contrasena = "";
+                                verificaContrasena = contrasena;
+                            }
                         }
                     } else {
                         try {
@@ -482,6 +490,97 @@ public class UsuarioBean {
         } catch (MalformedURLException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException | JSONException ex) {
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void doGoogleLogin() {
+        doCheckLogout();
+
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            String method = request.getParameter("method");
+            String code = request.getParameter("code");
+
+            if (method != null && method.equals("gl")) {
+                if (code != null && !code.equals("")) {
+                    URL url;
+                    URLConnection con;
+                    BufferedReader in;
+                    String content, linea;
+                    JSONObject tokenResult, infoResult;
+
+                    url = new URL("https://www.googleapis.com/oauth2/v4/token");
+                    con = url.openConnection();
+                    String urlParameters = "client_id=" + GOOGLE_ID + "&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FTask4allJSF-war%2FloginSuccess.do%3Fmethod%3Dgl&client_secret=" + GOOGLE_SECRET + "&grant_type=authorization_code&code=" + code;
+                    byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+                    int postDataLength = postData.length;
+                    
+                    con.setDoOutput(true);
+                    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
+                    con.setRequestProperty("charset", "utf-8");
+                    con.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+                    con.setUseCaches(false);
+                    
+                    try(DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
+                        wr.write(postData);
+                    }
+                    
+                    in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                    content = "";
+                    while ((linea = in.readLine()) != null) {
+                        content += linea;
+                    }
+                    tokenResult = new JSONObject(content);
+                    
+                    if (tokenResult.getString("access_token") != null && !tokenResult.getString("access_token").equals("")) {
+                        url = new URL("https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + tokenResult.getString("access_token"));
+                        con = url.openConnection();
+                        in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                        content = "";
+                        while ((linea = in.readLine()) != null) {
+                            content += linea;
+                        }
+                        infoResult = new JSONObject(content);
+                        
+                        this.googleID = infoResult.getString("id");
+                        usuario = usuarioFacade.findUsuarioByGoogleId(googleID);
+
+                        if (usuario != null) {
+                            okLogin = true;
+                        } else {
+                            usuario = usuarioFacade.findUsuarioByEmail(infoResult.getString("email"));
+                            if(usuario != null) {
+                                usuario.setGoogleid(googleID);
+                                usuarioFacade.edit(usuario);
+                                okLogin = true;
+                            } else {
+                                usuario = new Usuario();
+                                usuario.setNombre(infoResult.getString("given_name"));
+                                usuario.setApellidos(infoResult.getString("family_name"));
+                                email = infoResult.getString("email");
+                                contrasena = "";
+                                verificaContrasena = contrasena;
+                            }
+                        }
+                    } else {
+                        try {
+                            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+                            context.redirect(context.getRequestContextPath() + "/login.do");
+                        } catch (IOException ex) {
+                            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                } else if (!okLogin) {
+                    ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+                    context.redirect(context.getRequestContextPath() + "/login.do");
+                }
+            }
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | JSONException | IllegalStateException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -46,11 +46,12 @@
                         <h:outputText value="Iniciar con Facebook" />
                     </h:outputLink>
                     <br/>
-                    <h:outputLink value="https://www.facebook.com/dialog/oauth" class="btn btn-block btn-social btn-google" style="width: 300px;">
+                    <h:outputLink value="https://accounts.google.com/o/oauth2/v2/auth" class="btn btn-block btn-social btn-google" style="width: 300px;">
                         <span class="fa fa-google"></span>
-                        <f:param name="client_id" value="747075862097456" />
-                        <f:param name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=fb" />
-                        <f:param name="scope" value="public_profile,email" />
+                        <f:param name="scope" value="email profile" />
+                        <f:param name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=gl" />
+                        <f:param name="response_type" value="code" />
+                        <f:param name="client_id" value="720887194151-e2tbl9ti0v612god4l566mhe7bjocoa5.apps.googleusercontent.com" />
                         <h:outputText value="Iniciar con Google" />
                     </h:outputLink>
                     <br/>

@@ -128,4 +128,19 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         return u;
     }
 
+    public Usuario findUsuarioByGoogleId(String googleId) {
+        Query q;
+
+        q = em.createQuery("SELECT u FROM Usuario u WHERE u.googleid = :googleId");
+        q.setParameter("googleId", googleId);
+
+        Usuario u;
+        try {
+            u = (Usuario) q.getSingleResult();
+        } catch (NoResultException e) {
+            u = null;
+        }
+        return u;
+    }
+
 }
