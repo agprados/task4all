@@ -16,6 +16,7 @@ import java.security.SecureRandom;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -264,7 +265,7 @@ public class UsuarioBean {
     }
 
     public String doRecuperarContrasena() {
-        if (emailRecuperacion == null || emailRecuperacion.isEmpty() || !emailRecuperacion.contains("@")) {
+        if (emailRecuperacion == null || emailRecuperacion.isEmpty() || !isValidEmail(emailRecuperacion)) {
             errorRecuperacion = "El email introducido no es válido";
             return "recuperar";
         }
@@ -315,7 +316,7 @@ public class UsuarioBean {
         }
     }
     
-    public String doSetUsuario() {
+    public String doCompletarRegistro() {
         errorRegistro = "";
         
         if(usuarioRegistro == null || usuarioRegistro.equals("")) {
@@ -328,7 +329,37 @@ public class UsuarioBean {
             return "loginSuccess";
         }
         
-        this.doNuevo();
+        if(email == null || email.isEmpty() || !isValidEmail(email)) {
+            errorRegistro = "El email no es válido";
+            return "loginSuccess";
+        }
+        
+        if(usuarioFacade.findUsuarioByEmail(usuarioRegistro) != null) {
+            errorRegistro = "El email no es válido";
+            return "loginSuccess";
+        }
+        
+        if (((facebookID == null || facebookID.isEmpty())
+                && (googleID == null || googleID.isEmpty()))
+                || usuarioRegistro == null|| usuarioRegistro.isEmpty()
+                || email == null || email.isEmpty()
+                || usuario == null) {
+            errorRegistro = "No se ha podido completar el registro";
+            return "loginSuccess";
+        }
+        
+        usuario.setUsuario(usuarioRegistro);
+        usuario.setEmail(email);
+        usuario.setContrasena(contrasena);
+        if(facebookID != null && !facebookID.equals("")) {
+            usuario.setFacebookid(facebookID);
+        }
+        if(googleID != null && !googleID.equals("")) {
+            usuario.setGoogleid(googleID);
+        }
+        usuario.setVerificado('1');
+        
+        this.usuarioFacade.create(usuario);
         okLogin = true;
         
         errorRegistro = "";
@@ -356,17 +387,8 @@ public class UsuarioBean {
         usuario.setUsuario(usuarioRegistro);
         usuario.setEmail(email);
         usuario.setContrasena(contrasena);
-        if(facebookID != null && !facebookID.equals("")) {
-            usuario.setFacebookid(facebookID);
-        }
-        if(googleID != null && !googleID.equals("")) {
-            usuario.setGoogleid(googleID);
-        }
-        if((facebookID != null && !facebookID.equals("")) || (googleID != null && !googleID.equals(""))) {
-            usuario.setVerificado('1');
-        } else {
-            usuario.setVerificado('0');
-        }
+        usuario.setVerificado('0');
+        
         this.usuarioFacade.create(usuario);
 
         errorRegistro = "";
@@ -441,7 +463,7 @@ public class UsuarioBean {
                             usuario.setNombre(infoResult.getString("first_name"));
                             usuario.setApellidos(infoResult.getString("last_name"));
                             email = infoResult.getString("email");
-                            contrasena = new BigInteger(50, random).toString(32);
+                            contrasena = "";
                             verificaContrasena = contrasena;
                         }
                     } else {
@@ -490,5 +512,11 @@ public class UsuarioBean {
         } catch (IOException ex) {                
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public boolean isValidEmail(String email) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        return pattern.matcher(email).matches();
     }
 }
