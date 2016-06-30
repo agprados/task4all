@@ -24,7 +24,7 @@ public class FondoBean {
     public void init() {
         images = new ArrayList<>();
         for (int i = 0; i <= 11; i++) {
-            images.add("texture" + i + ".png");
+            images.add("fondo_" + i + ".png");
         }
     }
  

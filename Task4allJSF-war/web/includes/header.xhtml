@@ -17,13 +17,13 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Quiero buscar..." />
                         <span class="input-group-btn">
-                            <h:button outcome="/error/unsupported.xhtml" value="Buscar" class="btn btn-default" />
+                            <h:button outcome="/error/unsupported" value="Buscar" class="btn btn-default" />
                         </span>
                     </div>
                 </div>
             </h:form>
 
-            <h:link class="header-logo" outcome="/principal.xhtml">
+            <h:link class="header-logo" outcome="/principal">
                 <img src="/Task4allJSF-war/images/logo.png" alt="logo" width="100" />
             </h:link>
 
@@ -34,8 +34,8 @@
                     <h:outputText rendered="#{usuarioBean.usuario.nombre ne '' or usuarioBean.usuario.apellidos ne ''}" value=" #{usuarioBean.usuario.nombre} #{usuarioBean.usuario.apellidos}" />
                 </button>
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownUser">
-                    <li><h:link outcome="/panel/tareas.xhtml">Tareas</h:link></li>
-                    <li><h:link outcome="/panel/configuracion.xhtml">Configuración</h:link></li>
+                    <li><h:link outcome="/panel/tareas">Tareas</h:link></li>
+                    <li><h:link outcome="/panel/configuracion">Configuración</h:link></li>
                     <li role="separator" class="divider"></li>
                     <h:form style="margin-left: 20px;">
                         <li><h:commandLink style="color: black;" action="#{usuarioBean.doLogout()}">Cerrar sesión</h:commandLink></li>
