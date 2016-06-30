@@ -5,19 +5,19 @@
     <h:body>
         <div class="header">
             <div style="float: left; margin: 4px;" class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <button style="background: #eee; border: 1px solid #000; color: #000;" class="btn btn-default dropdown-toggle" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
                     Proyectos
                 </button>
-                <ul class="dropdown-menu pull-right" aria-labelledby="dropdownUser"/>
+                <ul class="dropdown-menu pull-left" aria-labelledby="dropdownUser"/>
             </div>        
 
             <h:form>
                 <div style="float: left; margin: 4px; width: 300px;" class="col-lg-6">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Quiero buscar..." />
+                        <input style="background: #666; border: 1px solid #000; color: white;" type="text" class="form-control" placeholder="Quiero buscar..." />
                         <span class="input-group-btn">
-                            <h:button outcome="/error/unsupported" value="Buscar" class="btn btn-default" />
+                            <h:button style="background: #eee; border: 1px solid #000;" outcome="/error/unsupported" value="Buscar" class="btn btn-default" />
                         </span>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
             </h:link>
 
             <div style="float: right; margin: 4px;" class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <button style="background: #eee; border: 1px solid #000; color: #000;" class="btn btn-default dropdown-toggle" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <span class="glyphicon glyphicon-user" aria-hidden="true"/>
                     <h:outputText rendered="#{(usuarioBean.usuario.nombre eq '' and usuarioBean.usuario.apellidos eq '') or (usuarioBean.usuario.nombre eq null and usuarioBean.usuario.apellidos eq null)}" value=" #{usuarioBean.usuario.usuario}" />
                     <h:outputText rendered="#{usuarioBean.usuario.nombre ne '' or usuarioBean.usuario.apellidos ne ''}" value=" #{usuarioBean.usuario.nombre} #{usuarioBean.usuario.apellidos}" />

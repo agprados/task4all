@@ -55,14 +55,6 @@
                         <h:outputText value="Iniciar con Google" />
                     </h:outputLink>
                     <br/>
-                    <h:outputLink value="https://www.facebook.com/dialog/oauth" class="btn btn-block btn-social btn-twitter" style="width: 300px;">
-                        <span class="fa fa-twitter"></span>
-                        <f:param name="client_id" value="747075862097456" />
-                        <f:param name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=fb" />
-                        <f:param name="scope" value="public_profile,email" />
-                        <h:outputText value="Iniciar con Twitter" />
-                    </h:outputLink>
-                    <br/>
                     <div class="separador"></div>
                     <br/>
                     <h:panelGroup rendered="#{!usuarioBean.errorLogin.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert" style="width: 300px;">
