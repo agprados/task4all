@@ -66,7 +66,8 @@
                                 <center>
                                     <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioUsuario.usuario}"/></b>
                                     <br/>
-                                    <h:graphicImage value="/images/avatares/avatar_lider.jpg" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{miembro.usuarioUsuario.avatar eq null}" value="/images/avatares/default/avatar_lider.jpg" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{miembro.usuarioUsuario.avatar ne null}" value="#{miembro.usuarioUsuario.avatar}" height="65" width="65"/>
                                     <br/>
                                     <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
                                     <br/>
@@ -79,7 +80,8 @@
                                 <center>
                                     <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioUsuario.usuario}"/></b>
                                     <br/>
-                                    <h:graphicImage value="/images/avatares/avatar_miembro.jpg" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{miembro.usuarioUsuario.avatar eq null}" value="/images/avatares/default/avatar_miembro.jpg" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{miembro.usuarioUsuario.avatar ne null}" value="#{miembro.usuarioUsuario.avatar}" height="65" width="65"/>
                                     <br/>
                                     <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
                                     <br/>
@@ -101,7 +103,8 @@
                                 <center>
                                     <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioUsuario.usuario}"/></b>
                                     <br/>
-                                    <h:graphicImage value="/images/avatares/avatar_invitado.jpg" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{miembro.usuarioUsuario.avatar eq null}" value="/images/avatares/default/avatar_invitado.jpg" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{miembro.usuarioUsuario.avatar ne null}" value="#{miembro.usuarioUsuario.avatar}" height="65" width="65"/>
                                     <br/>
                                     <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
                                     <br/>
@@ -141,10 +144,13 @@
                             </center>
                         </p:dialog>
                         <p:dialog header="Información del usuario" widgetVar="#{miembro.usuarioUsuario.usuario}Informacion" modal="true" resizable="false" closeOnEscape="true" >
-                            <center>
-                                <h:graphicImage rendered="#{miembro.rol.equalsIgnoreCase('líder')}" value="/images/avatares/avatar_lider.jpg" height="80" width="80"/>
-                                <h:graphicImage rendered="#{miembro.rol.equalsIgnoreCase('miembro')}" value="/images/avatares/avatar_miembro.jpg" height="80" width="80"/>
-                                <h:graphicImage rendered="#{miembro.rol.equalsIgnoreCase('invitado')}" value="/images/avatares/avatar_invitado.jpg" height="80" width="80"/>
+                            <center>                                    
+                                <h:graphicImage rendered="#{miembro.usuarioUsuario.avatar eq null and miembro.rol.equalsIgnoreCase('líder')}" value="/images/avatares/default/avatar_lider.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.usuarioUsuario.avatar ne null and miembro.rol.equalsIgnoreCase('líder')}" value="#{miembro.usuarioUsuario.avatar}" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.usuarioUsuario.avatar eq null and miembro.rol.equalsIgnoreCase('miembro')}" value="/images/avatares/default/avatar_miembro.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.usuarioUsuario.avatar ne null and miembro.rol.equalsIgnoreCase('miembro')}" value="#{miembro.usuarioUsuario.avatar}" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.usuarioUsuario.avatar eq null and miembro.rol.equalsIgnoreCase('invitado')}" value="/images/avatares/default/avatar_invitado.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.usuarioUsuario.avatar ne null and miembro.rol.equalsIgnoreCase('invitado')}" value="#{miembro.usuarioUsuario.avatar}" height="80" width="80"/>
                                 <br/>
                                 <br/>
                                 Usuario: #{miembro.usuarioUsuario.usuario}

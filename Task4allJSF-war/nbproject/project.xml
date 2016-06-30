@@ -10,11 +10,11 @@
                     <file>${reference.Task4allJSF-ejb.dist}</file>
                 </library>
                 <library dirs="200">
-                    <file>${libs.primefaces.classpath}</file>
+                    <file>${libs.Bootstrap_theme_for_PF.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${libs.Bootstrap_theme_for_PF.classpath}</file>
+                    <file>${libs.PrimeFaces_6.0.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>

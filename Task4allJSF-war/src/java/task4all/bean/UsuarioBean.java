@@ -7,7 +7,10 @@ package task4all.bean;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,6 +22,7 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -29,8 +33,10 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.json.JSONException;
 import org.primefaces.json.JSONObject;
+import org.primefaces.model.UploadedFile;
 import task4all.ejb.UsuarioFacade;
 import task4all.entity.Lista;
 import task4all.entity.Proyecto;
@@ -50,6 +56,7 @@ public class UsuarioBean {
     private String email;
     private String contrasena;
     private String verificaContrasena;
+    private UploadedFile avatar;
     private String errorLogin;
     private String errorRegistro;
     private String errorRecuperacion;
@@ -111,6 +118,14 @@ public class UsuarioBean {
 
     public String getVerificaContrasena() {
         return verificaContrasena;
+    }
+
+    public UploadedFile getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(UploadedFile avatar) {
+        this.avatar = avatar;
     }
 
     public String getEmailRecuperacion() {
@@ -244,12 +259,12 @@ public class UsuarioBean {
     public String doEditar() {
         errorConfiguracion = "";
         correctaConfiguracion = "";
-        
-        if(email ==  null || email.isEmpty()) {
+
+        if (email == null || email.isEmpty()) {
             errorConfiguracion = "El campo del email no puede estar vacío";
             return "configuracion";
         }
-        
+
         if (!contrasena.equals(verificaContrasena)) {
             errorConfiguracion = "Las contraseñas no coinciden";
             return "configuracion";
@@ -257,13 +272,85 @@ public class UsuarioBean {
 
         if (!contrasena.equals("") && !contrasena.equals(usuario.getContrasena())) {
             usuario.setContrasena(contrasena);
-        }  
+        }
+        
+        if (avatar != null) {
+            try {
+                InputStream in = avatar.getInputstream();
+                String ruta = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/")).getAbsolutePath();
+                ruta = ruta.substring(0, ruta.lastIndexOf("dist"));
+                ruta = ruta.concat("Task4allJSF-war" + File.separator + "web" + File.separator + "images" + File.separator + "avatares" + File.separator);                
+                
+                File f = new File(ruta, avatar.getFileName());
+                FileOutputStream fos = new FileOutputStream(f);
 
+                int read;
+                byte[] bytes = new byte[1024];
+
+                try {
+                    while ((read = in.read(bytes)) != -1) {
+                        fos.write(bytes, 0, read);
+                    }
+                } finally {
+                    in.close();
+                    fos.close();
+                }             
+                
+                usuario.setAvatar(crearRutaAvatar(f.getPath()));
+            } catch (IOException ex) {
+                Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         this.usuarioFacade.edit(usuario);
         
         correctaConfiguracion = "Datos cambiados satisfactoriamente";
-        
+
         return "configuracion";
+    }
+    
+    public void doGuardarAvatar(FileUploadEvent event) {
+        FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+        
+        avatar = event.getFile();
+        
+        if (avatar != null) {
+            try {
+                InputStream in = avatar.getInputstream();
+                String ruta = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/")).getAbsolutePath();
+                ruta = ruta.substring(0, ruta.lastIndexOf("dist"));
+                ruta = ruta.concat("Task4allJSF-war" + File.separator + "web" + File.separator + "images" + File.separator + "avatares" + File.separator);                
+                
+                File f = new File(ruta, avatar.getFileName());
+                FileOutputStream fos = new FileOutputStream(f);
+
+                int read;
+                byte[] bytes = new byte[1024];
+
+                try {
+                    while ((read = in.read(bytes)) != -1) {
+                        fos.write(bytes, 0, read);
+                    }
+                } finally {
+                    in.close();
+                    fos.close();
+                }             
+                
+                usuario.setAvatar(crearRutaAvatar(f.getPath()));
+            } catch (IOException ex) {
+                Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }        
+        this.usuarioFacade.edit(usuario);
+    }
+
+    private String crearRutaAvatar(String path) {
+        String ruta = path.substring(path.lastIndexOf(File.separator + "images"), path.length());
+        if(ruta.contains("\\")) {
+            ruta = ruta.replaceAll("\\\\", "/");
+        }
+        return ruta;
     }
 
     public String doRecuperarContrasena() {
@@ -613,7 +700,7 @@ public class UsuarioBean {
         }
     }
     
-    public boolean isValidEmail(String email) {
+    private boolean isValidEmail(String email) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         return pattern.matcher(email).matches();

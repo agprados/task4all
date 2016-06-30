@@ -80,7 +80,8 @@
                                 <center>
                                     <b><h:outputText value="#{asignado.usuarioUsuario.usuario}"/></b>
                                     <br/>
-                                    <h:graphicImage value="/images/avatares/avatar_lider.jpg" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar eq null}" value="/images/avatares/default/avatar_lider.jpg" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar ne null}" value="#{asignado.usuarioUsuario.avatar}" height="65" width="65"/>
                                     <br/>
                                     <i style="color: #aaaaaa;">#{asignado.rol.toLowerCase()}</i>
                                     <br/>
@@ -96,7 +97,8 @@
                                 <center>
                                     <b><h:outputText value="#{asignado.usuarioUsuario.usuario}"/></b>
                                     <br/>
-                                    <h:graphicImage value="/images/avatares/avatar_miembro.jpg" height="65" width="65"/>
+                                     <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar eq null}" value="/images/avatares/default/avatar_miembro.jpg" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar ne null}" value="#{asignado.usuarioUsuario.avatar}" height="65" width="65"/>
                                     <br/>
                                     <i style="color: #aaaaaa;">#{asignado.rol.toLowerCase()}</i>
                                     <br/>
@@ -109,8 +111,10 @@
                         </h:panelGroup>
                         <p:dialog header="Información del usuario" widgetVar="#{asignado.usuarioUsuario.usuario}Informacion" modal="true" resizable="false" closeOnEscape="true" >
                             <center>
-                                <h:graphicImage rendered="#{asignado.rol.equalsIgnoreCase('líder')}" value="/images/avatares/avatar_lider.jpg" height="80" width="80"/>
-                                <h:graphicImage rendered="#{asignado.rol.equalsIgnoreCase('miembro')}" value="/images/avatares/avatar_miembro.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar eq null and asignado.rol.equalsIgnoreCase('líder')}" value="/images/avatares/default/avatar_lider.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar ne null and asignado.rol.equalsIgnoreCase('líder')}" value="#{asignado.usuarioUsuario.avatar}" height="80" width="80"/>
+                                <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar eq null and asignado.rol.equalsIgnoreCase('miembro')}" value="/images/avatares/default/avatar_miembro.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar ne null and asignado.rol.equalsIgnoreCase('miembro')}" value="#{asignado.usuarioUsuario.avatar}" height="80" width="80"/>
                                 <br/>
                                 <br/>
                                 Usuario: #{asignado.usuarioUsuario.usuario}
@@ -147,7 +151,8 @@
                                             <center>
                                                 <b><h:outputText value="#{noAsignado.usuarioUsuario.usuario}"/></b>
                                                 <br/>
-                                                <h:graphicImage value="/images/avatares/avatar_lider.jpg" height="65" width="65"/>
+                                                <h:graphicImage rendered="#{noAsignado.usuarioUsuario.avatar eq null}" value="/images/avatares/default/avatar_lider.jpg" height="65" width="65"/>
+                                                <h:graphicImage rendered="#{noAsignado.usuarioUsuario.avatar ne null}" value="#{noAsignado.usuarioUsuario.avatar}" height="65" width="65"/>
                                                 <br/>
                                                 <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
                                                 <br/>                                                                                    
@@ -159,7 +164,8 @@
                                             <center>
                                                 <b><h:outputText value="#{noAsignado.usuarioUsuario.usuario}"/></b>
                                                 <br/>
-                                                <h:graphicImage value="/images/avatares/avatar_miembro.jpg" height="65" width="65"/>
+                                                <h:graphicImage rendered="#{noAsignado.usuarioUsuario.avatar eq null}" value="/images/avatares/default/avatar_miembro.jpg" height="65" width="65"/>
+                                                <h:graphicImage rendered="#{noAsignado.usuarioUsuario.avatar ne null}" value="#{noAsignado.usuarioUsuario.avatar}" height="65" width="65"/>
                                                 <br/>
                                                 <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
                                                 <br/>                                                                                    
