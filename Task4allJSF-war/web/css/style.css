@@ -189,6 +189,44 @@ html body {
     padding: 10px;
 }
 
+a.btn.social-connected {
+    text-decoration: none;
+    background: #53b768;
+    color: white;
+    padding: 5px;
+}
+
+a.btn.social-connected:hover {
+    background: #dd5152;
+}
+
+.social-connected:hover span {
+    display: none;
+}
+
+.social-connected:hover:before {
+    content: "Desconectar";
+}
+
+a.btn.social-disconnected {
+    text-decoration: none;
+    background: #dd5152;
+    color: white;
+    padding: 5px;
+}
+
+a.btn.social-disconnected:hover {
+    background: #53b768;
+}
+
+.social-disconnected:hover span {
+    display: none;
+}
+
+.social-disconnected:hover:before {
+    content: "Vincular cuenta";
+}
+
 .footer {
     margin-top: 20px;
     color: #5bc0de;

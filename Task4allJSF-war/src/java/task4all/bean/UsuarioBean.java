@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -714,5 +715,71 @@ public class UsuarioBean {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         return pattern.matcher(email).matches();
+    }
+    
+    public boolean isFacebookConnected() {
+        boolean connected = false;
+        
+        if(usuario != null && !usuario.getUsuario().equals("")) {
+            connected = usuario.getFacebookid() != null && !usuario.getFacebookid().equals("");
+        }
+        
+        return connected;
+    }
+    
+    public boolean isGoogleConnected() {
+        boolean connected = false;
+        
+        if(usuario != null && !usuario.getUsuario().equals("")) {
+            connected = usuario.getGoogleid() != null && !usuario.getGoogleid().equals("");
+        }
+        
+        return connected;
+    }
+    
+    public String doDesconectarFacebook() {
+        try {
+            URL url;
+            HttpURLConnection con;
+            url = new URL("https://graph.facebook.com/"+usuario.getFacebookid()+"/permissions?access_token="/*+usuario.getFacebookToken()*/);
+            con = (HttpURLConnection) url.openConnection();
+            con.setDoOutput(true);
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            con.setRequestMethod("DELETE");
+            con.connect();
+            con.getResponseMessage();
+            
+            usuario.setFacebookid(null);
+            //usuario.setFacebookToken(null);
+            usuarioFacade.edit(usuario);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return "panel/configuracion";
+    }
+    
+    public String doDesconectarGoogle() {
+        try {
+            URL url;
+            HttpURLConnection con;
+            url = new URL("https://accounts.google.com/o/oauth2/revoke?token="/*+usuario.getGoogleToken()*/);
+            con = (HttpURLConnection) url.openConnection();
+            con.setDoOutput(true);
+            con.connect();
+            con.getResponseCode();
+            
+            usuario.setGoogleid(null);
+            //usuario.setGoogleToken(null);
+            usuarioFacade.edit(usuario);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return "panel/configuracion";
     }
 }

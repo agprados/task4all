@@ -87,6 +87,28 @@
                     <div class="separador"></div>
                     <h2>Redes sociales</h2>
                     <br/>
+                    <div style="font-size: 20px">
+                        <img src="../images/facebook.png" width="30" style="display: inline-block" />
+                        Facebook
+                        <h:commandLink action="#{usuarioBean.doDesconectarFacebook()}" rendered="#{usuarioBean.isFacebookConnected()}" style="padding: 5px; font-size: 12px; margin-left: 10px" class="btn social-connected">
+                            <span>Conectado</span>
+                        </h:commandLink>
+                        <h:commandLink rendered="#{!usuarioBean.isFacebookConnected()}" style="padding: 5px; font-size: 12px; margin-left: 10px" class="btn social-disconnected">
+                            <span>Desconectado</span>
+                        </h:commandLink>
+                    </div>
+                    <br/>
+                    <div style="font-size: 20px">
+                        <img src="../images/google.png" width="30" style="display: inline-block" />
+                        Google
+                        <h:commandLink action="#{usuarioBean.doDesconectarGoogle()}" rendered="#{usuarioBean.isGoogleConnected()}" style="padding: 5px; font-size: 12px; margin-left: 10px" class="btn social-connected">
+                            <span>Conectado</span>
+                        </h:commandLink>
+                        <h:link rendered="#{!usuarioBean.isGoogleConnected()}" style="padding: 5px; font-size: 12px; margin-left: 10px" class="btn social-disconnected">
+                            <span>Desconectado</span>
+                        </h:link>
+                    </div>
+                    <br/>
                     <div class="separador"></div>
                     <center>
                         <h:commandButton value="Guardar" action="#{usuarioBean.doEditar()}" class="btn btn-success"/>
