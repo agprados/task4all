@@ -718,6 +718,25 @@ public class UsuarioBean {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void doCheckSuccessLogin() {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String method = request.getParameter("method");
+        String url = "/principal.do";
+        
+        if(method != null && (method.equals("fbPass") || method.equals("glPass"))) {
+            url = "/panel/configuracion.do";
+        }
+        
+        try {
+            if (okLogin) {
+                ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+                context.redirect(context.getRequestContextPath() + url);
+            }
+        } catch (IOException ex) {                
+            Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     public boolean isValidEmail(String email) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
