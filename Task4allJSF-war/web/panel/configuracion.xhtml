@@ -90,23 +90,30 @@
                     <div style="font-size: 20px">
                         <img src="../images/facebook.png" width="30" style="display: inline-block" />
                         Facebook
-                        <h:commandLink action="#{usuarioBean.doDesconectarFacebook()}" rendered="#{usuarioBean.isFacebookConnected()}" style="padding: 5px; font-size: 12px; margin-left: 10px" class="btn social-connected">
+                        <h:commandLink action="#{usuarioBean.doDesconectarFacebook()}" rendered="#{usuarioBean.isFacebookConnected()}" style="margin-left: 10px" class="btn social-connected">
                             <span>Conectado</span>
                         </h:commandLink>
-                        <h:commandLink rendered="#{!usuarioBean.isFacebookConnected()}" style="padding: 5px; font-size: 12px; margin-left: 10px" class="btn social-disconnected">
+                        <h:outputLink rendered="#{!usuarioBean.isFacebookConnected()}" value="https://www.facebook.com/dialog/oauth" style="margin-left: 10px" class="btn social-disconnected">
+                            <f:param name="client_id" value="747075862097456" />
+                            <f:param  name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=fbPass" />
+                            <f:param name="scope" value="public_profile,email" />
                             <span>Desconectado</span>
-                        </h:commandLink>
+                        </h:outputLink>
                     </div>
                     <br/>
                     <div style="font-size: 20px">
                         <img src="../images/google.png" width="30" style="display: inline-block" />
                         Google
-                        <h:commandLink action="#{usuarioBean.doDesconectarGoogle()}" rendered="#{usuarioBean.isGoogleConnected()}" style="padding: 5px; font-size: 12px; margin-left: 10px" class="btn social-connected">
+                        <h:commandLink action="#{usuarioBean.doDesconectarGoogle()}" rendered="#{usuarioBean.isGoogleConnected()}" style="margin-left: 10px" class="btn social-connected">
                             <span>Conectado</span>
                         </h:commandLink>
-                        <h:link rendered="#{!usuarioBean.isGoogleConnected()}" style="padding: 5px; font-size: 12px; margin-left: 10px" class="btn social-disconnected">
+                        <h:outputLink rendered="#{!usuarioBean.isGoogleConnected()}" value="https://accounts.google.com/o/oauth2/v2/auth" style="margin-left: 10px" class="btn social-disconnected">
+                            <f:param name="scope" value="email profile" />
+                            <f:param name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=glPass" />
+                            <f:param name="response_type" value="code" />
+                            <f:param name="client_id" value="720887194151-e2tbl9ti0v612god4l566mhe7bjocoa5.apps.googleusercontent.com" />
                             <span>Desconectado</span>
-                        </h:link>
+                        </h:outputLink>
                     </div>
                     <br/>
                     <div class="separador"></div>

@@ -194,6 +194,7 @@ a.btn.social-connected {
     background: #53b768;
     color: white;
     padding: 5px;
+    font-size: 12px;
 }
 
 a.btn.social-connected:hover {
@@ -213,6 +214,7 @@ a.btn.social-disconnected {
     background: #dd5152;
     color: white;
     padding: 5px;
+    font-size: 12px;
 }
 
 a.btn.social-disconnected:hover {

@@ -506,14 +506,17 @@ public class UsuarioBean {
     }
 
     public void doFacebookLogin() {
-        doCheckLogout();
-
         try {
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();            
             String method = request.getParameter("method");
+            
+            if(method != null && !method.equals("fbPass") && !method.equals("glPass")) {
+                doCheckLogout();
+            }
+            
             String code = request.getParameter("code");
 
-            if (method != null && method.equals("fb")) {
+            if (method != null && (method.equals("fb") || method.equals("fbPass"))) {
                 if (code != null && !code.equals("")) {
                     URL url;
                     URLConnection con;
@@ -521,7 +524,7 @@ public class UsuarioBean {
                     String content, linea;
                     JSONObject tokenResult, infoResult;
 
-                    url = new URL("https://graph.facebook.com/v2.3/oauth/access_token?client_id=" + FB_ID + "&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FTask4allJSF-war%2FloginSuccess.do%3Fmethod%3Dfb&client_secret=" + FB_SECRET + "&code=" + code);
+                    url = new URL("https://graph.facebook.com/v2.3/oauth/access_token?client_id=" + FB_ID + "&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FTask4allJSF-war%2FloginSuccess.do%3Fmethod%3D"+method+"&client_secret=" + FB_SECRET + "&code=" + code);
                     con = url.openConnection();
                     in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
@@ -556,6 +559,7 @@ public class UsuarioBean {
                             } else if(usuario != null && usuario.getVerificado()=='0') {
                                 usuario.setFacebookid(facebookID);
                                 usuario.setContrasena("");
+                                usuario.setVerificado('1');
                                 usuarioFacade.edit(usuario);
                                 okLogin = true;
                             } else {
@@ -588,14 +592,17 @@ public class UsuarioBean {
     }
     
     public void doGoogleLogin() {
-        doCheckLogout();
-
         try {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             String method = request.getParameter("method");
+            
+            if(method != null && !method.equals("fbPass") && !method.equals("glPass")) {
+                doCheckLogout();
+            }
+            
             String code = request.getParameter("code");
 
-            if (method != null && method.equals("gl")) {
+            if (method != null && (method.equals("gl") || method.equals("glPass"))) {
                 if (code != null && !code.equals("")) {
                     URL url;
                     URLConnection con;
@@ -605,7 +612,7 @@ public class UsuarioBean {
 
                     url = new URL("https://www.googleapis.com/oauth2/v4/token");
                     con = url.openConnection();
-                    String urlParameters = "client_id=" + GOOGLE_ID + "&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FTask4allJSF-war%2FloginSuccess.do%3Fmethod%3Dgl&client_secret=" + GOOGLE_SECRET + "&grant_type=authorization_code&code=" + code;
+                    String urlParameters = "client_id=" + GOOGLE_ID + "&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FTask4allJSF-war%2FloginSuccess.do%3Fmethod%3D"+method+"&client_secret=" + GOOGLE_SECRET + "&grant_type=authorization_code&code=" + code;
                     byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
                     int postDataLength = postData.length;
                     
@@ -652,6 +659,7 @@ public class UsuarioBean {
                             } else if(usuario != null && usuario.getVerificado()=='0') {
                                 usuario.setGoogleid(googleID);
                                 usuario.setContrasena("");
+                                usuario.setVerificado('1');
                                 usuarioFacade.edit(usuario);
                                 okLogin = true;
                             } else {
@@ -711,7 +719,7 @@ public class UsuarioBean {
         }
     }
     
-    private boolean isValidEmail(String email) {
+    public boolean isValidEmail(String email) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         return pattern.matcher(email).matches();
