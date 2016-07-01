@@ -4,6 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Task4all - Tareas</title>
@@ -31,7 +32,7 @@
             </div>
             <ul class="nav nav-tabs nav-justified">
                 <li role="presentation" class="active"><h:link outcome="tareas">Tareas</h:link></li>
-                <li role="presentation"><h:link outcome="configuracion">Configuración</h:link></li>
+                <li role="presentation"><h:link outcome="configuracion?faces-redirect=true">Configuración</h:link></li>
             </ul>
             <br/>
             <h:panelGroup layout="block" class="alert alert-info" a:role="alert">

@@ -23,7 +23,7 @@
     </h:head>
     <h:body>
         <center>
-            <h:link outcome="/index">
+            <h:link outcome="/index?faces-redirect=true">
                 <img style="margin-top: 30px; cursor: pointer;" src="images/logo.png" alt="logo" width="300" />
             </h:link>
             <div class="container" style="margin-top: 30px; width: 400px;">
@@ -68,14 +68,14 @@
                         <div class="input-group" style="width: 300px;">
                             <h:inputSecret value="#{usuarioBean.contrasena}" class="form-control" a:placeholder="Contraseña"/>
                         </div>
-                        <br/>   
+                        <br/>                        
                         #{usuarioBean.setErrorLogin("")}
                         <h:commandButton value="Iniciar sesión" action="#{usuarioBean.doLogin()}" class="btn btn-success"></h:commandButton> 
                     </h:form>
                     <br/>
-                    <h:link value="Recuperar contraseña" outcome="recuperar" />
+                    <h:link value="Recuperar contraseña" outcome="recuperar?faces-redirect=true" />
                     <br/>
-                    <h:link value="¿No tienes cuenta?" outcome="registrar" />
+                    <h:link value="¿No tienes cuenta?" outcome="registrar?faces-redirect=true" />
                     <br/>
                 </center>
             </div>

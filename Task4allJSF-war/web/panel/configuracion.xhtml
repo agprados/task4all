@@ -14,6 +14,8 @@
 
         <!-- Compiled and minified Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+        <!-- Bootstrap social icons plugin -->
+        <link rel="stylesheet" href="../includes/bootstrap-social-icons/bootstrap-social.css" />
         <!-- FontAwesome css -->
         <link href="http://designers.hubspot.com/hs-fs/hub/327485/file-2054199286-css/font-awesome.css" rel="stylesheet" />
         <!-- Compiled and minified Bootstrap JavaScript -->
@@ -31,7 +33,7 @@
                     </h2>                
                 </div>           
                 <ul class="nav nav-tabs nav-justified">
-                    <li role="presentation"><h:link outcome="tareas">Tareas</h:link></li>
+                    <li role="presentation"><h:link outcome="tareas?faces-redirect=true">Tareas</h:link></li>
                     <li role="presentation" class="active"><h:link outcome="configuracion">Configuración</h:link></li>
                 </ul>
                 <br/>
@@ -88,11 +90,12 @@
                     <h2>Redes sociales</h2>
                     <br/>
                     <div style="font-size: 20px">
-                        <img src="../images/facebook.png" width="30" style="display: inline-block" />
-                        Facebook
+                        <a class="btn btn-social-icon btn-facebook">
+                            <span class="fa fa-facebook"></span>   
+                        </a>
                         <h:panelGroup layout="block" rendered="#{usuarioBean.isFacebookConnected()}">
-                            <a onclick="PF('desconectarFacebook').show()" style="margin-left: 10px" class="btn social-connected">
-                                <span>Conectado</span>
+                            <a onclick="PF('desconectarFacebook').show()" class="btn social-connected">
+                                <span>Cuenta vinculada</span>
                             </a>
                         </h:panelGroup>
                         <p:dialog header="Desconectarse de Facebook" widgetVar="desconectarFacebook" modal="true" resizable="false" closeOnEscape="true" closable="false">
@@ -106,7 +109,7 @@
                                 </h:commandButton>
                             </center>
                         </p:dialog>
-                        <h:outputLink rendered="#{!usuarioBean.isFacebookConnected()}" value="https://www.facebook.com/dialog/oauth" style="margin-left: 10px" class="btn social-disconnected">
+                        <h:outputLink rendered="#{!usuarioBean.isFacebookConnected()}" value="https://www.facebook.com/dialog/oauth" style="margin-left: 5px" class="btn social-disconnected">
                             <f:param name="client_id" value="747075862097456" />
                             <f:param  name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=fbPass" />
                             <f:param name="scope" value="public_profile,email" />
@@ -115,11 +118,12 @@
                     </div>
                     <br/>
                     <div style="font-size: 20px">
-                        <img src="../images/google.png" width="30" style="display: inline-block" />
-                        Google
+                        <a class="btn btn-social-icon btn-google" width="30">
+                            <span class="fa fa-google"></span>   
+                        </a>
                         <h:panelGroup layout="block" rendered="#{usuarioBean.isGoogleConnected()}">
-                            <a onclick="PF('desconectarGoogle').show()" style="margin-left: 10px" class="btn social-connected">
-                                <span>Conectado</span>
+                            <a onclick="PF('desconectarGoogle').show()" class="btn social-connected">
+                                <span>Cuenta vinculada</span>
                             </a>
                         </h:panelGroup>
                         <p:dialog header="Desconectarse de Google" widgetVar="desconectarGoogle" modal="true" resizable="false" closeOnEscape="true" closable="false">
@@ -133,12 +137,12 @@
                                 </h:commandButton>
                             </center>
                         </p:dialog>
-                        <h:outputLink rendered="#{!usuarioBean.isGoogleConnected()}" value="https://accounts.google.com/o/oauth2/v2/auth" style="margin-left: 10px" class="btn social-disconnected">
+                        <h:outputLink rendered="#{!usuarioBean.isGoogleConnected()}" value="https://accounts.google.com/o/oauth2/v2/auth" style="margin-left: 5px" class="btn social-disconnected">
                             <f:param name="scope" value="email profile" />
                             <f:param name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=glPass" />
                             <f:param name="response_type" value="code" />
                             <f:param name="client_id" value="720887194151-e2tbl9ti0v612god4l566mhe7bjocoa5.apps.googleusercontent.com" />
-                            <span>Desconectado</span>
+                            <span>Desconectada</span>
                         </h:outputLink>
                     </div>
                     <br/>

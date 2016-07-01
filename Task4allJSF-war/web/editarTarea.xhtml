@@ -97,8 +97,8 @@
                     <br/>
                     <br/>                    
                     <center>
-                        <h:button rendered="#{usuarioBean.tareaSeleccionada.id eq null}" value="Cancelar" style="margin-top: 8px;" outcome="proyecto" class="btn btn-default" a:aria-expanded="false" />
-                        <h:button rendered="#{usuarioBean.tareaSeleccionada.id ne null}" value="Cancelar" style="margin-top: 8px;" outcome="tarea" class="btn btn-default" a:aria-expanded="false" />
+                        <h:button rendered="#{usuarioBean.tareaSeleccionada.id eq null}" value="Cancelar" style="margin-top: 8px;" outcome="proyecto?faces-redirect=true" class="btn btn-default" a:aria-expanded="false" />
+                        <h:button rendered="#{usuarioBean.tareaSeleccionada.id ne null}" value="Cancelar" style="margin-top: 8px;" outcome="tarea?faces-redirect=true" class="btn btn-default" a:aria-expanded="false" />
                         <h:commandButton rendered="#{usuarioBean.tareaSeleccionada.id eq null}" value="Crear tarea" action="#{tareaBean.doGuardar()}" style="margin: 8px 0 0 5px;" class="btn btn-success" a:aria-expanded="false" />
                         <h:commandButton rendered="#{usuarioBean.tareaSeleccionada.id ne null}" value="Guardar" action="#{tareaBean.doGuardar()}" style="margin: 8px 0 0 5px;" class="btn btn-success" a:aria-expanded="false" />
                     </center>

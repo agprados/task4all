@@ -105,7 +105,7 @@ public class ListaBean {
         
         nombre = "";
         
-        return "proyecto";
+        return "proyecto?faces-redirect=true";
     }
 
     public String doEditarLista(Lista lista) {

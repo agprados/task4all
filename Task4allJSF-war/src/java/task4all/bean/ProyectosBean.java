@@ -134,7 +134,7 @@ public class ProyectosBean {
 
             usuarioBean.setProyectoSeleccionado(proyecto);
             
-            return "proyecto";
+            return "proyecto?faces-redirect=true";
         } else {
             this.error = "El nombre no puede estar vacío";
             return "principal";
@@ -144,7 +144,7 @@ public class ProyectosBean {
     public String doVerProyecto(Proyecto p) {
         this.usuarioBean.setProyectoSeleccionado(p);
 
-        return "proyecto";
+        return "proyecto?faces-redirect=true";
     }
     
     public String doAceptarInvitacion(Proyecto p) {

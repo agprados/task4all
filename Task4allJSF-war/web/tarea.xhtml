@@ -183,7 +183,7 @@
                 <div class="containerFooter">
                     <center>
                         <h:form>
-                            <h:button value="Volver" style="margin-top: 8px;" outcome="proyecto" class="btn btn-default" />
+                            <h:button value="Volver" style="margin-top: 8px;" outcome="proyecto?faces-redirect=true" class="btn btn-default" />
                             <h:commandButton value="Eliminar tarea" style="margin-top: 8px; margin-left: 5px" onclick="PF('eliminacion').show(); return false;" class="btn btn-danger" />
                             <p:dialog header="Eliminar tarea" widgetVar="eliminacion" modal="true" resizable="false" closeOnEscape="true" closable="false">
                                 <center>

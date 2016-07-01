@@ -218,7 +218,7 @@ public class ProyectoBean {
         usuarioBean.getProyectoSeleccionado().setNombre(nombre);
         proyectoFacade.edit(usuarioBean.getProyectoSeleccionado());
 
-        return "proyecto";
+        return "proyecto?faces-redirect=true";
     }
 
     public String doEliminarUsuario(Usuario usuario) {
@@ -237,7 +237,7 @@ public class ProyectoBean {
 
                 if (usuarioBean.getUsuario().getUsuario().equals(usuario.getUsuario())) {
                     proyectosBean.getProyectosMiembro().remove(usuarioBean.getProyectoSeleccionado());
-                    return "principal";
+                    return "principal?faces-redirect=true";
                 }
             }
         }
@@ -274,7 +274,7 @@ public class ProyectoBean {
             proyectosBean.getProyectosLider().remove(usuarioBean.getProyectoSeleccionado());
         }
 
-        return "principal";
+        return "principal?faces-redirect=true";
     }
 
     public String doInvitar() {
