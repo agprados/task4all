@@ -90,9 +90,22 @@
                     <div style="font-size: 20px">
                         <img src="../images/facebook.png" width="30" style="display: inline-block" />
                         Facebook
-                        <h:commandLink action="#{usuarioBean.doDesconectarFacebook()}" rendered="#{usuarioBean.isFacebookConnected()}" style="margin-left: 10px" class="btn social-connected">
-                            <span>Conectado</span>
-                        </h:commandLink>
+                        <h:panelGroup layout="block" rendered="#{usuarioBean.isFacebookConnected()}">
+                            <a onclick="PF('desconectarFacebook').show()" style="margin-left: 10px" class="btn social-connected">
+                                <span>Conectado</span>
+                            </a>
+                        </h:panelGroup>
+                        <p:dialog header="Desconectarse de Facebook" widgetVar="desconectarFacebook" modal="true" resizable="false" closeOnEscape="true" closable="false">
+                            <center>
+                                ¿Estás seguro de que quieres desconectarte de Facebook?                                        
+                                <br/>
+                                <br/>                                           
+                                <a onclick="PF('desconectarFacebook').hide();" class="btn btn-default">No</a>
+                                <h:commandButton style="margin-left: 3px" value="Sí" action="#{usuarioBean.doDesconectarFacebook()}" class="btn btn-danger">
+                                    <f:ajax execute="@this" render="@form"/>
+                                </h:commandButton>
+                            </center>
+                        </p:dialog>
                         <h:outputLink rendered="#{!usuarioBean.isFacebookConnected()}" value="https://www.facebook.com/dialog/oauth" style="margin-left: 10px" class="btn social-disconnected">
                             <f:param name="client_id" value="747075862097456" />
                             <f:param  name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=fbPass" />
@@ -104,9 +117,22 @@
                     <div style="font-size: 20px">
                         <img src="../images/google.png" width="30" style="display: inline-block" />
                         Google
-                        <h:commandLink action="#{usuarioBean.doDesconectarGoogle()}" rendered="#{usuarioBean.isGoogleConnected()}" style="margin-left: 10px" class="btn social-connected">
-                            <span>Conectado</span>
-                        </h:commandLink>
+                        <h:panelGroup layout="block" rendered="#{usuarioBean.isGoogleConnected()}">
+                            <a onclick="PF('desconectarGoogle').show()" style="margin-left: 10px" class="btn social-connected">
+                                <span>Conectado</span>
+                            </a>
+                        </h:panelGroup>
+                        <p:dialog header="Desconectarse de Google" widgetVar="desconectarGoogle" modal="true" resizable="false" closeOnEscape="true" closable="false">
+                            <center>
+                                ¿Estás seguro de que quieres desconectarte de Google?                                        
+                                <br/>
+                                <br/>                                           
+                                <a onclick="PF('desconectarGoogle').hide();" class="btn btn-default">No</a>
+                                <h:commandButton style="margin-left: 3px" value="Sí" action="#{usuarioBean.doDesconectarGoogle()}" class="btn btn-danger">
+                                    <f:ajax execute="@this" render="@form"/>
+                                </h:commandButton>
+                            </center>
+                        </p:dialog>
                         <h:outputLink rendered="#{!usuarioBean.isGoogleConnected()}" value="https://accounts.google.com/o/oauth2/v2/auth" style="margin-left: 10px" class="btn social-disconnected">
                             <f:param name="scope" value="email profile" />
                             <f:param name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=glPass" />
