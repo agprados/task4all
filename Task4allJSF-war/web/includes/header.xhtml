@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     <h:body>
         <div class="header">
             <div style="float: left; margin: 4px;" class="dropdown">
@@ -27,21 +28,29 @@
                 <img src="/Task4allJSF-war/images/logo.png" alt="logo" width="100" />
             </h:link>
 
-            <div style="float: right; margin: 4px;" class="dropdown">
-                <button style="background: #eee; border: 1px solid #000; color: #000;" class="btn btn-default dropdown-toggle" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"/>
-                    <h:outputText rendered="#{(usuarioBean.usuario.nombre eq '' and usuarioBean.usuario.apellidos eq '') or (usuarioBean.usuario.nombre eq null and usuarioBean.usuario.apellidos eq null)}" value=" #{usuarioBean.usuario.usuario}" />
-                    <h:outputText rendered="#{usuarioBean.usuario.nombre ne '' or usuarioBean.usuario.apellidos ne ''}" value=" #{usuarioBean.usuario.nombre} #{usuarioBean.usuario.apellidos}" />
-                </button>
+            <div style="float: right; margin-top: 4px; margin-right: 4px" class="dropdown">
+                <h:panelGroup rendered="#{usuarioBean.usuario.avatar eq null}">
+                    <button style="background: #eee; border: 1px solid #000;" class="btn btn-default dropdown-toggle" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <h:outputText rendered="#{(usuarioBean.usuario.nombre eq '' and usuarioBean.usuario.apellidos eq '') or (usuarioBean.usuario.nombre eq null and usuarioBean.usuario.apellidos eq null)}" value=" #{usuarioBean.usuario.usuario}" />
+                        <h:outputText rendered="#{usuarioBean.usuario.nombre ne '' or usuarioBean.usuario.apellidos ne ''}" value=" #{usuarioBean.usuario.nombre} #{usuarioBean.usuario.apellidos}" />
+                    </button>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{usuarioBean.usuario.avatar ne null}">
+                    <button style="background: #eee; border: 1px solid #000; border-left: 0px; color: #000; border-top-left-radius: 0; border-bottom-left-radius: 0" class="btn btn-default dropdown-toggle" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <h:outputText rendered="#{(usuarioBean.usuario.nombre eq '' and usuarioBean.usuario.apellidos eq '') or (usuarioBean.usuario.nombre eq null and usuarioBean.usuario.apellidos eq null)}" value=" #{usuarioBean.usuario.usuario}" />
+                        <h:outputText rendered="#{usuarioBean.usuario.nombre ne '' or usuarioBean.usuario.apellidos ne ''}" value=" #{usuarioBean.usuario.nombre} #{usuarioBean.usuario.apellidos}" />
+                    </button>
+                </h:panelGroup>
                 <ul class="dropdown-menu pull-right" aria-labelledby="dropdownUser">
-                    <li><h:link outcome="/panel/tareas">Tareas</h:link></li>
-                    <li><h:link outcome="/panel/configuracion">Configuración</h:link></li>
+                    <li><h:link style="color: black;" outcome="/panel/tareas">Tareas</h:link></li>
+                    <li><h:link style="color: black;" outcome="/panel/configuracion">Configuración</h:link></li>
                     <li role="separator" class="divider"></li>
                     <h:form style="margin-left: 20px;">
                         <li><h:commandLink style="color: black;" action="#{usuarioBean.doLogout()}">Cerrar sesión</h:commandLink></li>
                     </h:form>
                 </ul>
             </div>
+            <h:graphicImage style="float: right; margin-top: 4px; border: 1px solid black; border-right: 0" rendered="#{usuarioBean.usuario.avatar ne null}" value="#{usuarioBean.usuario.avatar}" height="34" width="34"/>
             <br/>
             <br/>
         </div>
