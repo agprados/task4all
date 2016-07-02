@@ -77,6 +77,10 @@
                     <div class="separador"></div>
                     <h2>Cambia tu contraseña</h2>
                     <br/>
+                    <h:panelGroup layout="block" rendered="#{usuarioBean.isPasswordSet()}" class="input-group input-group-lg" style="width: 500px;">
+                        <h4>Contraseña actual</h4>
+                        <h:inputSecret value="#{usuarioBean.contrasenaActual}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
+                    </h:panelGroup>
                     <h4>Contraseña nueva</h4>
                     <div class="input-group input-group-lg" style="width: 500px;">
                         <h:inputSecret value="#{usuarioBean.contrasena}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />

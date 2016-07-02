@@ -57,6 +57,7 @@ public class UsuarioBean {
     private String email;
     private String contrasena;
     private String verificaContrasena;
+    private String contrasenaActual;
     private UploadedFile avatar;
     private String errorLogin;
     private String errorRegistro;
@@ -119,6 +120,14 @@ public class UsuarioBean {
 
     public String getVerificaContrasena() {
         return verificaContrasena;
+    }
+
+    public String getContrasenaActual() {
+        return contrasenaActual;
+    }
+
+    public void setContrasenaActual(String contrasenaActual) {
+        this.contrasenaActual = contrasenaActual;
     }
 
     public UploadedFile getAvatar() {
@@ -262,6 +271,21 @@ public class UsuarioBean {
             return "configuracion";
         }
 
+        if (isPasswordSet()
+                && (contrasenaActual == null || contrasenaActual.equals(""))
+                && (contrasena != null && !contrasena.equals(""))
+                && (verificaContrasena != null && !verificaContrasena.equals(""))) {
+            errorConfiguracion = "Debes introducir tu contraseña actual";
+            return "configuracion";
+        }
+        
+        if(isPasswordSet()
+                && contrasenaActual != null && !contrasenaActual.equals("")
+                && usuarioFacade.findUsuarioByUsuarioAndContrasena(usuario.getUsuario(), contrasenaActual) == null) {
+            errorConfiguracion = "La contraseña actual no es correcta";
+            return "configuracion";
+        }
+        
         if (!contrasena.equals(verificaContrasena)) {
             errorConfiguracion = "Las contraseñas no coinciden";
             return "configuracion";
@@ -554,10 +578,12 @@ public class UsuarioBean {
                             usuario = usuarioFacade.findUsuarioByEmail(infoResult.getString("email"));
                             if(usuario != null && usuario.getVerificado()=='1') {
                                 usuario.setFacebookid(facebookID);
+                                //usuario.setFacebookToken(tokenResult.getString("access_token"));
                                 usuarioFacade.edit(usuario);
                                 okLogin = true;
                             } else if(usuario != null && usuario.getVerificado()=='0') {
                                 usuario.setFacebookid(facebookID);
+                                //usuario.setFacebookToken(tokenResult.getString("access_token"));
                                 usuario.setContrasena("");
                                 usuario.setVerificado('1');
                                 usuarioFacade.edit(usuario);
@@ -566,6 +592,7 @@ public class UsuarioBean {
                                 usuario = new Usuario();
                                 usuario.setNombre(infoResult.getString("first_name"));
                                 usuario.setApellidos(infoResult.getString("last_name"));
+                                //usuario.setFacebookToken(tokenResult.getString("access_token"));
                                 email = infoResult.getString("email");
                                 contrasena = "";
                                 verificaContrasena = contrasena;
@@ -654,10 +681,12 @@ public class UsuarioBean {
                             usuario = usuarioFacade.findUsuarioByEmail(infoResult.getString("email"));
                             if(usuario != null && usuario.getVerificado()=='1') {
                                 usuario.setGoogleid(googleID);
+                                //usuario.setGoogleToken(tokenResult.getString("access_token"));
                                 usuarioFacade.edit(usuario);
                                 okLogin = true;
                             } else if(usuario != null && usuario.getVerificado()=='0') {
                                 usuario.setGoogleid(googleID);
+                                //usuario.setGoogleToken(tokenResult.getString("access_token"));
                                 usuario.setContrasena("");
                                 usuario.setVerificado('1');
                                 usuarioFacade.edit(usuario);
@@ -666,6 +695,7 @@ public class UsuarioBean {
                                 usuario = new Usuario();
                                 usuario.setNombre(infoResult.getString("given_name"));
                                 usuario.setApellidos(infoResult.getString("family_name"));
+                                //usuario.setGoogleToken(tokenResult.getString("access_token"));
                                 email = infoResult.getString("email");
                                 contrasena = "";
                                 verificaContrasena = contrasena;
@@ -762,6 +792,10 @@ public class UsuarioBean {
         }
         
         return connected;
+    }
+    
+    public boolean isPasswordSet() {
+        return usuario.getContrasena() != null && !usuario.getContrasena().equals("");
     }
     
     public String doDesconectarFacebook() {
