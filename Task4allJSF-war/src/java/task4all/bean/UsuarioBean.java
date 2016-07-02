@@ -454,7 +454,6 @@ public class UsuarioBean {
             exists = usuarioFacade.findUsuarioByUUID(uuid) != null;
         } while(exists);
         
-        usuario.setId(usuarioFacade.findMaxUsuarioId()+1);
         usuario.setUsuario(usuarioRegistro);
         usuario.setUuid(uuid);
         usuario.setEmail(email);
@@ -500,8 +499,7 @@ public class UsuarioBean {
             uuid = UUID.randomUUID().toString();
             exists = usuarioFacade.findUsuarioByUUID(uuid) != null;
         } while(exists);
-        
-        usuario.setId(usuarioFacade.findMaxUsuarioId()+1);
+                
         usuario.setUsuario(usuarioRegistro);
         usuario.setUuid(uuid);
         usuario.setEmail(email);
@@ -509,6 +507,8 @@ public class UsuarioBean {
         usuario.setVerificado('0');
         
         this.usuarioFacade.create(usuario);
+        Integer clave = this.usuarioFacade.findMaxUsuarioId();
+        usuario.setId(clave);
 
         errorRegistro = "";
         return "principal?faces-redirect=true";
