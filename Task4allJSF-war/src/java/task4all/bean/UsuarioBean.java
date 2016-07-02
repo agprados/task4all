@@ -522,8 +522,9 @@ public class UsuarioBean {
         do {
             uuid = UUID.randomUUID().toString();
             exists = usuarioFacade.findUsuarioByUUID(uuid) != null;
-        } while(exists);
-                
+        } while(exists);        
+        
+        usuario = new Usuario();
         usuario.setUsuario(usuarioRegistro);
         usuario.setUuid(uuid);
         usuario.setEmail(email);
@@ -531,13 +532,13 @@ public class UsuarioBean {
         usuario.setVerificado('0');
         
         this.usuarioFacade.create(usuario);
-        Integer clave = this.usuarioFacade.findMaxUsuarioId();
+        Integer clave = this.usuarioFacade.findMaxUsuarioId();        
         usuario.setId(clave);
 
         errorRegistro = "";
         usuarioRegistro = "";
         email = "";
-        return "principal?faces-redirect=true";
+        return "login?faces-redirect=true";
     }
     
     public String doLogin() {

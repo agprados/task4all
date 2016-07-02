@@ -285,6 +285,7 @@ a.btn.social-disconnected:hover {
     margin-top: 0;
     margin-bottom: 20px;
     width: 300px;
+    height: 52px;
     background-color: #f2dede;
     display: block;
 }
