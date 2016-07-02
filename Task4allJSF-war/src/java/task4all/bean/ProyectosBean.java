@@ -121,7 +121,7 @@ public class ProyectosBean {
             proyecto.setId(valor);
 
             UsuarioProyecto up = new UsuarioProyecto();
-            up.setRol("Líder");
+            up.setRol("líder");
             up.setProyectoId(proyecto);
             up.setUsuarioId(this.usuarioBean.getUsuario());
             usuarioProyectoFacade.create(up);

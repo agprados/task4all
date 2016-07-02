@@ -122,11 +122,9 @@
                                 ¿Estás seguro de eliminar al usuario del proyecto?
                                 <br/>
                                 <br/>                                           
-                                <h:commandButton value="Cancelar" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-default"> 
-                                    <f:ajax/>
-                                </h:commandButton>
-                                <h:commandButton style="margin-left: 3px" value="Eliminar" action="#{proyectoBean.doEliminarUsuario(miembro.usuarioId)}" class="btn btn-danger"> 
-                                    <!--<f:ajax execute="@this" render="usuarios"/>-->
+                                <a onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-default">Cancelar</a>
+                                <h:commandButton style="margin-left: 3px" value="Eliminar" action="#{proyectoBean.doEliminarUsuario(miembro.usuarioId)}" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-danger"> 
+                                    <f:ajax execute="@this" render="usuarios"/>
                                 </h:commandButton>
                             </center>
                         </p:dialog>        
@@ -135,12 +133,8 @@
                                 ¿Estás seguro de salir del proyecto?
                                 <br/>
                                 <br/>                                           
-                                <h:commandButton value="Cancelar" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-default"> 
-                                    <f:ajax/>
-                                </h:commandButton>
-                                <h:commandButton style="margin-left: 3px" value="Salir" action="#{proyectoBean.doEliminarUsuario(miembro.usuarioId)}" class="btn btn-danger"> 
-                                    <!--<f:ajax execute="@this" render="usuarios"/>-->
-                                </h:commandButton>
+                                <h:commandButton value="Cancelar" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-default"/>
+                                <h:commandButton style="margin-left: 3px" value="Salir" action="#{proyectoBean.doEliminarUsuario(miembro.usuarioId)}" class="btn btn-danger"/>
                             </center>
                         </p:dialog>
                         <p:dialog header="Información del usuario" widgetVar="#{miembro.usuarioId.usuario}Informacion" modal="true" resizable="false" closeOnEscape="true" >
@@ -168,11 +162,9 @@
                                 ¿Estás seguro de pasar el liderazgo del proyecto?
                                 <br/>
                                 <br/>                                           
-                                <h:commandButton value="Cancelar" onclick="PF('#{miembro.usuarioId.usuario}Liderazgo').hide();" class="btn btn-default"> 
-                                    <f:ajax/>
-                                </h:commandButton>
-                                <h:commandButton style="margin-left: 3px" value="Continuar" action="#{proyectoBean.doPasarLiderazgo(miembro)}" class="btn btn-success"> 
-                                    <!--<f:ajax execute="@this" render="usuarios"/>-->
+                                <a onclick="PF('#{miembro.usuarioId.usuario}Liderazgo').hide();" class="btn btn-default">Cancelar</a> 
+                                <h:commandButton style="margin-left: 3px" value="Continuar" action="#{proyectoBean.doPasarLiderazgo(miembro)}" onclick="PF('#{miembro.usuarioId.usuario}Liderazgo').hide();" class="btn btn-success"> 
+                                    <f:ajax execute="@this" render="usuarios"/>
                                 </h:commandButton>
                             </center>
                         </p:dialog>
@@ -186,7 +178,9 @@
                             <br/>
                             <h:panelGrid columns="2">
                                 <h:inputText size="54" value="#{proyectoBean.emailInvitacion}" class="form-control" a:placeholder="Email o nombre de usuario" a:autofocus="true"/>
-                                <h:commandButton style="margin-left: 3px" value="Invitar" action="#{proyectoBean.doInvitar()}" class="btn btn-primary" />
+                                <h:commandButton style="margin-left: 3px" value="Invitar" action="#{proyectoBean.doInvitar()}" onclick="PF('invitacion').hide();" class="btn btn-primary">
+                                    <f:ajax execute="usuarios" render="usuarios"/>
+                                </h:commandButton>
                             </h:panelGrid>
                         </p:dialog>
                     </h:panelGroup>
@@ -219,17 +213,15 @@
                                 <h:commandLink action="#{listaBean.doEditarLista(lista)}" style="float: right; font-size: 12px; margin-top: 3px;">
                                     Modificar
                                 </h:commandLink>
-                                <h:commandLink value="Eliminar" style="font-size: 12px; color: #bb0000" onclick="PF('eliminacionLista').show(); return false;" />
+                                <p:commandLink value="Eliminar" style="font-size: 12px; color: #bb0000" onclick="PF('eliminacionLista').show()" />
                                 <p:dialog header="Eliminar lista" widgetVar="eliminacionLista" modal="true" resizable="false" closeOnEscape="true" closable="false">
                                     <center>
                                         ¿Estás seguro de eliminar la lista?                                        
                                         <br/>
-                                        <br/>                                           
-                                        <h:commandButton value="Cancelar" onclick="PF('eliminacionLista').hide();" class="btn btn-default"> 
-                                            <f:ajax/>
-                                        </h:commandButton>
-                                        <h:commandButton style="margin-left: 3px" value="Eliminar" action="#{listaBean.doBorrar(lista)}" class="btn btn-danger">
-                                            <!--<f:ajax execute="@this" render="@form"/>-->
+                                        <br/>      
+                                        <a onclick="PF('eliminacionLista').hide();" class="btn btn-default">Cancelar</a>                                      
+                                        <h:commandButton style="margin-left: 3px" value="Eliminar" action="#{listaBean.doBorrar(lista)}" onclick="PF('eliminacionLista').hide();" class="btn btn-danger">
+                                            <f:ajax execute="@this" render="@form"/>
                                         </h:commandButton>
                                     </center>
                                 </p:dialog>
