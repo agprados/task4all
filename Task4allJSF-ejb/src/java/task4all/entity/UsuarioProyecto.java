@@ -53,9 +53,9 @@ public class UsuarioProyecto implements Serializable {
     @JoinColumn(name = "PROYECTO_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Proyecto proyectoId;
-    @JoinColumn(name = "USUARIO_USUARIO", referencedColumnName = "USUARIO")
+    @JoinColumn(name = "USUARIO_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private Usuario usuarioUsuario;
+    private Usuario usuarioId;
 
     public UsuarioProyecto() {
     }
@@ -93,12 +93,12 @@ public class UsuarioProyecto implements Serializable {
         this.proyectoId = proyectoId;
     }
 
-    public Usuario getUsuarioUsuario() {
-        return usuarioUsuario;
+    public Usuario getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setUsuarioUsuario(Usuario usuarioUsuario) {
-        this.usuarioUsuario = usuarioUsuario;
+    public void setUsuarioId(Usuario usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     @Override

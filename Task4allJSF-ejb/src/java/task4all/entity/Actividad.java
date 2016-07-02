@@ -65,12 +65,12 @@ public class Actividad implements Serializable {
     @JoinColumn(name = "TAREA_ID", referencedColumnName = "ID")
     @ManyToOne
     private Tarea tareaId;
-    @JoinColumn(name = "USUARIO_USUARIO", referencedColumnName = "USUARIO")
+    @JoinColumn(name = "USUARIO_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private Usuario usuarioUsuario;
-    @JoinColumn(name = "USUARIO_USUARIOMENCIONADO", referencedColumnName = "USUARIO")
+    private Usuario usuarioId;
+    @JoinColumn(name = "USUARIO_IDMENCIONADO", referencedColumnName = "ID")
     @ManyToOne
-    private Usuario usuarioUsuariomencionado;
+    private Usuario usuarioIdmencionado;
 
     public Actividad() {
     }
@@ -133,20 +133,20 @@ public class Actividad implements Serializable {
         this.tareaId = tareaId;
     }
 
-    public Usuario getUsuarioUsuario() {
-        return usuarioUsuario;
+    public Usuario getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setUsuarioUsuario(Usuario usuarioUsuario) {
-        this.usuarioUsuario = usuarioUsuario;
+    public void setUsuarioId(Usuario usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
-    public Usuario getUsuarioUsuariomencionado() {
-        return usuarioUsuariomencionado;
+    public Usuario getUsuarioIdmencionado() {
+        return usuarioIdmencionado;
     }
 
-    public void setUsuarioUsuariomencionado(Usuario usuarioUsuariomencionado) {
-        this.usuarioUsuariomencionado = usuarioUsuariomencionado;
+    public void setUsuarioIdmencionado(Usuario usuarioIdmencionado) {
+        this.usuarioIdmencionado = usuarioIdmencionado;
     }
 
     @Override
