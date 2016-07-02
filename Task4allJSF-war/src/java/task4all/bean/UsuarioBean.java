@@ -54,6 +54,8 @@ public class UsuarioBean {
     private Usuario usuario;
     private String identificador;
     private String usuarioRegistro;
+    private String nombre;
+    private String apellidos;
     private String email;
     private String contrasena;
     private String verificaContrasena;
@@ -108,6 +110,22 @@ public class UsuarioBean {
 
     public void setIdentificador(String identificador) {
         this.identificador = identificador;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
     public String getContrasena() {
@@ -292,10 +310,15 @@ public class UsuarioBean {
         }
 
         if (!contrasena.equals("") && !contrasena.equals(usuario.getContrasena())) {
+            correctaConfiguracion = "Cambios realizados satisfactoriamente";
             usuario.setContrasena(contrasena);
         }
         
-        correctaConfiguracion = "Datos cambiados satisfactoriamente";
+        if(!nombre.equals(usuario.getNombre()) || !apellidos.equals(usuario.getApellidos())) {
+            usuario.setNombre(nombre);
+            usuario.setApellidos(apellidos);
+            correctaConfiguracion = "Cambios realizados satisfactoriamente";
+        }
         
         if (avatar != null) {
             try {
@@ -319,10 +342,9 @@ public class UsuarioBean {
                     fos.close();
                 }    
                 
-                correctaConfiguracion = "Datos cambiados satisfactoriamente. El avatar estará disponible en unos segundos";
+                correctaConfiguracion = "Cambios realizados satisfactoriamente. El avatar estará disponible en unos segundos";
                 
-                usuario.setAvatar(crearRutaAvatar(f.getPath()));               
-                
+                usuario.setAvatar(crearRutaAvatar(f.getPath()));    
                 
             } catch (IOException ex) {
                 Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -332,43 +354,7 @@ public class UsuarioBean {
         this.usuarioFacade.edit(usuario);       
 
         return "configuracion";
-    }
-    
-    public void doGuardarAvatar(FileUploadEvent event) {
-        FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-        FacesContext.getCurrentInstance().addMessage(null, message);
-        
-        avatar = event.getFile();
-        
-        if (avatar != null) {
-            try {
-                InputStream in = avatar.getInputstream();
-                String ruta = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/")).getAbsolutePath();
-                ruta = ruta.substring(0, ruta.lastIndexOf("dist"));
-                ruta = ruta.concat("Task4allJSF-war" + File.separator + "web" + File.separator + "images" + File.separator + "avatares" + File.separator);                
-                
-                File f = new File(ruta, avatar.getFileName());
-                FileOutputStream fos = new FileOutputStream(f);
-
-                int read;
-                byte[] bytes = new byte[1024];
-
-                try {
-                    while ((read = in.read(bytes)) != -1) {
-                        fos.write(bytes, 0, read);
-                    }
-                } finally {
-                    in.close();
-                    fos.close();
-                }             
-                
-                usuario.setAvatar(crearRutaAvatar(f.getPath()));
-            } catch (IOException ex) {
-                Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }        
-        this.usuarioFacade.edit(usuario);
-    }
+    }  
 
     private String crearRutaAvatar(String path) {
         String ruta = path.substring(path.lastIndexOf(File.separator + "images"), path.length());
