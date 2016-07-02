@@ -2,10 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Task4all - Perfil</title>
         <meta charset="UTF-8" />
@@ -14,10 +11,8 @@
 
         <!-- Compiled and minified Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
-        <!-- Bootstrap social icons plugin -->
-        <link rel="stylesheet" href="../includes/bootstrap-social-icons/bootstrap-social.css" />
-        <!-- FontAwesome css -->
-        <link href="http://designers.hubspot.com/hs-fs/hub/327485/file-2054199286-css/font-awesome.css" rel="stylesheet" />
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <!-- Compiled and minified Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     </h:head>
@@ -50,70 +45,6 @@
                     </h:link>
                 </center> 
                 <br/>
-                <br/>
-                <div class="separador"></div>
-                <h2>Redes sociales</h2>
-                <br/>                
-                <h:form>
-                    <div style="font-size: 20px">
-                        <a class="btn btn-social-icon btn-facebook">
-                            <span class="fa fa-facebook"></span>   
-                        </a>
-                        <h:panelGroup layout="block" rendered="#{usuarioBean.isFacebookConnected()}">
-                            <a onclick="PF('desconectarFacebook').show()" class="btn social-connected">
-                                <span>Cuenta vinculada</span>
-                            </a>
-                        </h:panelGroup>
-                        <p:dialog header="Desvincular cuenta de Facebook" widgetVar="desconectarFacebook" modal="true" resizable="false" closeOnEscape="true" closable="false">
-                            <center>
-                                ¿Estás seguro de que quieres desvincular la cuenta de Facebook?                                        
-                                <br/>
-                                <br/>                                           
-                                <a onclick="PF('desconectarFacebook').hide();" class="btn btn-default">No</a>
-                                <h:commandButton style="margin-left: 3px" value="Sí" action="#{usuarioBean.doDesconectarFacebook()}" class="btn btn-danger">
-                                    <f:ajax execute="@this" render="@form"/>
-                                </h:commandButton>
-                            </center>
-                        </p:dialog>
-                        <h:outputLink rendered="#{!usuarioBean.isFacebookConnected()}" value="https://www.facebook.com/dialog/oauth" style="margin-left: 5px" class="btn social-disconnected">
-                            <f:param name="client_id" value="747075862097456" />
-                            <f:param  name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=fbPass" />
-                            <f:param name="scope" value="public_profile,email" />
-                            <span>Desconectado</span>
-                        </h:outputLink>
-                    </div>
-                    <br/>
-                    <div style="font-size: 20px">
-                        <a class="btn btn-social-icon btn-google" width="30">
-                            <span class="fa fa-google"></span>   
-                        </a>
-                        <h:panelGroup layout="block" rendered="#{usuarioBean.isGoogleConnected()}">
-                            <a onclick="PF('desconectarGoogle').show()" class="btn social-connected">
-                                <span>Cuenta vinculada</span>
-                            </a>
-                        </h:panelGroup>
-                        <p:dialog header="Desvincular cuenta de Google" widgetVar="desconectarGoogle" modal="true" resizable="false" closeOnEscape="true" closable="false">
-                            <center>
-                                ¿Estás seguro de que quieres desvincular la cuenta de Google?                                        
-                                <br/>
-                                <br/>                                           
-                                <a onclick="PF('desconectarGoogle').hide();" class="btn btn-default">No</a>
-                                <h:commandButton style="margin-left: 3px" value="Sí" action="#{usuarioBean.doDesconectarGoogle()}" class="btn btn-danger">
-                                    <f:ajax execute="@this" render="@form"/>
-                                </h:commandButton>
-                            </center>
-                        </p:dialog>
-                        <h:outputLink rendered="#{!usuarioBean.isGoogleConnected()}" value="https://accounts.google.com/o/oauth2/v2/auth" style="margin-left: 5px" class="btn social-disconnected">
-                            <f:param name="scope" value="email profile" />
-                            <f:param name="redirect_uri" value="http://localhost:8080/Task4allJSF-war/loginSuccess.do?method=glPass" />
-                            <f:param name="response_type" value="code" />
-                            <f:param name="client_id" value="720887194151-e2tbl9ti0v612god4l566mhe7bjocoa5.apps.googleusercontent.com" />
-                            <span>Desconectada</span>
-                        </h:outputLink>
-                    </div>
-                    <br/>   
-                    <div class="separador"></div>
-                </h:form>
             </div>
         </center>
         <ui:include src="/includes/footer.xhtml" />
