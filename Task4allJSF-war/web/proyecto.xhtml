@@ -132,9 +132,11 @@
                             <center>
                                 ¿Estás seguro de salir del proyecto?
                                 <br/>
-                                <br/>                                           
-                                <h:commandButton value="Cancelar" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-default"/>
-                                <h:commandButton style="margin-left: 3px" value="Salir" action="#{proyectoBean.doEliminarUsuario(miembro.usuarioId)}" class="btn btn-danger"/>
+                                <br/>   
+                                <a onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-default">Cancelar</a>
+                                <h:commandButton style="margin-left: 3px" value="Salir" action="#{proyectoBean.doEliminarUsuario(miembro.usuarioId)}" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-danger">
+                                    <f:ajax execute="@this" render="usuarios"/>
+                                </h:commandButton>
                             </center>
                         </p:dialog>
                         <p:dialog header="Información del usuario" widgetVar="#{miembro.usuarioId.usuario}Informacion" modal="true" resizable="false" closeOnEscape="true" >
