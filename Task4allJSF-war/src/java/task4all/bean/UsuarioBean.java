@@ -474,6 +474,8 @@ public class UsuarioBean {
         usuario.setVerificado('1');
         
         this.usuarioFacade.create(usuario);
+        Integer clave = this.usuarioFacade.findMaxUsuarioId();
+        usuario.setId(clave);
         okLogin = true;
         
         errorRegistro = "";

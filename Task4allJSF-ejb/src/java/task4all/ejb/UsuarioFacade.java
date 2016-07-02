@@ -142,5 +142,12 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         }
         return u;
     }
+    
+    public Integer findMaxUsuarioId () {
+        Query q;
+        
+        q = em.createQuery("select max(u.id) from Usuario u");
+        return (Integer)q.getSingleResult();
+    }
 
 }
