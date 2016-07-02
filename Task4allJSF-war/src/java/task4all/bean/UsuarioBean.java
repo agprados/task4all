@@ -513,6 +513,8 @@ public class UsuarioBean {
         usuario.setId(clave);
 
         errorRegistro = "";
+        usuarioRegistro = "";
+        email = "";
         return "principal?faces-redirect=true";
     }
     
