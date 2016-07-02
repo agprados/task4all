@@ -102,6 +102,18 @@ html body {
     background: #cccccc;
     margin: 10px 0;
 }
+
+.imagen {
+    transition: all .1s ease-in-out;
+    -webkit-transition-timing-function: ease;
+    transition-timing-function: ease;
+    box-shadow: 1px 1px 5px 1px #999;
+}
+
+.imagen:hover {
+    transform: scale(1.05);
+}
+
 .proyecto {
     display: inline-block;
     vertical-align: top;
