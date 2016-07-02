@@ -3,8 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
-    <head>
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+     <h:head>
         <title>Task4all - Registro</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,11 +15,11 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
         <!-- Compiled and minified Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    </head>
-    <body>
+    </h:head>
+    <h:body>
         #{usuarioBean.doCheckLogout()}
         <center>
-            <h:link outcome="/index.xhtml">
+            <h:link outcome="index?faces-redirect=true">
                 <img style="margin-top: 30px; cursor: pointer;" src="images/logo.png" alt="logo" width="300" />
             </h:link>
             <div class="container" style="margin-top: 30px; width: 400px;">
@@ -26,6 +27,7 @@
                     <center>
                         <h1>Registro</h1>
                         <br/>
+                        <p:messages />
                         <h:panelGroup rendered="#{!usuarioBean.errorRegistro.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert" style="width: 300px;">
                             #{usuarioBean.errorRegistro} 
                         </h:panelGroup>
@@ -51,19 +53,23 @@
                         </div>
                         <br/>
                         <div class="input-group" style="width: 300px;">
-                            <h:inputSecret value="#{usuarioBean.verificaContrasena}" class="form-control" a:placeholder="Confirmar contraseña *" />
+                            <h:inputSecret value="#{usuarioBean.verificaContrasena}" class="form-control" a:placeholder="Confirmar contraseña *"/>
                         </div>
                         <br/>
                         <p style="margin-left: 35px; text-align: left">* Campo obligatorio</p>
+                        <br/>                        
+                        <p:captcha label="Captcha" language="sp" validatorMessage="Error al validar el captcha" requiredMessage="Verifique que no es un robot"/>
+                         <br/>     
+                          <br/>
                         #{usuarioBean.setErrorRegistro("")}
                         <h:commandButton value="Registrarse" action="#{usuarioBean.doNuevo()}" class="btn btn-success" />                
                         <br/>
-                        <br/>
-                        <h:link value="¿Ya tienes cuenta?" outcome="login" />
+                        <br/>                        
+                        <h:link value="¿Ya tienes cuenta?" outcome="login?faces-redirect=true" />                        
                     </center>
                 </h:form>
             </div>
         </center>
         <ui:include src="/includes/footer.xhtml" />
-    </body>
+    </h:body>
 </html>

@@ -165,10 +165,6 @@ public class UsuarioBean {
         this.errorRecuperacion = errorRecuperacion;
     }
 
-    public String doAccederLogin() {
-        return "login";
-    }
-
     public Lista getListaSeleccionada() {
         return listaSeleccionada;
     }
@@ -275,6 +271,8 @@ public class UsuarioBean {
             usuario.setContrasena(contrasena);
         }
         
+        correctaConfiguracion = "Datos cambiados satisfactoriamente";
+        
         if (avatar != null) {
             try {
                 InputStream in = avatar.getInputstream();
@@ -295,17 +293,19 @@ public class UsuarioBean {
                 } finally {
                     in.close();
                     fos.close();
-                }             
+                }    
                 
-                usuario.setAvatar(crearRutaAvatar(f.getPath()));
+                correctaConfiguracion = "Datos cambiados satisfactoriamente. El avatar estará disponible en unos segundos";
+                
+                usuario.setAvatar(crearRutaAvatar(f.getPath()));               
+                
+                
             } catch (IOException ex) {
                 Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
-        this.usuarioFacade.edit(usuario);
-        
-        correctaConfiguracion = "Datos cambiados satisfactoriamente";
+        this.usuarioFacade.edit(usuario);       
 
         return "configuracion";
     }
@@ -367,7 +367,7 @@ public class UsuarioBean {
             return "recuperar";
         }
         mandarEmailContraseña(u);
-        return "index";
+        return "index?faces-redirect=true";
     }
 
     private void mandarEmailContraseña(Usuario u) {
@@ -453,12 +453,12 @@ public class UsuarioBean {
         okLogin = true;
         
         errorRegistro = "";
-        return "principal";
+        return "principal?faces-redirect=true";
     }
     
     public String doNuevo() {
         errorRegistro = "";
-        if(contrasena == null || contrasena.isEmpty() || usuarioRegistro == null || usuarioRegistro.isEmpty() || email == null || email.isEmpty()) {
+        if(contrasena == null || contrasena.isEmpty() || usuarioRegistro == null || usuarioRegistro.isEmpty() || email == null || email.isEmpty()) {             
             errorRegistro = "Hay campos obligatorios vacíos";
             return "registrar";
         }
@@ -482,7 +482,7 @@ public class UsuarioBean {
         this.usuarioFacade.create(usuario);
 
         errorRegistro = "";
-        return "principal";
+        return "principal?faces-redirect=true";
     }
     
     public String doLogin() {
@@ -502,7 +502,7 @@ public class UsuarioBean {
             }
         }
         okLogin = true;
-        return "loginSuccess";
+        return "loginSuccess?faces-redirect=true";
     }
 
     public void doFacebookLogin() {
@@ -700,7 +700,7 @@ public class UsuarioBean {
     public String doLogout() {
         okLogin = false;
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "index";
+        return "index?faces-redirect=true";
     }
 
     public void doCheckLogin() {
@@ -791,7 +791,7 @@ public class UsuarioBean {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return "panel/configuracion";
+        return "configuracion";
     }
     
     public String doDesconectarGoogle() {
@@ -813,6 +813,6 @@ public class UsuarioBean {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return "panel/configuracion";
+        return "configuracion";
     }
 }

@@ -35,6 +35,15 @@ html body {
     cursor: auto;    
 }
 
+.header-avatar {
+    float: right; 
+    margin-top: 4px; 
+    border: 1px solid black; 
+    border-right: 0; 
+    border-top-left-radius: 4px; 
+    border-bottom-left-radius: 4px;
+}
+
 .usuario {
     display: inline-block;
     vertical-align: top;
@@ -111,6 +120,13 @@ html body {
     color:#999999; 
     background: #efefef; 
     border-top: 5px solid #ccc;
+}
+
+#btn-crearProyecto{
+    background-color: #33C867; 
+    border: 1px solid #07c56f; 
+    text-shadow: 1px 1px #07c56f;
+
 }
 
 .lista {
@@ -193,8 +209,9 @@ a.btn.social-connected {
     text-decoration: none;
     background: #53b768;
     color: white;
-    padding: 5px;
+    padding: 8px 12px 0 12px;
     font-size: 12px;
+    height: 34px;
 }
 
 a.btn.social-connected:hover {
@@ -206,15 +223,16 @@ a.btn.social-connected:hover {
 }
 
 .social-connected:hover:before {
-    content: "Desconectar";
+    content: "Desvincular cuenta";
 }
 
 a.btn.social-disconnected {
     text-decoration: none;
-    background: #dd5152;
+    background: #bbbbbb;
     color: white;
-    padding: 5px;
+    padding: 8px 12px 0 12px;
     font-size: 12px;
+    height: 34px;
 }
 
 a.btn.social-disconnected:hover {
@@ -241,4 +259,31 @@ a.btn.social-disconnected:hover {
 .footer a:hover {
     color: #ffffff;
     cursor: pointer;
+}
+
+.rc-anchor-alert {
+    display: none;
+    color: transparent;
+}
+
+.ui-messages-error{
+    padding: 15px;
+    border: 1px solid #ebccd1;
+    border-radius: 4px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    width: 300px;
+    background-color: #f2dede;
+    display: block;
+}
+
+.ui-messages-error-summary{
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
+    color: #a94442;
+}
+
+.ui-messages-error-icon{
+    background: none;  
 }

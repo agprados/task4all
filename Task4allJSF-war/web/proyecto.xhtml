@@ -302,7 +302,7 @@
                 <div class="containerFooter">
                     <center>
                         <h:form>
-                            <h:button value="Volver" outcome="principal" style="margin-top: 8px;" class="btn btn-default" />
+                            <h:button value="Volver" outcome="principal?faces-redirect=true" style="margin-top: 8px;" class="btn btn-default" />
                             <h:commandButton rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" value="Eliminar proyecto" style="margin-top: 8px; margin-left: 5px" onclick="PF('eliminacionProyecto').show(); return false;" class="btn btn-danger" />
                             <p:dialog header="Eliminar proyecto" widgetVar="eliminacionProyecto" modal="true" resizable="false" closeOnEscape="true" closable="false">
                                 <center>

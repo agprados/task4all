@@ -122,7 +122,7 @@ public class TareaBean {
     public String doMostrar(Tarea t) {
         usuarioBean.setTareaSeleccionada(t);
         cargarLista();
-        return "tarea";
+        return "tarea?faces-redirect=true";
     }
 
     public String doEditar() {
@@ -146,7 +146,7 @@ public class TareaBean {
             }
         }
 
-        return "proyecto";
+        return "proyecto?faces-redirect=true";
     }
 
     public String doGuardar() {
@@ -174,7 +174,7 @@ public class TareaBean {
             tareaFacade.edit(usuarioBean.getTareaSeleccionada());
         }
         cargarLista();
-        return "tarea";
+        return "tarea?faces-redirect=true";
     }
 
     public String doCrear(Lista lista) {
@@ -182,7 +182,7 @@ public class TareaBean {
         usuarioBean.getTareaSeleccionada().setListaId(lista);
         usuarioBean.getTareaSeleccionada().setPrioridad(new BigInteger("1"));
 
-        return "editarTarea";
+        return "editarTarea?faces-redirect=true";
     }
 
     public String doAsignarUsuario(Usuario u) {
