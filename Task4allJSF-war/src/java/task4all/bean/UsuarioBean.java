@@ -57,6 +57,7 @@ public class UsuarioBean {
     private String email;
     private String contrasena;
     private String verificaContrasena;
+    private String contrasenaActual;
     private UploadedFile avatar;
     private String errorLogin;
     private String errorRegistro;
@@ -119,6 +120,14 @@ public class UsuarioBean {
 
     public String getVerificaContrasena() {
         return verificaContrasena;
+    }
+
+    public String getContrasenaActual() {
+        return contrasenaActual;
+    }
+
+    public void setContrasenaActual(String contrasenaActual) {
+        this.contrasenaActual = contrasenaActual;
     }
 
     public UploadedFile getAvatar() {
@@ -262,6 +271,21 @@ public class UsuarioBean {
             return "configuracion";
         }
 
+        if (isPasswordSet()
+                && (contrasenaActual == null || contrasenaActual.equals(""))
+                && (contrasena != null && !contrasena.equals(""))
+                && (verificaContrasena != null && !verificaContrasena.equals(""))) {
+            errorConfiguracion = "Debes introducir tu contraseña actual";
+            return "configuracion";
+        }
+        
+        if(isPasswordSet()
+                && contrasenaActual != null && !contrasenaActual.equals("")
+                && usuarioFacade.findUsuarioByUsuarioAndContrasena(usuario.getUsuario(), contrasenaActual) == null) {
+            errorConfiguracion = "La contraseña actual no es correcta";
+            return "configuracion";
+        }
+        
         if (!contrasena.equals(verificaContrasena)) {
             errorConfiguracion = "Las contraseñas no coinciden";
             return "configuracion";
@@ -768,6 +792,10 @@ public class UsuarioBean {
         }
         
         return connected;
+    }
+    
+    public boolean isPasswordSet() {
+        return usuario.getContrasena() != null && !usuario.getContrasena().equals("");
     }
     
     public String doDesconectarFacebook() {
