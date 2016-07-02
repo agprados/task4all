@@ -64,6 +64,7 @@ public class UsuarioBean {
     private String errorRegistro;
     private String errorRecuperacion;
     private String errorConfiguracion;
+    private String errorSocial;
     private String correctaConfiguracion;    
     private Proyecto proyectoSeleccionado;
     private Tarea tareaSeleccionada;
@@ -92,6 +93,7 @@ public class UsuarioBean {
         errorRecuperacion = "";
         errorConfiguracion = "";
         correctaConfiguracion = "";
+        errorSocial = "";
         usuario = new Usuario();
     }
 
@@ -189,6 +191,14 @@ public class UsuarioBean {
 
     public void setErrorRecuperacion(String errorRecuperacion) {
         this.errorRecuperacion = errorRecuperacion;
+    }
+
+    public String getErrorSocial() {
+        return errorSocial;
+    }
+
+    public void setErrorSocial(String errorSocial) {
+        this.errorSocial = errorSocial;
     }
 
     public Lista getListaSeleccionada() {
@@ -590,12 +600,12 @@ public class UsuarioBean {
                         }
                         infoResult = new JSONObject(content);
                         
+                        this.facebookID = infoResult.getString("id");
                         if(okLogin) {
                             usuario.setFacebookid(facebookID);
                             usuario.setFacebooktoken(tokenResult.getString("access_token"));
                             usuarioFacade.edit(usuario);
                         } else {
-                            this.facebookID = infoResult.getString("id");
                             usuario = usuarioFacade.findUsuarioByFacebookId(facebookID);
                         
                             if (usuario != null) {
@@ -699,12 +709,12 @@ public class UsuarioBean {
                         }
                         infoResult = new JSONObject(content);
                         
+                        this.googleID = infoResult.getString("id");
                         if(okLogin) {
                             usuario.setGoogleid(googleID);
                             usuario.setGoogletoken(tokenResult.getString("access_token"));
                             usuarioFacade.edit(usuario);
                         } else {
-                            this.googleID = infoResult.getString("id");
                             usuario = usuarioFacade.findUsuarioByGoogleId(googleID);
 
                             if (usuario != null) {
@@ -832,6 +842,12 @@ public class UsuarioBean {
     }
     
     public String doDesconectarFacebook() {
+        if((usuario.getContrasena() == null || usuario.getContrasena().equals(""))
+                && (usuario.getGoogleid() == null || usuario.getGoogleid().equals(""))) {
+            errorSocial = "Debes establecer una contraseña antes de desvincular por completo tu cuenta";
+            return "configuracion";
+        }
+        
         try {
             URL url;
             HttpURLConnection con;
@@ -856,6 +872,12 @@ public class UsuarioBean {
     }
     
     public String doDesconectarGoogle() {
+        if ((usuario.getContrasena() == null || usuario.getContrasena().equals(""))
+                && (usuario.getFacebookid() == null || usuario.getFacebookid().equals(""))) {
+            errorSocial = "Debes establecer una contraseña antes de desvincular por completo tu cuenta";
+            return "configuracion";
+        }
+        
         try {
             URL url;
             HttpURLConnection con;
