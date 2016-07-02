@@ -78,50 +78,50 @@
                         <h:panelGroup rendered="#{asignado.rol.toLowerCase().equalsIgnoreCase('líder')}">
                             <div class="usuario">
                                 <center>
-                                    <b><h:outputText value="#{asignado.usuarioUsuario.usuario}"/></b>
+                                    <b><h:outputText value="#{asignado.usuarioId.usuario}"/></b>
                                     <br/>
-                                    <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar eq null}" value="/images/avatares/default/avatar_lider.jpg" height="65" width="65"/>
-                                    <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar ne null}" value="#{asignado.usuarioUsuario.avatar}" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{asignado.usuarioId.avatar eq null}" value="/images/avatares/default/avatar_lider.jpg" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{asignado.usuarioId.avatar ne null}" value="#{asignado.usuarioId.avatar}" height="65" width="65"/>
                                     <br/>
                                     <i style="color: #aaaaaa;">#{asignado.rol.toLowerCase()}</i>
                                     <br/>
                                     <h:panelGroup>
-                                        <p:commandLink styleClass="glyphicon glyphicon-remove" action="#{tareaBean.doEliminarUsuario(asignado.usuarioUsuario)}" update="asignados" style="text-decoration: none; font-size: 13px; color: #bb0000" />
+                                        <p:commandLink styleClass="glyphicon glyphicon-remove" action="#{tareaBean.doEliminarUsuario(asignado.usuarioId)}" update="asignados" style="text-decoration: none; font-size: 13px; color: #bb0000" />
                                     </h:panelGroup>
-                                    <p:commandLink styleClass="fa fa-info-circle" onclick="PF('#{asignado.usuarioUsuario.usuario}Informacion').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black" />                                                                       
+                                    <p:commandLink styleClass="fa fa-info-circle" onclick="PF('#{asignado.usuarioId.usuario}Informacion').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black" />                                                                       
                                 </center>
                             </div>
                         </h:panelGroup>
                         <h:panelGroup rendered="#{asignado.rol.toLowerCase().equalsIgnoreCase('miembro')}">
                             <div class="usuario usuario-miembro">
                                 <center>
-                                    <b><h:outputText value="#{asignado.usuarioUsuario.usuario}"/></b>
+                                    <b><h:outputText value="#{asignado.usuarioId.usuario}"/></b>
                                     <br/>
-                                     <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar eq null}" value="/images/avatares/default/avatar_miembro.jpg" height="65" width="65"/>
-                                    <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar ne null}" value="#{asignado.usuarioUsuario.avatar}" height="65" width="65"/>
+                                     <h:graphicImage rendered="#{asignado.usuarioId.avatar eq null}" value="/images/avatares/default/avatar_miembro.jpg" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{asignado.usuarioId.avatar ne null}" value="#{asignado.usuarioId.avatar}" height="65" width="65"/>
                                     <br/>
                                     <i style="color: #aaaaaa;">#{asignado.rol.toLowerCase()}</i>
                                     <br/>
                                     <h:panelGroup>
-                                        <p:commandLink styleClass="glyphicon glyphicon-remove" action="#{tareaBean.doEliminarUsuario(asignado.usuarioUsuario)}" update="asignados" style="text-decoration: none; font-size: 13px; color: #bb0000" />
+                                        <p:commandLink styleClass="glyphicon glyphicon-remove" action="#{tareaBean.doEliminarUsuario(asignado.usuarioId)}" update="asignados" style="text-decoration: none; font-size: 13px; color: #bb0000" />
                                     </h:panelGroup>
-                                    <p:commandLink styleClass="fa fa-info-circle" onclick="PF('#{asignado.usuarioUsuario.usuario}Informacion').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black" />                                    
+                                    <p:commandLink styleClass="fa fa-info-circle" onclick="PF('#{asignado.usuarioId.usuario}Informacion').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black" />                                    
                                 </center>
                             </div>     
                         </h:panelGroup>
-                        <p:dialog header="Información del usuario" widgetVar="#{asignado.usuarioUsuario.usuario}Informacion" modal="true" resizable="false" closeOnEscape="true" >
+                        <p:dialog header="Información del usuario" widgetVar="#{asignado.usuarioId.usuario}Informacion" modal="true" resizable="false" closeOnEscape="true" >
                             <center>
-                                <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar eq null and asignado.rol.equalsIgnoreCase('líder')}" value="/images/avatares/default/avatar_lider.jpg" height="80" width="80"/>
-                                <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar ne null and asignado.rol.equalsIgnoreCase('líder')}" value="#{asignado.usuarioUsuario.avatar}" height="80" width="80"/>
-                                <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar eq null and asignado.rol.equalsIgnoreCase('miembro')}" value="/images/avatares/default/avatar_miembro.jpg" height="80" width="80"/>
-                                <h:graphicImage rendered="#{asignado.usuarioUsuario.avatar ne null and asignado.rol.equalsIgnoreCase('miembro')}" value="#{asignado.usuarioUsuario.avatar}" height="80" width="80"/>
+                                <h:graphicImage rendered="#{asignado.usuarioId.avatar eq null and asignado.rol.equalsIgnoreCase('líder')}" value="/images/avatares/default/avatar_lider.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{asignado.usuarioId.avatar ne null and asignado.rol.equalsIgnoreCase('líder')}" value="#{asignado.usuarioId.avatar}" height="80" width="80"/>
+                                <h:graphicImage rendered="#{asignado.usuarioId.avatar eq null and asignado.rol.equalsIgnoreCase('miembro')}" value="/images/avatares/default/avatar_miembro.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{asignado.usuarioId.avatar ne null and asignado.rol.equalsIgnoreCase('miembro')}" value="#{asignado.usuarioId.avatar}" height="80" width="80"/>
                                 <br/>
                                 <br/>
-                                Usuario: #{asignado.usuarioUsuario.usuario}
+                                Usuario: #{asignado.usuarioId.usuario}
                                 <br/>
-                                Nombre: #{asignado.usuarioUsuario.nombre} #{asignado.usuarioUsuario.apellidos}
+                                Nombre: #{asignado.usuarioId.nombre} #{asignado.usuarioId.apellidos}
                                 <br/>
-                                Email: #{asignado.usuarioUsuario.email}
+                                Email: #{asignado.usuarioId.email}
                                 <br/>
                             </center>
                         </p:dialog>
@@ -147,12 +147,12 @@
                             <center>
                                 <c:forEach items="#{tareaBean.listaUsuariosSinAsignar}" var="noAsignado">                                   
                                     <h:panelGroup rendered="#{noAsignado.rol.toLowerCase().equalsIgnoreCase('líder')}">                                       
-                                        <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioUsuario)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario">
+                                        <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioId)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario">
                                             <center>
-                                                <b><h:outputText value="#{noAsignado.usuarioUsuario.usuario}"/></b>
+                                                <b><h:outputText value="#{noAsignado.usuarioId.usuario}"/></b>
                                                 <br/>
-                                                <h:graphicImage rendered="#{noAsignado.usuarioUsuario.avatar eq null}" value="/images/avatares/default/avatar_lider.jpg" height="65" width="65"/>
-                                                <h:graphicImage rendered="#{noAsignado.usuarioUsuario.avatar ne null}" value="#{noAsignado.usuarioUsuario.avatar}" height="65" width="65"/>
+                                                <h:graphicImage rendered="#{noAsignado.usuarioId.avatar eq null}" value="/images/avatares/default/avatar_lider.jpg" height="65" width="65"/>
+                                                <h:graphicImage rendered="#{noAsignado.usuarioId.avatar ne null}" value="#{noAsignado.usuarioId.avatar}" height="65" width="65"/>
                                                 <br/>
                                                 <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
                                                 <br/>                                                                                    
@@ -160,12 +160,12 @@
                                         </h:commandLink>
                                     </h:panelGroup>
                                     <h:panelGroup rendered="#{noAsignado.rol.toLowerCase().equalsIgnoreCase('miembro')}">
-                                        <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioUsuario)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario usuario-miembro">
+                                        <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioId)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario usuario-miembro">
                                             <center>
-                                                <b><h:outputText value="#{noAsignado.usuarioUsuario.usuario}"/></b>
+                                                <b><h:outputText value="#{noAsignado.usuarioId.usuario}"/></b>
                                                 <br/>
-                                                <h:graphicImage rendered="#{noAsignado.usuarioUsuario.avatar eq null}" value="/images/avatares/default/avatar_miembro.jpg" height="65" width="65"/>
-                                                <h:graphicImage rendered="#{noAsignado.usuarioUsuario.avatar ne null}" value="#{noAsignado.usuarioUsuario.avatar}" height="65" width="65"/>
+                                                <h:graphicImage rendered="#{noAsignado.usuarioId.avatar eq null}" value="/images/avatares/default/avatar_miembro.jpg" height="65" width="65"/>
+                                                <h:graphicImage rendered="#{noAsignado.usuarioId.avatar ne null}" value="#{noAsignado.usuarioId.avatar}" height="65" width="65"/>
                                                 <br/>
                                                 <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
                                                 <br/>                                                                                    
