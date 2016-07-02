@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -34,7 +33,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.json.JSONException;
 import org.primefaces.json.JSONObject;
 import org.primefaces.model.UploadedFile;
@@ -492,6 +490,8 @@ public class UsuarioBean {
         usuario.setVerificado('0');
         
         this.usuarioFacade.create(usuario);
+        Integer clave = this.usuarioFacade.findMaxUsuarioId();
+        usuario.setId(clave);
 
         errorRegistro = "";
         return "principal?faces-redirect=true";
