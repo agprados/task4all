@@ -72,23 +72,41 @@
                     <br/>
                     <center>                        
                         <h4>Avatar</h4>
-                        <h:graphicImage value="#{usuarioBean.usuario.avatar}" height="80" width="80"/>
-                        <br/><br/>
-                        <p:fileUpload auto="true" value="#{usuarioBean.avatar}" mode="simple"/>
+                        <h:graphicImage value="#{usuarioBean.usuario.avatar}" height="80" width="80"/>                        
+                        <br/>
+                        <h:outputText  rendered="#{usuarioBean.usuario.avatar eq null}" value="SIN AVATAR" style="font-size: 12px; color: #bbbbbb"/>
+                        <p:commandLink rendered="#{usuarioBean.usuario.avatar ne null}" action="#{usuarioBean.doEliminarAvatar()}" style="text-decoration: none; font-size: 12px; color: #bb0000" >ELIMINAR</p:commandLink>
+                        <br/><br/>                      
+                        <p:fileUpload auto="true" value="#{usuarioBean.avatar}" mode="simple"/>                       
                     </center>                    
                     <br/>
                     <div class="separador"></div>
-                    <h2>Cambia tu contraseña</h2>
+                    <h:panelGroup rendered="#{usuarioBean.isPasswordSet()}">
+                        <h2>Cambia tu contraseña</h2>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{!usuarioBean.isPasswordSet()}">
+                        <h2>Crea tu contraseña</h2>
+                    </h:panelGroup>
                     <br/>
                     <h:panelGroup layout="block" rendered="#{usuarioBean.isPasswordSet()}" class="input-group input-group-lg" style="width: 500px;">
                         <h4>Contraseña actual</h4>
                         <h:inputSecret value="#{usuarioBean.contrasenaActual}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
                     </h:panelGroup>
-                    <h4>Contraseña nueva</h4>
+                    <h:panelGroup rendered="#{usuarioBean.isPasswordSet()}">
+                        <h4>Contraseña nueva</h4>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{!usuarioBean.isPasswordSet()}">
+                        <h4>Contraseña</h4>
+                    </h:panelGroup>
                     <div class="input-group input-group-lg" style="width: 500px;">
                         <h:inputSecret value="#{usuarioBean.contrasena}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
                     </div>
-                    <h4>Confirma tu nueva contraseña</h4>
+                    <h:panelGroup rendered="#{usuarioBean.isPasswordSet()}">
+                        <h4>Confirma tu nueva contraseña</h4>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{!usuarioBean.isPasswordSet()}">
+                        <h4>Confirma tu contraseña</h4>
+                    </h:panelGroup>
                     <div class="input-group input-group-lg" style="width: 500px;">
                         <h:inputSecret value="#{usuarioBean.verificaContrasena}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
                     </div>

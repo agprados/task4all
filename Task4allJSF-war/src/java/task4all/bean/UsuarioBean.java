@@ -154,7 +154,7 @@ public class UsuarioBean {
     public void setAvatar(UploadedFile avatar) {
         this.avatar = avatar;
     }
-
+    
     public String getEmailRecuperacion() {
         return emailRecuperacion;
     }
@@ -311,6 +311,9 @@ public class UsuarioBean {
         if (!contrasena.equals("") && !contrasena.equals(usuario.getContrasena())) {
             correctaConfiguracion = "Cambios realizados satisfactoriamente";
             usuario.setContrasena(contrasena);
+        } else if(!contrasena.equals("") && contrasena.equals(usuario.getContrasena())) {
+            errorConfiguracion = "La contraseña no puede ser la misma";
+            return "configuracion";
         }
         
         if(!nombre.equals(usuario.getNombre()) || !apellidos.equals(usuario.getApellidos())) {
@@ -361,6 +364,13 @@ public class UsuarioBean {
             ruta = ruta.replaceAll("\\\\", "/");
         }
         return ruta;
+    }
+    
+    public String doEliminarAvatar() {
+        usuario.setAvatar(null);
+        this.usuarioFacade.edit(usuario);       
+        
+        return "configuracion?faces-redirect=true";
     }
 
     public String doRecuperarContrasena() {
