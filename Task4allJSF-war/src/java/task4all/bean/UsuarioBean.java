@@ -430,11 +430,13 @@ public class UsuarioBean {
         
         if(email == null || email.isEmpty() || !isValidEmail(email)) {
             errorRegistro = "El email no es válido";
+            email = null;
             return "loginSuccess";
         }
         
-        if(usuarioFacade.findUsuarioByEmail(usuarioRegistro) != null) {
-            errorRegistro = "El email no es válido";
+        if(usuarioFacade.findUsuarioByEmail(email) != null) {
+            errorRegistro = "Ya existe un usuario con este email";
+            email = null;
             return "loginSuccess";
         }
         
@@ -580,7 +582,7 @@ public class UsuarioBean {
                         if (usuario != null) {
                             okLogin = true;
                         } else {
-                            usuario = usuarioFacade.findUsuarioByEmail(infoResult.getString("email"));
+                            usuario = usuarioFacade.findUsuarioByEmail(infoResult.has("email") ? infoResult.getString("email") : "");
                             if(usuario != null && usuario.getVerificado()=='1') {
                                 usuario.setFacebookid(facebookID);
                                 usuario.setFacebooktoken(tokenResult.getString("access_token"));
@@ -598,7 +600,7 @@ public class UsuarioBean {
                                 usuario.setNombre(infoResult.getString("first_name"));
                                 usuario.setApellidos(infoResult.getString("last_name"));
                                 usuario.setFacebooktoken(tokenResult.getString("access_token"));
-                                email = infoResult.getString("email");
+                                email = infoResult.has("email") ? infoResult.getString("email") : null;
                                 contrasena = "";
                                 verificaContrasena = contrasena;
                             }
@@ -683,7 +685,7 @@ public class UsuarioBean {
                         if (usuario != null) {
                             okLogin = true;
                         } else {
-                            usuario = usuarioFacade.findUsuarioByEmail(infoResult.getString("email"));
+                            usuario = usuarioFacade.findUsuarioByEmail(infoResult.has("email") ? infoResult.getString("email") : "");
                             if(usuario != null && usuario.getVerificado()=='1') {
                                 usuario.setGoogleid(googleID);
                                 usuario.setGoogletoken(tokenResult.getString("access_token"));
@@ -701,7 +703,7 @@ public class UsuarioBean {
                                 usuario.setNombre(infoResult.getString("given_name"));
                                 usuario.setApellidos(infoResult.getString("family_name"));
                                 usuario.setGoogletoken(tokenResult.getString("access_token"));
-                                email = infoResult.getString("email");
+                                email = infoResult.has("email") ? infoResult.getString("email") : null;
                                 contrasena = "";
                                 verificaContrasena = contrasena;
                             }
