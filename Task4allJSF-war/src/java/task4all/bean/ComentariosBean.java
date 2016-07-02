@@ -128,7 +128,7 @@ public class ComentariosBean {
         comentario.setContenido(this.contenido);
         comentario.setFecha(new Date());
         comentario.setProyectoId(proyectoSeleccionado);
-        comentario.setUsuarioUsuario(usuarioLogueado);
+        comentario.setUsuarioId(usuarioLogueado);
         Actividad a = crearActividad(usuarioLogueado, proyectoSeleccionado);
         comentario.setActividadId(a);
         this.comentarioFacade.create(comentario);
@@ -160,7 +160,7 @@ public class ComentariosBean {
         actividad.setDescripcion("Ha comentado");
         actividad.setFecha(new Date());
         actividad.setProyectoId(p);
-        actividad.setUsuarioUsuario(u);
+        actividad.setUsuarioId(u);
         
         this.actividadFacade.create(actividad);
         int clave = this.actividadFacade.findMaxActividadId();

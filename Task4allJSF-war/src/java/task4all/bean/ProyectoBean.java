@@ -80,7 +80,7 @@ public class ProyectoBean {
         }
 
         for (int i = 0; i < listaMiembrosRoles.size(); i++) {
-            if (listaMiembrosRoles.get(i).getUsuarioUsuario().getUsuario().equals(this.usuarioBean.getUsuario().getUsuario())) {
+            if (listaMiembrosRoles.get(i).getUsuarioId().getUsuario().equals(this.usuarioBean.getUsuario().getUsuario())) {
                 this.usuarioBean.setRolActual(listaMiembrosRoles.get(i).getRol());
                 break;
             }
@@ -311,7 +311,7 @@ public class ProyectoBean {
 
         UsuarioProyecto up = new UsuarioProyecto();
         up.setProyectoId(usuarioBean.getProyectoSeleccionado());
-        up.setUsuarioUsuario(u);
+        up.setUsuarioId(u);
         up.setRol("INVITADO");
         this.usuarioProyectoFacade.create(up);
 
