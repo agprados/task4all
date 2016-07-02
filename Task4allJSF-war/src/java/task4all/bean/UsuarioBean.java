@@ -18,12 +18,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -34,7 +34,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.json.JSONException;
 import org.primefaces.json.JSONObject;
 import org.primefaces.model.UploadedFile;
@@ -448,7 +447,16 @@ public class UsuarioBean {
             return "loginSuccess";
         }
         
+        String uuid;
+        boolean exists;
+        do {
+            uuid = UUID.randomUUID().toString();
+            exists = usuarioFacade.findUsuarioByUUID(uuid) != null;
+        } while(exists);
+        
+        usuario.setId(usuarioFacade.findMaxUsuarioId()+1);
         usuario.setUsuario(usuarioRegistro);
+        usuario.setUuid(uuid);
         usuario.setEmail(email);
         usuario.setContrasena(contrasena);
         if(facebookID != null && !facebookID.equals("")) {
@@ -486,7 +494,16 @@ public class UsuarioBean {
             return "registrar";
         }
         
+        String uuid;
+        boolean exists;
+        do {
+            uuid = UUID.randomUUID().toString();
+            exists = usuarioFacade.findUsuarioByUUID(uuid) != null;
+        } while(exists);
+        
+        usuario.setId(usuarioFacade.findMaxUsuarioId()+1);
         usuario.setUsuario(usuarioRegistro);
+        usuario.setUuid(uuid);
         usuario.setEmail(email);
         usuario.setContrasena(contrasena);
         usuario.setVerificado('0');
@@ -566,12 +583,12 @@ public class UsuarioBean {
                             usuario = usuarioFacade.findUsuarioByEmail(infoResult.getString("email"));
                             if(usuario != null && usuario.getVerificado()=='1') {
                                 usuario.setFacebookid(facebookID);
-                                //usuario.setFacebookToken(tokenResult.getString("access_token"));
+                                usuario.setFacebooktoken(tokenResult.getString("access_token"));
                                 usuarioFacade.edit(usuario);
                                 okLogin = true;
                             } else if(usuario != null && usuario.getVerificado()=='0') {
                                 usuario.setFacebookid(facebookID);
-                                //usuario.setFacebookToken(tokenResult.getString("access_token"));
+                                usuario.setFacebooktoken(tokenResult.getString("access_token"));
                                 usuario.setContrasena("");
                                 usuario.setVerificado('1');
                                 usuarioFacade.edit(usuario);
@@ -580,7 +597,7 @@ public class UsuarioBean {
                                 usuario = new Usuario();
                                 usuario.setNombre(infoResult.getString("first_name"));
                                 usuario.setApellidos(infoResult.getString("last_name"));
-                                //usuario.setFacebookToken(tokenResult.getString("access_token"));
+                                usuario.setFacebooktoken(tokenResult.getString("access_token"));
                                 email = infoResult.getString("email");
                                 contrasena = "";
                                 verificaContrasena = contrasena;
@@ -669,12 +686,12 @@ public class UsuarioBean {
                             usuario = usuarioFacade.findUsuarioByEmail(infoResult.getString("email"));
                             if(usuario != null && usuario.getVerificado()=='1') {
                                 usuario.setGoogleid(googleID);
-                                //usuario.setGoogleToken(tokenResult.getString("access_token"));
+                                usuario.setGoogletoken(tokenResult.getString("access_token"));
                                 usuarioFacade.edit(usuario);
                                 okLogin = true;
                             } else if(usuario != null && usuario.getVerificado()=='0') {
                                 usuario.setGoogleid(googleID);
-                                //usuario.setGoogleToken(tokenResult.getString("access_token"));
+                                usuario.setGoogletoken(tokenResult.getString("access_token"));
                                 usuario.setContrasena("");
                                 usuario.setVerificado('1');
                                 usuarioFacade.edit(usuario);
@@ -683,7 +700,7 @@ public class UsuarioBean {
                                 usuario = new Usuario();
                                 usuario.setNombre(infoResult.getString("given_name"));
                                 usuario.setApellidos(infoResult.getString("family_name"));
-                                //usuario.setGoogleToken(tokenResult.getString("access_token"));
+                                usuario.setGoogletoken(tokenResult.getString("access_token"));
                                 email = infoResult.getString("email");
                                 contrasena = "";
                                 verificaContrasena = contrasena;
@@ -790,7 +807,7 @@ public class UsuarioBean {
         try {
             URL url;
             HttpURLConnection con;
-            url = new URL("https://graph.facebook.com/"+usuario.getFacebookid()+"/permissions?access_token="/*+usuario.getFacebookToken()*/);
+            url = new URL("https://graph.facebook.com/"+usuario.getFacebookid()+"/permissions?access_token="+usuario.getFacebooktoken());
             con = (HttpURLConnection) url.openConnection();
             con.setDoOutput(true);
             con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -799,7 +816,7 @@ public class UsuarioBean {
             con.getResponseMessage();
             
             usuario.setFacebookid(null);
-            //usuario.setFacebookToken(null);
+            usuario.setFacebooktoken(null);
             usuarioFacade.edit(usuario);
         } catch (MalformedURLException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -814,14 +831,14 @@ public class UsuarioBean {
         try {
             URL url;
             HttpURLConnection con;
-            url = new URL("https://accounts.google.com/o/oauth2/revoke?token="/*+usuario.getGoogleToken()*/);
+            url = new URL("https://accounts.google.com/o/oauth2/revoke?token="+usuario.getGoogletoken());
             con = (HttpURLConnection) url.openConnection();
             con.setDoOutput(true);
             con.connect();
             con.getResponseCode();
             
             usuario.setGoogleid(null);
-            //usuario.setGoogleToken(null);
+            usuario.setGoogletoken(null);
             usuarioFacade.edit(usuario);
         } catch (MalformedURLException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);

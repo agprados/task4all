@@ -146,8 +146,30 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     public Integer findMaxUsuarioId () {
         Query q;
         
-        q = em.createQuery("select max(u.id) from Usuario u");
-        return (Integer)q.getSingleResult();
+        q = em.createQuery("SELECT MAX(u.id) from Usuario u");
+        
+        int id;
+        try {
+            id = (Integer) q.getSingleResult();
+        } catch (Exception e) {
+            id = 0;
+        }
+        return id;
+    }
+    
+    public Usuario findUsuarioByUUID(String uuid) {
+        Query q;
+        
+        q = em.createNamedQuery("Usuario.findByUuid");
+        q.setParameter("uuid", uuid);
+        
+        Usuario u;
+        try {
+            u = (Usuario) q.getSingleResult();
+        } catch (NoResultException e) {
+            u = null;
+        }
+        return u;
     }
 
 }
