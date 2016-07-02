@@ -193,7 +193,7 @@ public class TareaBean {
 
         UsuarioTarea ut = new UsuarioTarea();
         ut.setTareaId(usuarioBean.getTareaSeleccionada());
-        ut.setUsuarioUsuario(u);
+        ut.setUsuarioId(u);
         this.usuarioTareaFacade.create(ut);
 
         usuarioBean.getTareaSeleccionada().getUsuarioTareaCollection().add(ut);
@@ -234,7 +234,7 @@ public class TareaBean {
                     cont = 0;
                     asignado = false;
                     while (asignado == false && cont < listaUsuariosAsignados.size()) {
-                        if (listaUsuariosAsignados.get(cont).getUsuarioUsuario().equals(up.getUsuarioUsuario())) {
+                        if (listaUsuariosAsignados.get(cont).getUsuarioId().equals(up.getUsuarioId())) {
                             System.out.println("usuario asignado");
                             listaAsignados.add(up);
                             asignado = true;

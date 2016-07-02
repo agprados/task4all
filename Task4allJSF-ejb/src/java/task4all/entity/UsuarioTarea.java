@@ -45,9 +45,9 @@ public class UsuarioTarea implements Serializable {
     @JoinColumn(name = "TAREA_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Tarea tareaId;
-    @JoinColumn(name = "USUARIO_USUARIO", referencedColumnName = "USUARIO")
+    @JoinColumn(name = "USUARIO_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private Usuario usuarioUsuario;
+    private Usuario usuarioId;
 
     public UsuarioTarea() {
     }
@@ -72,12 +72,12 @@ public class UsuarioTarea implements Serializable {
         this.tareaId = tareaId;
     }
 
-    public Usuario getUsuarioUsuario() {
-        return usuarioUsuario;
+    public Usuario getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setUsuarioUsuario(Usuario usuarioUsuario) {
-        this.usuarioUsuario = usuarioUsuario;
+    public void setUsuarioId(Usuario usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     @Override
@@ -104,5 +104,5 @@ public class UsuarioTarea implements Serializable {
     public String toString() {
         return "task4all.entity.UsuarioTarea[ id=" + id + " ]";
     }
-
+    
 }

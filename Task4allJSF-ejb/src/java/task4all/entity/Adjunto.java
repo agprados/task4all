@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Adjunto.findById", query = "SELECT a FROM Adjunto a WHERE a.id = :id"),
     @NamedQuery(name = "Adjunto.findByNombre", query = "SELECT a FROM Adjunto a WHERE a.nombre = :nombre"),
     @NamedQuery(name = "Adjunto.findByTipo", query = "SELECT a FROM Adjunto a WHERE a.tipo = :tipo"),
+    @NamedQuery(name = "Adjunto.findByTamano", query = "SELECT a FROM Adjunto a WHERE a.tamano = :tamano"),
     @NamedQuery(name = "Adjunto.findByUrl", query = "SELECT a FROM Adjunto a WHERE a.url = :url")})
 public class Adjunto implements Serializable {
 
@@ -55,15 +56,19 @@ public class Adjunto implements Serializable {
     private String tipo;
     @Basic(optional = false)
     @NotNull
+    @Column(name = "TAMANO")
+    private Integer tamano;
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 3500)
     @Column(name = "URL")
     private String url;
     @JoinColumn(name = "TAREA_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Tarea tareaId;
-    @JoinColumn(name = "USUARIO_USUARIO", referencedColumnName = "USUARIO")
+    @JoinColumn(name = "USUARIO_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
-    private Usuario usuarioUsuario;
+    private Usuario usuarioId;
 
     public Adjunto() {
     }
@@ -72,9 +77,10 @@ public class Adjunto implements Serializable {
         this.id = id;
     }
 
-    public Adjunto(Integer id, String tipo, String url) {
+    public Adjunto(Integer id, String tipo, Integer tamano, String url) {
         this.id = id;
         this.tipo = tipo;
+        this.tamano = tamano;
         this.url = url;
     }
 
@@ -102,6 +108,14 @@ public class Adjunto implements Serializable {
         this.tipo = tipo;
     }
 
+    public Integer getTamano() {
+        return tamano;
+    }
+
+    public void setTamano(Integer tamano) {
+        this.tamano = tamano;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -118,12 +132,12 @@ public class Adjunto implements Serializable {
         this.tareaId = tareaId;
     }
 
-    public Usuario getUsuarioUsuario() {
-        return usuarioUsuario;
+    public Usuario getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setUsuarioUsuario(Usuario usuarioUsuario) {
-        this.usuarioUsuario = usuarioUsuario;
+    public void setUsuarioId(Usuario usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     @Override
