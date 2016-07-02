@@ -420,11 +420,13 @@ public class UsuarioBean {
         
         if(usuarioRegistro == null || usuarioRegistro.equals("")) {
             errorRegistro = "Nombre de usuario vacío";
+            email = null;
             return "loginSuccess";
         }
         
         if(usuarioFacade.findUsuarioByUsuario(usuarioRegistro) != null) {
             errorRegistro = "El usuario ya existe";
+            email = null;
             return "loginSuccess";
         }
         
@@ -577,34 +579,40 @@ public class UsuarioBean {
                             content += linea;
                         }
                         infoResult = new JSONObject(content);
-
-                        this.facebookID = infoResult.getString("id");
-                        usuario = usuarioFacade.findUsuarioByFacebookId(facebookID);
-
-                        if (usuario != null) {
-                            okLogin = true;
+                        
+                        if(okLogin) {
+                            usuario.setFacebookid(facebookID);
+                            usuario.setFacebooktoken(tokenResult.getString("access_token"));
+                            usuarioFacade.edit(usuario);
                         } else {
-                            usuario = usuarioFacade.findUsuarioByEmail(infoResult.has("email") ? infoResult.getString("email") : "");
-                            if(usuario != null && usuario.getVerificado()=='1') {
-                                usuario.setFacebookid(facebookID);
-                                usuario.setFacebooktoken(tokenResult.getString("access_token"));
-                                usuarioFacade.edit(usuario);
-                                okLogin = true;
-                            } else if(usuario != null && usuario.getVerificado()=='0') {
-                                usuario.setFacebookid(facebookID);
-                                usuario.setFacebooktoken(tokenResult.getString("access_token"));
-                                usuario.setContrasena("");
-                                usuario.setVerificado('1');
-                                usuarioFacade.edit(usuario);
+                            this.facebookID = infoResult.getString("id");
+                            usuario = usuarioFacade.findUsuarioByFacebookId(facebookID);
+                        
+                            if (usuario != null) {
                                 okLogin = true;
                             } else {
-                                usuario = new Usuario();
-                                usuario.setNombre(infoResult.getString("first_name"));
-                                usuario.setApellidos(infoResult.getString("last_name"));
-                                usuario.setFacebooktoken(tokenResult.getString("access_token"));
-                                email = infoResult.has("email") ? infoResult.getString("email") : null;
-                                contrasena = "";
-                                verificaContrasena = contrasena;
+                                usuario = usuarioFacade.findUsuarioByEmail(infoResult.has("email") ? infoResult.getString("email") : "");
+                                if(usuario != null && usuario.getVerificado()=='1') {
+                                    usuario.setFacebookid(facebookID);
+                                    usuario.setFacebooktoken(tokenResult.getString("access_token"));
+                                    usuarioFacade.edit(usuario);
+                                    okLogin = true;
+                                } else if(usuario != null && usuario.getVerificado()=='0') {
+                                    usuario.setFacebookid(facebookID);
+                                    usuario.setFacebooktoken(tokenResult.getString("access_token"));
+                                    usuario.setContrasena("");
+                                    usuario.setVerificado('1');
+                                    usuarioFacade.edit(usuario);
+                                    okLogin = true;
+                                } else {
+                                    usuario = new Usuario();
+                                    usuario.setNombre(infoResult.getString("first_name"));
+                                    usuario.setApellidos(infoResult.getString("last_name"));
+                                    usuario.setFacebooktoken(tokenResult.getString("access_token"));
+                                    email = infoResult.has("email") ? infoResult.getString("email") : null;
+                                    contrasena = "";
+                                    verificaContrasena = contrasena;
+                                }
                             }
                         }
                     } else {
@@ -681,33 +689,39 @@ public class UsuarioBean {
                         }
                         infoResult = new JSONObject(content);
                         
-                        this.googleID = infoResult.getString("id");
-                        usuario = usuarioFacade.findUsuarioByGoogleId(googleID);
-
-                        if (usuario != null) {
-                            okLogin = true;
+                        if(okLogin) {
+                            usuario.setGoogleid(googleID);
+                            usuario.setGoogletoken(tokenResult.getString("access_token"));
+                            usuarioFacade.edit(usuario);
                         } else {
-                            usuario = usuarioFacade.findUsuarioByEmail(infoResult.has("email") ? infoResult.getString("email") : "");
-                            if(usuario != null && usuario.getVerificado()=='1') {
-                                usuario.setGoogleid(googleID);
-                                usuario.setGoogletoken(tokenResult.getString("access_token"));
-                                usuarioFacade.edit(usuario);
-                                okLogin = true;
-                            } else if(usuario != null && usuario.getVerificado()=='0') {
-                                usuario.setGoogleid(googleID);
-                                usuario.setGoogletoken(tokenResult.getString("access_token"));
-                                usuario.setContrasena("");
-                                usuario.setVerificado('1');
-                                usuarioFacade.edit(usuario);
+                            this.googleID = infoResult.getString("id");
+                            usuario = usuarioFacade.findUsuarioByGoogleId(googleID);
+
+                            if (usuario != null) {
                                 okLogin = true;
                             } else {
-                                usuario = new Usuario();
-                                usuario.setNombre(infoResult.getString("given_name"));
-                                usuario.setApellidos(infoResult.getString("family_name"));
-                                usuario.setGoogletoken(tokenResult.getString("access_token"));
-                                email = infoResult.has("email") ? infoResult.getString("email") : null;
-                                contrasena = "";
-                                verificaContrasena = contrasena;
+                                usuario = usuarioFacade.findUsuarioByEmail(infoResult.has("email") ? infoResult.getString("email") : "");
+                                if(usuario != null && usuario.getVerificado()=='1') {
+                                    usuario.setGoogleid(googleID);
+                                    usuario.setGoogletoken(tokenResult.getString("access_token"));
+                                    usuarioFacade.edit(usuario);
+                                    okLogin = true;
+                                } else if(usuario != null && usuario.getVerificado()=='0') {
+                                    usuario.setGoogleid(googleID);
+                                    usuario.setGoogletoken(tokenResult.getString("access_token"));
+                                    usuario.setContrasena("");
+                                    usuario.setVerificado('1');
+                                    usuarioFacade.edit(usuario);
+                                    okLogin = true;
+                                } else {
+                                    usuario = new Usuario();
+                                    usuario.setNombre(infoResult.getString("given_name"));
+                                    usuario.setApellidos(infoResult.getString("family_name"));
+                                    usuario.setGoogletoken(tokenResult.getString("access_token"));
+                                    email = infoResult.has("email") ? infoResult.getString("email") : null;
+                                    contrasena = "";
+                                    verificaContrasena = contrasena;
+                                }
                             }
                         }
                     } else {
