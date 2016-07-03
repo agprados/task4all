@@ -59,15 +59,16 @@
 
                     <center>
                         <h4>Fondo</h4>  
-                        <p:graphicImage style="border: 1px solid black; width: 350px; height: 170px" value="images/fondos/#{fondoBean.fondo}"/>
+                        #{fondoBean.setFondo(usuarioBean.proyectoSeleccionado.fondoId.nombre)}
+                        <p:graphicImage id="fondo" style="border: 1px solid black; width: 350px; height: 170px" value="images/fondos/#{fondoBean.fondo}"/>
                         <br/>
                         <h:commandLink style="font-size: 12px; height: 30px; width: 100px" action="#{fondoBean.anterior()}" class="btn btn-default" >
                             <i class="fa fa-arrow-left"></i>
-                            <f:ajax execute="@this" render="@form"/>
+                            <f:ajax execute="@this" render="fondo"/>
                         </h:commandLink>
                         <h:commandLink style="font-size: 12px; height: 30px; width: 100px" action="#{fondoBean.siguiente()}" class="btn btn-default" >
                             <i class="fa fa-arrow-right"></i>
-                            <f:ajax execute="@this" render="@form"/>
+                            <f:ajax execute="@this" render="fondo"/>
                         </h:commandLink>
                     </center>
 

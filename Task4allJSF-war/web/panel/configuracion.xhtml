@@ -132,8 +132,8 @@
                                 ¿Estás seguro de que quieres desvincular la cuenta de Facebook?                                        
                                 <br/>
                                 <br/>                                           
-                                <a onclick="PF('desconectarFacebook').hide();" class="btn btn-default">No</a>
-                                <h:commandButton style="margin-left: 3px" value="Sí" action="#{usuarioBean.doDesconectarFacebook()}" class="btn btn-danger">
+                                <a onclick="PF('desconectarFacebook').hide();" class="btn btn-default">Cancelar</a>
+                                <h:commandButton style="margin-left: 3px" value="Desvincular" action="#{usuarioBean.doDesconectarFacebook()}" class="btn btn-danger">
                                     <f:ajax execute="@this" render="@form"/>
                                 </h:commandButton>
                             </center>
@@ -160,8 +160,8 @@
                                 ¿Estás seguro de que quieres desvincular la cuenta de Google?                                        
                                 <br/>
                                 <br/>                                           
-                                <a onclick="PF('desconectarGoogle').hide();" class="btn btn-default">No</a>
-                                <h:commandButton style="margin-left: 3px" value="Sí" action="#{usuarioBean.doDesconectarGoogle()}" class="btn btn-danger">
+                                <a onclick="PF('desconectarGoogle').hide();" class="btn btn-default">Cancelar</a>
+                                <h:commandButton style="margin-left: 3px" value="Desvincular" action="#{usuarioBean.doDesconectarGoogle()}" class="btn btn-danger">
                                     <f:ajax execute="@this" render="@form"/>
                                 </h:commandButton>
                             </center>
