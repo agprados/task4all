@@ -79,7 +79,7 @@
                 <c:forEach items="#{proyectosBean.proyectosMiembro}" var="proyecto">
                     <h:form style="display: inline-block">
                         <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="color: #000000; text-decoration: none;">
-                            <div style="border-top-color: #ff6e19; background-image: url(#{proyecto.fondoId.url})" class="proyecto">
+                            <div style="border-top-color: #ff6e19; background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="proyecto">
                                 <h:outputText style="color: black; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
                                 <h:outputText style="color: white; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>
                                 <br/>
@@ -100,7 +100,7 @@
                 </h:panelGroup>          
                 <c:forEach items="#{proyectosBean.proyectosInvitado}" var="proyecto">
                     <h:form style="display: inline-block">
-                        <div style="border-top-color: #7f7e7d; background-image: url(#{proyecto.fondoId.url})" class="proyecto">
+                        <div style="border-top-color: #7f7e7d; background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="proyecto">
                             <h:outputText style="color: black; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
                                 <h:outputText style="color: white; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>
                                 <br/>

@@ -27,12 +27,14 @@
                     </h2>
                 </div>
                 <h:form>
+                    <center>
                     <h:panelGroup rendered="#{!listaBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
                         #{listaBean.error} 
                     </h:panelGroup>
-                    
+                    </center>
                     <h4>Nombre *</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
+                        #{listaBean.setNombre(usuarioBean.listaSeleccionada.nombre)}
                         <h:inputText value="#{listaBean.nombre}" style="border-radius: 5px" class="form-control" />
                     </div>
                     <br/>

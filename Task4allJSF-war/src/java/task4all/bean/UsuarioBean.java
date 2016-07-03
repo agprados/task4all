@@ -79,7 +79,6 @@ public class UsuarioBean {
     private final String FB_SECRET = "cb65b5382724343d60019074e274e058";
     private final String GOOGLE_ID = "720887194151-e2tbl9ti0v612god4l566mhe7bjocoa5.apps.googleusercontent.com";
     private final String GOOGLE_SECRET = "NVJFgMbDMt-ab3H4szSblHnr";
-    private Fondo fondoSeleccionado;
     
     /**
      * Creates a new instance of UsuarioBean
@@ -289,14 +288,6 @@ public class UsuarioBean {
 
     public void setGoogleID(String googleID) {
         this.googleID = googleID;
-    }
-
-    public Fondo getFondoSeleccionado() {
-        return fondoSeleccionado;
-    }
-
-    public void setFondoSeleccionado(Fondo fondoSeleccionado) {
-        this.fondoSeleccionado = fondoSeleccionado;
     }
 
     public String doEditar() {
