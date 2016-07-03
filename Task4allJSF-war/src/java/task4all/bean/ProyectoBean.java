@@ -188,14 +188,6 @@ public class ProyectoBean {
         this.proyectosBean = proyectosBean;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public Date getFechaObjetivo() {
         return fechaObjetivo;
     }
@@ -205,7 +197,6 @@ public class ProyectoBean {
     }
 
     public String doEditar() {
-        nombre = usuarioBean.getProyectoSeleccionado().getNombre();
         if (usuarioBean.getProyectoSeleccionado().getFechaobjetivo() != null) {
             fechaObjetivo = usuarioBean.getProyectoSeleccionado().getFechaobjetivo();
         }
