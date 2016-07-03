@@ -8,6 +8,7 @@ package task4all.ejb;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import task4all.entity.Fondo;
 
 
@@ -24,6 +25,13 @@ public class FondoFacade extends AbstractFacade<Fondo> {
 
     public FondoFacade() {
         super(Fondo.class);
+    }
+    
+    public Integer findMaxProyectoId () {
+        Query q;
+        
+        q = em.createQuery("select max(f.id) from Fondo f");
+        return (Integer)q.getSingleResult();
     }
     
 }

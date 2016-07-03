@@ -16,6 +16,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
         <!-- Compiled and minified Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <!-- Font Awesome -->
+        <script src="https://use.fontawesome.com/26be38d20f.js"></script>
     </h:head>
     <h:body style="overflow-y: scroll">
         #{usuarioBean.doCheckLogin()}
@@ -35,7 +37,7 @@
 
                     <h4>Nombre *</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
-                        <h:inputText value="#{proyectoBean.nombre}" style="border-radius: 5px" class="form-control"/>
+                        <h:inputText value="#{usuarioBean.proyectoSeleccionado.nombre}" style="border-radius: 5px" class="form-control"/>
                     </div>
                     <br/>
                     <h4>Descripción</h4>
@@ -54,18 +56,25 @@
                         </p:dialog>
                     </div>
                     <br/>
-                    
+
                     <center>
-                    <h4>Fondo</h4>
-                    <p:galleria value="#{fondoBean.images}" var="image" panelWidth="350" panelHeight="170" >
-                        <p:graphicImage value="images/fondos/#{image}" title="#{image}"/>
-                    </p:galleria>
+                        <h4>Fondo</h4>  
+                        <p:graphicImage style="border: 1px solid black; width: 350px; height: 170px" value="images/fondos/#{fondoBean.fondo}"/>
+                        <br/>
+                        <h:commandLink style="font-size: 12px; height: 30px; width: 100px" action="#{fondoBean.anterior()}" class="btn btn-default" >
+                            <i class="fa fa-arrow-left"></i>
+                            <f:ajax execute="@this" render="@form"/>
+                        </h:commandLink>
+                        <h:commandLink style="font-size: 12px; height: 30px; width: 100px" action="#{fondoBean.siguiente()}" class="btn btn-default" >
+                            <i class="fa fa-arrow-right"></i>
+                            <f:ajax execute="@this" render="@form"/>
+                        </h:commandLink>
                     </center>
-                    
+
                     <br/>
                     * Campo obligatorio
                     <br/>
-                    
+
                     <div class="containerFooter">
                         <center>
                             <h:button value="Cancelar" outcome="proyecto?faces-redirect=true" style="margin-top: 8px;" class="btn btn-default" a:aria-expanded="false" />

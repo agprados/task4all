@@ -16,11 +16,13 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import task4all.ejb.FondoFacade;
 import task4all.ejb.ListaFacade;
 import task4all.ejb.ProyectoFacade;
 import task4all.ejb.TareaFacade;
 import task4all.ejb.UsuarioFacade;
 import task4all.ejb.UsuarioProyectoFacade;
+import task4all.entity.Fondo;
 import task4all.entity.Lista;
 import task4all.entity.Proyecto;
 import task4all.entity.Tarea;
@@ -46,11 +48,15 @@ public class ProyectoBean {
     private ProyectoFacade proyectoFacade;
     @EJB
     private UsuarioFacade usuarioFacade;
+    @EJB
+    private FondoFacade fondoFacade;
 
     @ManagedProperty(value = "#{usuarioBean}")
     private UsuarioBean usuarioBean;
     @ManagedProperty(value = "#{proyectosBean}")
     private ProyectosBean proyectosBean;
+    @ManagedProperty(value = "#{fondoBean}")
+    private FondoBean fondoBean;
 
     private List<UsuarioProyecto> listaMiembrosRoles;
     private List<Lista> listas;
@@ -134,6 +140,10 @@ public class ProyectoBean {
         this.usuarioBean = usuarioBean;
     }
 
+    public void setFondoBean(FondoBean fondoBean) {
+        this.fondoBean = fondoBean;
+    }
+
     public List<UsuarioProyecto> getListaMiembrosRoles() {
         return listaMiembrosRoles;
     }
@@ -204,7 +214,7 @@ public class ProyectoBean {
     }
 
     public String doGuardar() {
-        if (nombre == null || nombre.isEmpty()) {
+        if (usuarioBean.getProyectoSeleccionado().getNombre() == null || usuarioBean.getProyectoSeleccionado().getNombre().isEmpty()) {
             error = "El nombre del proyecto tiene que tener al menos 1 caracter";
             return "editarProyecto";
         }
@@ -215,8 +225,30 @@ public class ProyectoBean {
             usuarioBean.getProyectoSeleccionado().setFechaobjetivo(null);
         }
 
-        usuarioBean.getProyectoSeleccionado().setNombre(nombre);
+        Fondo antiguo = null;
+        if (!fondoBean.getFondo().equals(usuarioBean.getProyectoSeleccionado().getFondoId().getNombre())) {            
+            Fondo fondo = new Fondo();
+            fondo.setNombre(fondoBean.getFondo());
+            if (fondoBean.getFondo().contains("oscuro")) {
+                fondo.setOscuro('o');
+            } else {
+                fondo.setOscuro('c');
+            }
+            fondo.setUrl("/Task4allJSF-war/images/fondos/" + fondoBean.getFondo());
+            fondoFacade.create(fondo);
+            int claveFondo = fondoFacade.findMaxProyectoId();
+            fondo.setId(claveFondo);
+            
+            antiguo = usuarioBean.getProyectoSeleccionado().getFondoId();
+            usuarioBean.getProyectoSeleccionado().setFondoId(fondo);
+            
+        }
+        
         proyectoFacade.edit(usuarioBean.getProyectoSeleccionado());
+        
+        if(antiguo != null) {
+            fondoFacade.remove(antiguo);
+        }
 
         return "proyecto?faces-redirect=true";
     }
@@ -260,7 +292,7 @@ public class ProyectoBean {
 
         usuario.setRol("líder");
         usuarioProyectoFacade.edit(usuario);
-        
+
         usuarioBean.setRolActual("miembro");
         ordenarListaMiembros();
 

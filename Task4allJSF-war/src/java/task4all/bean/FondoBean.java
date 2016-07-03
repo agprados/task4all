@@ -9,26 +9,54 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class FondoBean {
-    
-    private List<String> images;
+
+    private List<String> fondos;
+    private String fondo;
+    private int indice;
 
     public FondoBean() {
-    }   
-     
+    }
+
     @PostConstruct
     public void init() {
-        images = new ArrayList<>();
-        for (int i = 0; i <= 11; i++) {
-            images.add("fondo_" + i + ".png");
+        fondos = new ArrayList<>();
+        for (int i = 0; i <= 7; i++) {
+            fondos.add("fondo_claro_" + i + ".png");
         }
+        for (int i = 1; i <= 4; i++) {
+            fondos.add("fondo_oscuro_" + i + ".png");
+        }
+        fondo = fondos.get(indice);
     }
- 
-    public List<String> getImages() {
-        return images;
+
+    public List<String> getFondos() {
+        return fondos;
+    }
+
+    public String getFondo() {
+        return fondo;
+    }
+
+    public void setFondo(String fondo) {
+        this.fondo = fondo;
+    }
+
+    public void siguiente() {
+        indice = (indice + 1) % fondos.size();
+        fondo = fondos.get(indice);
+    }
+
+    public void anterior() {
+        if (indice == 0) {
+            indice = fondos.size() - 1;
+        } else {
+            indice = (indice - 1) % fondos.size();
+        }
+        fondo = fondos.get(indice);
     }
 }

@@ -13,8 +13,10 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import task4all.ejb.FondoFacade;
 import task4all.ejb.ProyectoFacade;
 import task4all.ejb.UsuarioProyectoFacade;
+import task4all.entity.Fondo;
 import task4all.entity.Proyecto;
 import task4all.entity.UsuarioProyecto;
 
@@ -26,6 +28,8 @@ public class ProyectosBean {
     private UsuarioProyectoFacade usuarioProyectoFacade;
     @EJB
     private ProyectoFacade proyectoFacade;
+    @EJB
+    private FondoFacade fondoFacade;
 
     @ManagedProperty(value = "#{usuarioBean}")
     private UsuarioBean usuarioBean;
@@ -116,29 +120,39 @@ public class ProyectosBean {
             proyecto.setNombre(nombre);
             proyecto.setFechacreacion(new Date());
 
+            Fondo fondo = new Fondo();
+            fondo.setNombre("fondo_claro_0.png");
+            fondo.setOscuro('o');
+            fondo.setUrl("/Task4allJSF-war/images/fondos/fondo_claro_0.png");
+            fondoFacade.create(fondo);
+            int claveFondo = fondoFacade.findMaxProyectoId();
+            fondo.setId(claveFondo);
+            
+            proyecto.setFondoId(fondo);
+
             proyectoFacade.create(proyecto);
-            int valor = proyectoFacade.findMaxProyectoId();
-            proyecto.setId(valor);
+            int claveProyecto = proyectoFacade.findMaxProyectoId();
+            proyecto.setId(claveProyecto);
 
             UsuarioProyecto up = new UsuarioProyecto();
             up.setRol("líder");
             up.setProyectoId(proyecto);
             up.setUsuarioId(this.usuarioBean.getUsuario());
             usuarioProyectoFacade.create(up);
-            
-            if(proyecto.getUsuarioProyectoCollection() == null) {
+
+            if (proyecto.getUsuarioProyectoCollection() == null) {
                 proyecto.setUsuarioProyectoCollection(new ArrayList<>());
             }
             proyecto.getUsuarioProyectoCollection().add(up);
             this.proyectoFacade.edit(proyecto);
 
             usuarioBean.setProyectoSeleccionado(proyecto);
-            
+
             return "proyecto?faces-redirect=true";
         } else {
             this.error = "El nombre no puede estar vacío";
             return "principal";
-        }        
+        }
     }
 
     public String doVerProyecto(Proyecto p) {
@@ -146,7 +160,7 @@ public class ProyectosBean {
 
         return "proyecto?faces-redirect=true";
     }
-    
+
     public String doAceptarInvitacion(Proyecto p) {
         UsuarioProyecto up = this.usuarioProyectoFacade.findUsuarioProyectoByEmailAndProyecto(usuarioBean.getUsuario().getEmail(), p.getId());
 
@@ -155,17 +169,16 @@ public class ProyectosBean {
 
         proyectosInvitado.remove(p);
         proyectosMiembro.add(p);
-        
+
         return "principal";
     }
-    
-    
+
     public String doRechazarInvitacion(Proyecto p) {
         UsuarioProyecto up = this.usuarioProyectoFacade.findUsuarioProyectoByEmailAndProyecto(usuarioBean.getUsuario().getEmail(), p.getId());
 
         this.usuarioProyectoFacade.remove(up);
         proyectosInvitado.remove(p);
-        
+
         return "principal";
     }
 }
