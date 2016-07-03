@@ -60,9 +60,12 @@
                 <c:forEach items="#{proyectosBean.proyectosLider}" var="proyecto">
                     <h:form style="display: inline-block">
                         <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="color: #000000; text-decoration: none;">
-                            <div class="proyecto">
-                                <h4><b>#{proyecto.nombre}</b></h4>
-                                #{proyecto.descripcion}
+                            <div style="background-image: url(#{proyecto.fondoId.url})" class="proyecto">
+                                <h:outputText style="color: black; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                <h:outputText style="color: white; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>
+                                <br/>
+                                <h:outputText style="color: black; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                <h:outputText style="color: white; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>                                
                             </div>
                         </h:commandLink>
                     </h:form>
@@ -76,9 +79,12 @@
                 <c:forEach items="#{proyectosBean.proyectosMiembro}" var="proyecto">
                     <h:form style="display: inline-block">
                         <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="color: #000000; text-decoration: none;">
-                            <div style="border-top-color: #ff6e19;" class="proyecto">
-                                <h4><b>#{proyecto.nombre}</b></h4>    
-                                #{proyecto.descripcion}
+                            <div style="border-top-color: #ff6e19; background-image: url(#{proyecto.fondoId.url})" class="proyecto">
+                                <h:outputText style="color: black; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                <h:outputText style="color: white; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>
+                                <br/>
+                                <h:outputText style="color: black; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                <h:outputText style="color: white; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>  
                             </div>
                         </h:commandLink>
                     </h:form>
@@ -94,9 +100,12 @@
                 </h:panelGroup>          
                 <c:forEach items="#{proyectosBean.proyectosInvitado}" var="proyecto">
                     <h:form style="display: inline-block">
-                        <div style="border-top-color: #7f7e7d;" class="proyecto">
-                            <h4><b>#{proyecto.nombre}</b></h4>
-                            #{proyecto.descripcion}
+                        <div style="border-top-color: #7f7e7d; background-image: url(#{proyecto.fondoId.url})" class="proyecto">
+                            <h:outputText style="color: black; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                <h:outputText style="color: white; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>
+                                <br/>
+                                <h:outputText style="color: black; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                <h:outputText style="color: white; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>  
                             <br/>
                             <h:commandLink action="#{proyectosBean.doRechazarInvitacion(proyecto)}" style="color: #bb0000; float: left;">Rechazar</h:commandLink>
                             <h:commandLink action="#{proyectosBean.doAceptarInvitacion(proyecto)}" style="float: right;">Aceptar</h:commandLink>
