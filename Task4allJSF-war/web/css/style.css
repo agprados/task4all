@@ -300,3 +300,7 @@ a.btn.social-disconnected:hover {
 .ui-messages-error-icon{
     background: none;  
 }
+
+.cerrarSesion:hover{
+    background-color: #F5F5F5;
+}

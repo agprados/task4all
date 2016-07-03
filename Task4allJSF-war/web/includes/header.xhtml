@@ -45,9 +45,11 @@
                     <li><h:link style="color: black;" outcome="/panel/perfil?faces-redirect=true">Perfil</h:link></li>
                     <li><h:link style="color: black;" outcome="/panel/configuracion?faces-redirect=true">Configuración</h:link></li>
                     <li role="separator" class="divider"></li>
-                    <h:form style="margin-left: 20px;">
-                        <li><h:commandLink style="color: black;" action="#{usuarioBean.doLogout()}">Cerrar sesión</h:commandLink></li>
-                    </h:form>
+                    <li class="cerrarSesion">
+                        <h:form style="margin-left: 20px;">
+                            <h:commandLink style="color: black; text-decoration: none;" action="#{usuarioBean.doLogout()}">Cerrar sesión</h:commandLink>
+                        </h:form>
+                    </li>
                 </ul>
             </div>
             <h:graphicImage class="header-avatar" rendered="#{usuarioBean.usuario.avatar ne null}" value="#{usuarioBean.usuario.avatar}" height="34" width="34"/>
