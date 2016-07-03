@@ -217,6 +217,8 @@ public class ProyectoBean {
         if (nombre == null || nombre.isEmpty()) {
             error = "El nombre del proyecto tiene que tener al menos 1 caracter";
             return "editarProyecto";
+        } else {
+            usuarioBean.getProyectoSeleccionado().setNombre(nombre);
         }
 
         if (fechaObjetivo != null && !fechaObjetivo.toString().isEmpty()) {

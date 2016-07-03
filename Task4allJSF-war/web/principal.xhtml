@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Task4all</title>
         <meta charset="UTF-8" />
@@ -56,65 +57,73 @@
                         </ul>
                     </div>
                 </div>
-                <h3>Proyectos siendo l&iacute;der</h3>
-                <c:forEach items="#{proyectosBean.proyectosLider}" var="proyecto">
+                <h:panelGroup id="proyectos">
+                    <h3>Proyectos siendo l&iacute;der</h3>
                     <h:form style="display: inline-block">
-                        <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="color: #000000; text-decoration: none;">
-                            <div style="background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="proyecto">
+                        <c:forEach items="#{proyectosBean.proyectosLider}" var="proyecto">                    
+                            <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="color: #000000; text-decoration: none;">
+                                <div style="background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="proyecto">
+                                    <h:outputText style="color: black; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                    <h:outputText style="color: white; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>
+                                    <br/>
+                                    <h:outputText style="color: black; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                    <h:outputText style="color: white; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>                                
+                                </div>
+                            </h:commandLink>
+
+                        </c:forEach>
+                    </h:form>
+                    <h:panelGroup rendered="#{proyectosBean.proyectosLider.size() == 0}" layout="block" class="proyecto proyecto-no-elementos">
+                        <center><h3>Sin proyectos</h3></center>
+                    </h:panelGroup>
+
+
+                    <h3>Proyectos siendo miembro</h3>
+                    <h:form style="display: inline-block">
+                        <c:forEach items="#{proyectosBean.proyectosMiembro}" var="proyecto">                    
+                            <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="color: #000000; text-decoration: none;">
+                                <div style="border-top-color: #ff6e19; background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="proyecto">
+                                    <h:outputText style="color: black; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                    <h:outputText style="color: white; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>
+                                    <br/>
+                                    <h:outputText style="color: black; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                    <h:outputText style="color: white; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>  
+                                </div>
+                            </h:commandLink>                   
+                        </c:forEach>
+                        <h:panelGroup rendered="#{proyectosBean.proyectosMiembro.size() == 0}" layout="block" class="proyecto proyecto-no-elementos">
+                            <center><h3>Sin proyectos</h3></center>
+                        </h:panelGroup>
+                    </h:form>
+
+
+                    <h3>Invitaciones a proyectos</h3>
+                    <h:panelGroup rendered="#{!usuarioBean.errorLogin.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
+                        #{usuarioBean.errorLogin} 
+                    </h:panelGroup>  
+                    <h:form id="invitaciones" style="display: inline-block">
+                        <c:forEach items="#{proyectosBean.proyectosInvitado}" var="proyecto">
+                            <div style="border-top-color: #7f7e7d; background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="proyecto">
                                 <h:outputText style="color: black; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
                                 <h:outputText style="color: white; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>
                                 <br/>
-                                <h:outputText style="color: black; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
-                                <h:outputText style="color: white; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>                                
-                            </div>
-                        </h:commandLink>
-                    </h:form>
-                </c:forEach>
-                <h:panelGroup rendered="#{proyectosBean.proyectosLider.size() == 0}" layout="block" class="proyecto proyecto-no-elementos">
-                    <center><h3>Sin proyectos</h3></center>
-                </h:panelGroup>
-
-
-                <h3>Proyectos siendo miembro</h3>
-                <c:forEach items="#{proyectosBean.proyectosMiembro}" var="proyecto">
-                    <h:form style="display: inline-block">
-                        <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="color: #000000; text-decoration: none;">
-                            <div style="border-top-color: #ff6e19; background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="proyecto">
-                                <h:outputText style="color: black; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
-                                <h:outputText style="color: white; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>
-                                <br/>
-                                <h:outputText style="color: black; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
-                                <h:outputText style="color: white; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>  
-                            </div>
-                        </h:commandLink>
-                    </h:form>
-                </c:forEach>
-                <h:panelGroup rendered="#{proyectosBean.proyectosMiembro.size() == 0}" layout="block" class="proyecto proyecto-no-elementos">
-                    <center><h3>Sin proyectos</h3></center>
-                </h:panelGroup>
-
-
-                <h3>Invitaciones a proyectos</h3>
-                <h:panelGroup rendered="#{!usuarioBean.errorLogin.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
-                    #{usuarioBean.errorLogin} 
-                </h:panelGroup>          
-                <c:forEach items="#{proyectosBean.proyectosInvitado}" var="proyecto">
-                    <h:form style="display: inline-block">
-                        <div style="border-top-color: #7f7e7d; background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="proyecto">
-                            <h:outputText style="color: black; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
-                                <h:outputText style="color: white; font-size: 13pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>
-                                <br/>
-                                <h:outputText style="color: black; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
-                                <h:outputText style="color: white; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>  
-                            <br/>
-                            <h:commandLink action="#{proyectosBean.doRechazarInvitacion(proyecto)}" style="color: #bb0000; float: left;">Rechazar</h:commandLink>
-                            <h:commandLink action="#{proyectosBean.doAceptarInvitacion(proyecto)}" style="float: right;">Aceptar</h:commandLink>
-                        </div>
-                    </h:form>
-
-                </c:forEach>
-                <h:panelGroup rendered="#{proyectosBean.proyectosInvitado.size() == 0}" layout="block" class="proyecto proyecto-no-elementos">
-                    <center><h3>Sin invitaciones</h3></center>
+                                <div style="height: 40px; overflow: hidden;">
+                                    <h:outputText style="color: black; font-size: 10pt;" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                    <h:outputText style="color: white; font-size: 10pt" value="#{proyecto.descripcion}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>  
+                                    <br/>
+                                </div>
+                                <h:commandLink action="#{proyectosBean.doRechazarInvitacion(proyecto)}" style="color: #bb0000; float: left;">Rechazar
+                                    <f:ajax render="invitaciones" execute="@this"/>
+                                </h:commandLink>
+                                <h:commandLink action="#{proyectosBean.doAceptarInvitacion(proyecto)}" style="float: right;">Aceptar
+                                    <f:ajax render="proyectos" execute="@this"/>
+                                </h:commandLink>                            
+                            </div> 
+                        </c:forEach>
+                        <h:panelGroup rendered="#{proyectosBean.proyectosInvitado.size() == 0}" layout="block" class="proyecto proyecto-no-elementos">
+                            <center><h3>Sin invitaciones</h3></center>
+                        </h:panelGroup>
+                    </h:form>                
                 </h:panelGroup>
             </div>
         </center>

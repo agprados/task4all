@@ -151,7 +151,7 @@ public class ProyectosBean {
     public String doVerProyecto(Proyecto p) {
         this.usuarioBean.setProyectoSeleccionado(p);
 
-        return "proyecto?faces-redirect=true";
+        return "/proyecto?faces-redirect=true";
     }
 
     public String doAceptarInvitacion(Proyecto p) {
