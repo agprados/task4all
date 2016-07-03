@@ -8,15 +8,21 @@ package task4all.bean;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import task4all.ejb.FondoFacade;
+import task4all.entity.Fondo;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class FondoBean {
+    
+    @EJB
+    private FondoFacade fondoFacade;
 
-    private List<String> fondos;
-    private String fondo;
+    private List<Fondo> fondos;
+    private Fondo fondo;
     private int indice;
 
     public FondoBean() {
@@ -25,24 +31,23 @@ public class FondoBean {
     @PostConstruct
     public void init() {
         fondos = new ArrayList<>();
-        for (int i = 0; i <= 7; i++) {
-            fondos.add("fondo_claro_" + i + ".png");
-        }
-        for (int i = 1; i <= 4; i++) {
-            fondos.add("fondo_oscuro_" + i + ".png");
-        }
-        fondo = fondos.get(indice);
+        fondos = this.fondoFacade.findFondoByOscuro('0');
+        fondos.addAll(this.fondoFacade.findFondoByOscuro('1'));
     }
 
-    public List<String> getFondos() {
+    public List<Fondo> getFondos() {
         return fondos;
     }
 
-    public String getFondo() {
+     public void setFondos(List<Fondo> fondos) {
+        this.fondos = fondos;
+    }
+    
+    public Fondo getFondo() {
         return fondo;
     }
 
-    public void setFondo(String fondo) {
+    public void setFondo(Fondo fondo) {
         this.fondo = fondo;
     }
 

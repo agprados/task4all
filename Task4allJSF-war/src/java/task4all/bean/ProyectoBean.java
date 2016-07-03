@@ -225,30 +225,11 @@ public class ProyectoBean {
             usuarioBean.getProyectoSeleccionado().setFechaobjetivo(null);
         }
 
-        Fondo antiguo = null;
-        if (!fondoBean.getFondo().equals(usuarioBean.getProyectoSeleccionado().getFondoId().getNombre())) {            
-            Fondo fondo = new Fondo();
-            fondo.setNombre(fondoBean.getFondo());
-            if (fondoBean.getFondo().contains("oscuro")) {
-                fondo.setOscuro('1');
-            } else {
-                fondo.setOscuro('0');
-            }
-            fondo.setUrl("/Task4allJSF-war/images/fondos/" + fondoBean.getFondo());
-            fondoFacade.create(fondo);
-            int claveFondo = fondoFacade.findMaxProyectoId();
-            fondo.setId(claveFondo);
-            
-            antiguo = usuarioBean.getProyectoSeleccionado().getFondoId();
-            usuarioBean.getProyectoSeleccionado().setFondoId(fondo);
-            
+        if (!fondoBean.getFondo().equals(usuarioBean.getProyectoSeleccionado().getFondoId())) {            
+            usuarioBean.getProyectoSeleccionado().setFondoId(fondoBean.getFondo());
         }
         
-        proyectoFacade.edit(usuarioBean.getProyectoSeleccionado());
-        
-        if(antiguo != null) {
-            fondoFacade.remove(antiguo);
-        }
+        proyectoFacade.edit(usuarioBean.getProyectoSeleccionado());       
 
         return "proyecto?faces-redirect=true";
     }
