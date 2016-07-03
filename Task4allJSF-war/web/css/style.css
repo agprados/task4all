@@ -300,3 +300,16 @@ a.btn.social-disconnected:hover {
 .ui-messages-error-icon{
     background: none;  
 }
+
+.btn-proyecto-header {
+    background: none !important;
+    box-shadow: none !important;
+}
+
+.btn-proyecto-header:hover {
+    text-decoration: underline !important;
+}
+
+.btn:focus {
+    outline: none !important; 
+}
