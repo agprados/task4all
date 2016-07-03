@@ -49,253 +49,251 @@
                         <h:outputText rendered="#{usuarioBean.proyectoSeleccionado.fechaobjetivo == null}" value="--/--/--" />
                     </div>
                 </div>
-                <h:panelGroup>     
+                <h:panelGroup>
                     <br/>
-                    <h:panelGroup rendered="#{!proyectoBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
-                        #{proyectoBean.error}
-                    </h:panelGroup>
-                    <center>
-                        <h:outputText style="color: black; font-size: 10pt; font-style: italic; word-wrap:break-word;" value="#{usuarioBean.proyectoSeleccionado.descripcion}" rendered="#{usuarioBean.proyectoSeleccionado.fondoId.oscuro eq '0'}"/>
-                        <h:outputText style="color: white; font-size: 10pt; font-style: italic; word-wrap:break-word;" value="#{usuarioBean.proyectoSeleccionado.descripcion}" rendered="#{usuarioBean.proyectoSeleccionado.fondoId.oscuro eq '1'}"/> 
-                        <br/>
-                    </center>
-                    <h:outputText style="color: black; font-size: 17pt" value="Usuarios" rendered="#{usuarioBean.proyectoSeleccionado.fondoId.oscuro eq '0'}"/>
-                    <h:outputText style="color: white; font-size: 17pt" value="Usuarios" rendered="#{usuarioBean.proyectoSeleccionado.fondoId.oscuro eq '1'}"/>              
-                    <div class="separador"></div>
-                    <h:form id="usuarios">
-                        <c:forEach items="#{proyectoBean.listaMiembrosRoles}" var="miembro">
-                            <h:panelGroup rendered="#{miembro.rol.toLowerCase().equalsIgnoreCase('líder')}">
-                                <div class="usuario">
-                                    <center>
-                                        <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioId.usuario}"/></b>
-                                        <br/>
-                                        <h:graphicImage rendered="#{miembro.usuarioId.avatar eq null}" value="/images/avatares/default/avatar_lider.jpg" height="65" width="65"/>
-                                        <h:graphicImage rendered="#{miembro.usuarioId.avatar ne null}" value="#{miembro.usuarioId.avatar}" height="65" width="65"/>
-                                        <br/>
-                                        <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
-                                        <br/>
-                                        <p:commandLink styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; font-size: 13px; color: black" />                           
-                                    </center>                                
-                                </div>
-                            </h:panelGroup>
-                            <h:panelGroup rendered="#{miembro.rol.toLowerCase().equalsIgnoreCase('miembro')}">
-                                <div class="usuario usuario-miembro">
-                                    <center>
-                                        <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioId.usuario}"/></b>
-                                        <br/>
-                                        <h:graphicImage rendered="#{miembro.usuarioId.avatar eq null}" value="/images/avatares/default/avatar_miembro.jpg" height="65" width="65"/>
-                                        <h:graphicImage rendered="#{miembro.usuarioId.avatar ne null}" value="#{miembro.usuarioId.avatar}" height="65" width="65"/>
-                                        <br/>
-                                        <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
-                                        <br/>
-                                        <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and !miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario) or (!usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario))}"> 
-                                            <p:commandLink styleClass="glyphicon glyphicon-remove" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').show();" style="text-decoration: none; font-size: 13px; color: #bb0000" />                                            
-                                        </h:panelGroup>
-                                        <p:commandLink rendered="#{miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario) or usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black" /> 
-                                        <p:commandLink rendered="#{!miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario) and !usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; font-size: 13px; color: black" /> 
-                                        <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and !miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario)}">
-                                            <p:commandLink onclick="PF('#{miembro.usuarioId.usuario}Liderazgo').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black;" >
-                                                <h:graphicImage style="margin-bottom: 3.5px" value="/images/iconos/crown.png" width="11" height="11"/>
-                                            </p:commandLink>
-                                        </h:panelGroup>
-                                    </center>       
-                                </div>
-                            </h:panelGroup>
-                            <h:panelGroup rendered="#{miembro.rol.toLowerCase().equalsIgnoreCase('invitado')}">
-                                <div class="usuario usuario-invitado">                                
-                                    <center>
-                                        <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioId.usuario}"/></b>
-                                        <br/>
-                                        <h:graphicImage rendered="#{miembro.usuarioId.avatar eq null}" value="/images/avatares/default/avatar_invitado.jpg" height="65" width="65"/>
-                                        <h:graphicImage rendered="#{miembro.usuarioId.avatar ne null}" value="#{miembro.usuarioId.avatar}" height="65" width="65"/>
-                                        <br/>
-                                        <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
-                                        <br/>
-                                        <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and !miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario)}">
-                                            <p:commandLink styleClass="glyphicon glyphicon-remove" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').show();" style="text-decoration: none; font-size: 13px; color: #bb0000" /> 
-                                        </h:panelGroup>
-                                        <p:commandLink rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black" />                                    
-                                        <p:commandLink rendered="#{!usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; font-size: 13px; color: black" />                                    
-                                    </center>
-                                </div>
-                            </h:panelGroup> 
+                <h:panelGroup rendered="#{!proyectoBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
+                    #{proyectoBean.error}
+                </h:panelGroup>
+                <center>                    
+                    <p style="font-style: italic; word-wrap:break-word;"> #{usuarioBean.proyectoSeleccionado.descripcion}</p>
+                </center>
 
-                            <p:dialog header="Eliminar usuario del proyecto" widgetVar="#{miembro.usuarioId.usuario}Eliminacion" modal="true" resizable="false" closeOnEscape="true" closable="false">
+                <h3 style="color: #000000">Usuarios</h3>                
+                <div class="separador"></div>
+                <h:form id="usuarios">
+                    <c:forEach items="#{proyectoBean.listaMiembrosRoles}" var="miembro">
+                        <h:panelGroup rendered="#{miembro.rol.toLowerCase().equalsIgnoreCase('líder')}">
+                            <div class="usuario">
                                 <center>
-                                    ¿Estás seguro de eliminar al usuario del proyecto?
+                                    <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioId.usuario}"/></b>
                                     <br/>
-                                    <br/>                                           
-                                    <a onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-default">Cancelar</a>
-                                    <h:commandButton style="margin-left: 3px" value="Eliminar" action="#{proyectoBean.doEliminarUsuario(miembro.usuarioId)}" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-danger"> 
-                                        <f:ajax execute="@this" render="usuarios"/>
-                                    </h:commandButton>
-                                </center>
-                            </p:dialog>        
-                            <p:dialog rendered="#{miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario)}" header="Salir del proyecto" widgetVar="#{miembro.usuarioId.usuario}Eliminacion" modal="true" resizable="false" closeOnEscape="true" closable="false">
-                                <center>
-                                    ¿Estás seguro de salir del proyecto?
+                                    <h:graphicImage rendered="#{miembro.usuarioId.avatar eq null}" value="/images/avatares/default/avatar_lider.jpg" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{miembro.usuarioId.avatar ne null}" value="#{miembro.usuarioId.avatar}" height="65" width="65"/>
                                     <br/>
-                                    <br/>   
-                                    <a onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-default">Cancelar</a>
-                                    <h:commandButton style="margin-left: 3px" value="Salir" action="#{proyectoBean.doEliminarUsuario(miembro.usuarioId)}" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-danger"/>
-                                </center>
-                            </p:dialog>
-                            <p:dialog header="Información del usuario" widgetVar="#{miembro.usuarioId.usuario}Informacion" modal="true" resizable="false" closeOnEscape="true" >
-                                <center>                                    
-                                    <h:graphicImage rendered="#{miembro.usuarioId.avatar eq null and miembro.rol.equalsIgnoreCase('líder')}" value="/images/avatares/default/avatar_lider.jpg" height="80" width="80"/>
-                                    <h:graphicImage rendered="#{miembro.usuarioId.avatar ne null and miembro.rol.equalsIgnoreCase('líder')}" value="#{miembro.usuarioId.avatar}" height="80" width="80"/>
-                                    <h:graphicImage rendered="#{miembro.usuarioId.avatar eq null and miembro.rol.equalsIgnoreCase('miembro')}" value="/images/avatares/default/avatar_miembro.jpg" height="80" width="80"/>
-                                    <h:graphicImage rendered="#{miembro.usuarioId.avatar ne null and miembro.rol.equalsIgnoreCase('miembro')}" value="#{miembro.usuarioId.avatar}" height="80" width="80"/>
-                                    <h:graphicImage rendered="#{miembro.usuarioId.avatar eq null and miembro.rol.equalsIgnoreCase('invitado')}" value="/images/avatares/default/avatar_invitado.jpg" height="80" width="80"/>
-                                    <h:graphicImage rendered="#{miembro.usuarioId.avatar ne null and miembro.rol.equalsIgnoreCase('invitado')}" value="#{miembro.usuarioId.avatar}" height="80" width="80"/>
+                                    <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
                                     <br/>
-                                    <br/>
-                                    Usuario: #{miembro.usuarioId.usuario}
-                                    <br/>
-                                    <h:panelGroup rendered="#{not empty miembro.usuarioId.nombre or not empty miembro.usuarioId.apellidos}">
-                                        Nombre: #{miembro.usuarioId.nombre} #{miembro.usuarioId.apellidos}
-                                        <br/>
-                                    </h:panelGroup>
-                                    Email: #{miembro.usuarioId.email}
-                                    <br/>
-                                </center>
-                            </p:dialog>
-                            <p:dialog header="Pasar el liderezgo del proyecto" widgetVar="#{miembro.usuarioId.usuario}Liderazgo" modal="true" closable="false" resizable="false" closeOnEscape="true">
-                                <center>
-                                    ¿Estás seguro de pasar el liderazgo del proyecto?
-                                    <br/>
-                                    <br/>                                           
-                                    <a onclick="PF('#{miembro.usuarioId.usuario}Liderazgo').hide();" class="btn btn-default">Cancelar</a> 
-                                    <h:commandButton style="margin-left: 3px" value="Continuar" action="#{proyectoBean.doPasarLiderazgo(miembro)}" onclick="PF('#{miembro.usuarioId.usuario}Liderazgo').hide();" class="btn btn-success"> 
-                                        <f:ajax execute="@this" render="usuarios"/>
-                                    </h:commandButton>
-                                </center>
-                            </p:dialog>
-                        </c:forEach>                
-
-                        <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" layout="block">
-                            <p:commandButton class="btn btn-default usuario-invitacion" style="font-size: 20pt; padding: 0px" value="+" onclick="PF('invitacion').show();"/>
-                            <p:dialog header="Invitación al proyecto" widgetVar="invitacion" modal="true" resizable="false" showEffect="clip" closeOnEscape="true">
-                                Puedes invitar a tantas personas como quieras (registradas o no en Task4all)
-                                <br/>
-                                <br/>
-                                <h:panelGrid columns="2">
-                                    <h:inputText size="54" value="#{proyectoBean.emailInvitacion}" class="form-control" a:placeholder="Email o nombre de usuario" a:autofocus="true"/>
-                                    <h:commandButton style="margin-left: 3px" value="Invitar" action="#{proyectoBean.doInvitar()}" onclick="PF('invitacion').hide();" class="btn btn-primary">
-                                        <f:ajax execute="usuarios" render="usuarios"/>
-                                    </h:commandButton>
-                                </h:panelGrid>
-                            </p:dialog>
+                                    <p:commandLink styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; font-size: 13px; color: black" />                           
+                                </center>                                
+                            </div>
                         </h:panelGroup>
-                    </h:form>
-                    <h:outputText style="color: black; font-size: 17pt" value="Listas de tareas" rendered="#{usuarioBean.proyectoSeleccionado.fondoId.oscuro eq '0'}"/>
-                    <h:outputText style="color: white; font-size: 17pt" value="Listas de tareas" rendered="#{usuarioBean.proyectoSeleccionado.fondoId.oscuro eq '1'}"/>
-                    <div class="separador"></div>
-                    <center>
-                        <h:form>
-                            <c:forEach items="#{proyectoBean.listas}" var="lista" varStatus="bucle">
-                                <div class="lista">
-                                    <center>
-                                        <h4 style="margin-bottom: -10px;"><b>#{lista.nombre}</b></h4>
-                                        <br/>
-                                        <i>#{lista.descripcion}</i>
-                                    </center>
-                                    <div class="separador"></div>                       
-                                    <c:forEach items="#{proyectoBean.tareas.get(bucle.index)}" var="tarea">                           
-                                        <h:commandLink action="#{tareaBean.doMostrar(tarea)}" style="color: black; text-decoration: none;">                                 
-                                            <div class="tarea">
-                                                #{tarea.nombre}
-                                            </div>
-                                        </h:commandLink>
-                                    </c:forEach>
+                        <h:panelGroup rendered="#{miembro.rol.toLowerCase().equalsIgnoreCase('miembro')}">
+                            <div class="usuario usuario-miembro">
+                                <center>
+                                    <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioId.usuario}"/></b>
+                                    <br/>
+                                    <h:graphicImage rendered="#{miembro.usuarioId.avatar eq null}" value="/images/avatares/default/avatar_miembro.jpg" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{miembro.usuarioId.avatar ne null}" value="#{miembro.usuarioId.avatar}" height="65" width="65"/>
+                                    <br/>
+                                    <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
+                                    <br/>
+                                    <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and !miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario) or (!usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario))}"> 
+                                        <p:commandLink styleClass="glyphicon glyphicon-remove" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').show();" style="text-decoration: none; font-size: 13px; color: #bb0000" />                                            
+                                    </h:panelGroup>
+                                    <p:commandLink rendered="#{miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario) or usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black" /> 
+                                    <p:commandLink rendered="#{!miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario) and !usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; font-size: 13px; color: black" /> 
+                                    <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and !miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario)}">
+                                        <p:commandLink onclick="PF('#{miembro.usuarioId.usuario}Liderazgo').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black;" >
+                                            <h:graphicImage style="margin-bottom: 3.5px" value="/images/iconos/crown.png" width="11" height="11"/>
+                                        </p:commandLink>
+                                    </h:panelGroup>
+                                </center>       
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{miembro.rol.toLowerCase().equalsIgnoreCase('invitado')}">
+                            <div class="usuario usuario-invitado">                                
+                                <center>
+                                    <b><h:outputText id="nombreUsuario" value="#{miembro.usuarioId.usuario}"/></b>
+                                    <br/>
+                                    <h:graphicImage rendered="#{miembro.usuarioId.avatar eq null}" value="/images/avatares/default/avatar_invitado.jpg" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{miembro.usuarioId.avatar ne null}" value="#{miembro.usuarioId.avatar}" height="65" width="65"/>
+                                    <br/>
+                                    <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
+                                    <br/>
+                                    <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and !miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario)}">
+                                        <p:commandLink styleClass="glyphicon glyphicon-remove" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').show();" style="text-decoration: none; font-size: 13px; color: #bb0000" /> 
+                                    </h:panelGroup>
+                                    <p:commandLink rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black" />                                    
+                                    <p:commandLink rendered="#{!usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; font-size: 13px; color: black" />                                    
+                                </center>
+                            </div>
+                        </h:panelGroup> 
 
-                                    <h:commandLink action="#{tareaBean.doCrear(lista)}" style="color: black; text-decoration: none;">
-                                        <div class="tarea tarea-crear">
-                                            Crear nueva tarea
+                        <p:dialog header="Eliminar usuario del proyecto" widgetVar="#{miembro.usuarioId.usuario}Eliminacion" modal="true" resizable="false" closeOnEscape="true" closable="false">
+                            <center>
+                                ¿Estás seguro de eliminar al usuario del proyecto?
+                                <br/>
+                                <br/>                                           
+                                <a onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-default">Cancelar</a>
+                                <h:commandButton style="margin-left: 3px" value="Eliminar" action="#{proyectoBean.doEliminarUsuario(miembro.usuarioId)}" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-danger"> 
+                                    <f:ajax execute="@this" render="usuarios"/>
+                                </h:commandButton>
+                            </center>
+                        </p:dialog>        
+                        <p:dialog rendered="#{miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario)}" header="Salir del proyecto" widgetVar="#{miembro.usuarioId.usuario}Eliminacion" modal="true" resizable="false" closeOnEscape="true" closable="false">
+                            <center>
+                                ¿Estás seguro de salir del proyecto?
+                                <br/>
+                                <br/>   
+                                <a onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-default">Cancelar</a>
+                                <h:commandButton style="margin-left: 3px" value="Salir" action="#{proyectoBean.doEliminarUsuario(miembro.usuarioId)}" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').hide();" class="btn btn-danger">
+                                    <f:ajax execute="@this" render="usuarios"/>
+                                </h:commandButton>
+                            </center>
+                        </p:dialog>
+                        <p:dialog header="Información del usuario" widgetVar="#{miembro.usuarioId.usuario}Informacion" modal="true" resizable="false" closeOnEscape="true" >
+                            <center>                                    
+                                <h:graphicImage rendered="#{miembro.usuarioId.avatar eq null and miembro.rol.equalsIgnoreCase('líder')}" value="/images/avatares/default/avatar_lider.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.usuarioId.avatar ne null and miembro.rol.equalsIgnoreCase('líder')}" value="#{miembro.usuarioId.avatar}" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.usuarioId.avatar eq null and miembro.rol.equalsIgnoreCase('miembro')}" value="/images/avatares/default/avatar_miembro.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.usuarioId.avatar ne null and miembro.rol.equalsIgnoreCase('miembro')}" value="#{miembro.usuarioId.avatar}" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.usuarioId.avatar eq null and miembro.rol.equalsIgnoreCase('invitado')}" value="/images/avatares/default/avatar_invitado.jpg" height="80" width="80"/>
+                                <h:graphicImage rendered="#{miembro.usuarioId.avatar ne null and miembro.rol.equalsIgnoreCase('invitado')}" value="#{miembro.usuarioId.avatar}" height="80" width="80"/>
+                                <br/>
+                                <br/>
+                                Usuario: #{miembro.usuarioId.usuario}
+                                <br/>
+                                <h:panelGroup rendered="#{not empty miembro.usuarioId.nombre or not empty miembro.usuarioId.apellidos}">
+                                    Nombre: #{miembro.usuarioId.nombre} #{miembro.usuarioId.apellidos}
+                                    <br/>
+                                </h:panelGroup>
+                                Email: #{miembro.usuarioId.email}
+                                <br/>
+                            </center>
+                        </p:dialog>
+                        <p:dialog header="Pasar el liderezgo del proyecto" widgetVar="#{miembro.usuarioId.usuario}Liderazgo" modal="true" closable="false" resizable="false" closeOnEscape="true">
+                            <center>
+                                ¿Estás seguro de pasar el liderazgo del proyecto?
+                                <br/>
+                                <br/>                                           
+                                <a onclick="PF('#{miembro.usuarioId.usuario}Liderazgo').hide();" class="btn btn-default">Cancelar</a> 
+                                <h:commandButton style="margin-left: 3px" value="Continuar" action="#{proyectoBean.doPasarLiderazgo(miembro)}" onclick="PF('#{miembro.usuarioId.usuario}Liderazgo').hide();" class="btn btn-success"> 
+                                    <f:ajax execute="@this" render="usuarios"/>
+                                </h:commandButton>
+                            </center>
+                        </p:dialog>
+                    </c:forEach>                
+
+                    <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" layout="block">
+                        <p:commandButton class="btn btn-default usuario-invitacion" style="font-size: 20pt; padding: 0px" value="+" onclick="PF('invitacion').show();"/>
+                        <p:dialog header="Invitación al proyecto" widgetVar="invitacion" modal="true" resizable="false" showEffect="clip" closeOnEscape="true">
+                            Puedes invitar a tantas personas como quieras (registradas o no en Task4all)
+                            <br/>
+                            <br/>
+                            <h:panelGrid columns="2">
+                                <h:inputText size="54" value="#{proyectoBean.emailInvitacion}" class="form-control" a:placeholder="Email o nombre de usuario" a:autofocus="true"/>
+                                <h:commandButton style="margin-left: 3px" value="Invitar" action="#{proyectoBean.doInvitar()}" onclick="PF('invitacion').hide();" class="btn btn-primary">
+                                    <f:ajax execute="usuarios" render="usuarios"/>
+                                </h:commandButton>
+                            </h:panelGrid>
+                        </p:dialog>
+                    </h:panelGroup>
+                </h:form>
+                <h3 style="color: #000000">Listas de tareas</h3>
+                <div class="separador"></div>
+                <center>
+                    <h:form>
+                        <c:forEach items="#{proyectoBean.listas}" var="lista" varStatus="bucle">
+                            <div class="lista">
+                                <center>
+                                    <h4 style="margin-bottom: -10px;"><b>#{lista.nombre}</b></h4>
+                                    <br/>
+                                    <i>#{lista.descripcion}</i>
+                                </center>
+                                <div class="separador"></div>                       
+                                <c:forEach items="#{proyectoBean.tareas.get(bucle.index)}" var="tarea">                           
+                                    <h:commandLink action="#{tareaBean.doMostrar(tarea)}" style="color: black; text-decoration: none;">                                 
+                                        <div class="tarea">
+                                            #{tarea.nombre}
                                         </div>
                                     </h:commandLink>
-                                    <h:commandLink action="#{listaBean.doEditarLista(lista)}" style="float: right; font-size: 12px; margin-top: 3px;">
-                                        Modificar
-                                    </h:commandLink>
-                                    <p:commandLink value="Eliminar" style="font-size: 12px; color: #bb0000" onclick="PF('eliminacionLista').show()" />
-                                    <p:dialog header="Eliminar lista" widgetVar="eliminacionLista" modal="true" resizable="false" closeOnEscape="true" closable="false">
-                                        <center>
-                                            ¿Estás seguro de eliminar la lista?                                        
-                                            <br/>
-                                            <br/>      
-                                            <a onclick="PF('eliminacionLista').hide();" class="btn btn-default">Cancelar</a>                                      
-                                            <h:commandButton style="margin-left: 3px" value="Eliminar" action="#{listaBean.doBorrar(lista)}" onclick="PF('eliminacionLista').hide();" class="btn btn-danger">
-                                                <f:ajax execute="@this" render="@form"/>
-                                            </h:commandButton>
-                                        </center>
-                                    </p:dialog>
-                                </div>
-                            </c:forEach>
-                            <div class="lista lista-crear">
-                                <center>
-                                    <h4 style="margin-bottom: -10px;">Crear lista</h4>
-                                </center>
-                                <br/>
-                                <div class="separador"></div>
-                                <center>
-                                    <h:panelGroup rendered="#{!listaBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
-                                        #{listaBean.error} 
-                                    </h:panelGroup>
+                                </c:forEach>
 
-                                    <div class="input-group" style="width: 100%;">
-                                        <h:inputText value="#{listaBean.nombre}" class="form-control" a:placeholder="Nombre" a:aria-describedby="basic-addon1" />
+                                <h:commandLink action="#{tareaBean.doCrear(lista)}" style="color: black; text-decoration: none;">
+                                    <div class="tarea tarea-crear">
+                                        Crear nueva tarea
                                     </div>
-                                    <br/>
+                                </h:commandLink>
+                                <h:commandLink action="#{listaBean.doEditarLista(lista)}" style="float: right; font-size: 12px; margin-top: 3px;">
+                                    Modificar
+                                </h:commandLink>
+                                <p:commandLink value="Eliminar" style="font-size: 12px; color: #bb0000" onclick="PF('eliminacionLista').show()" />
+                                <p:dialog header="Eliminar lista" widgetVar="eliminacionLista" modal="true" resizable="false" closeOnEscape="true" closable="false">
                                     <center>
-                                        <h:commandButton id="crearLista" action="#{listaBean.doCrearLista()}" value="Crear" class="btn btn-primary" a:aria-expanded="true">                                
-                                            <f:ajax execute="@form" render="@form" />
+                                        ¿Estás seguro de eliminar la lista?                                        
+                                        <br/>
+                                        <br/>      
+                                        <a onclick="PF('eliminacionLista').hide();" class="btn btn-default">Cancelar</a>                                      
+                                        <h:commandButton style="margin-left: 3px" value="Eliminar" action="#{listaBean.doBorrar(lista)}" onclick="PF('eliminacionLista').hide();" class="btn btn-danger">
+                                            <f:ajax execute="@this" render="@form"/>
                                         </h:commandButton>
                                     </center>
-                                </center>
+                                </p:dialog>
                             </div>
-                        </h:form>
-                    </center>
+                        </c:forEach>
+                        <div class="lista lista-crear">
+                            <center>
+                                <h4 style="margin-bottom: -10px;">Crear lista</h4>
+                            </center>
+                            <br/>
+                            <div class="separador"></div>
+                            <center>
+                                <h:panelGroup rendered="#{!listaBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
+                                    #{listaBean.error} 
+                                </h:panelGroup>
 
-                    <br/>
-                    <h:outputText style="color: black; font-size: 17pt" value="Comentarios" rendered="#{usuarioBean.proyectoSeleccionado.fondoId.oscuro eq '0'}"/>
-                    <h:outputText style="color: white; font-size: 17pt" value="Comentarios" rendered="#{usuarioBean.proyectoSeleccionado.fondoId.oscuro eq '1'}"/>
-                    <div class="separador"></div>
-                    <center>
-                        <h:form>
-                            <div class="comentarios" style="#{comentariosBean.overflow()}">
-                                <c:forEach items="#{comentariosBean.listaComentarios}" var="comentario">
-                                    <div class="comentario">
-                                        <div class="comentarioCabecera">
-                                            <div style="text-align: right; font-weight: normal; font-size: 10px; float: right">
-                                                <h:outputText value="#{comentario.fecha}">
-                                                    <f:convertDateTime pattern="dd/MM/yyyy hh:ss" />
-                                                </h:outputText>
-                                                <br/>
-                                                <h:commandLink value="Eliminar" action="#{comentariosBean.doBorrar(comentario)}" rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') or comentario.usuarioId.equals(usuarioBean.usuario)}" style="font-size: 12px; color: #bb0000;" >
-                                                    <f:ajax execute="@form" render="@form" />
-                                                </h:commandLink>
-                                            </div>
-                                            #{comentario.usuarioId.usuario}
-                                        </div>
-                                        <div class="comentarioCuerpo">
-                                            #{comentario.contenido}
-                                        </div>
-                                    </div>
-                                </c:forEach>
+                                <div class="input-group" style="width: 100%;">
+                                    <h:inputText value="#{listaBean.nombre}" class="form-control" a:placeholder="Nombre" a:aria-describedby="basic-addon1" />
+                                </div>
                                 <br/>
-                            </div>
+                                <center>
+                                    <h:commandButton id="crearLista" action="#{listaBean.doCrearLista()}" value="Crear" class="btn btn-primary" a:aria-expanded="true">                                
+                                        <f:ajax execute="@form" render="@form" />
+                                    </h:commandButton>
+                                </center>
+                            </center>
+                        </div>
+                    </h:form>
+                </center>
 
-                            <h:panelGroup rendered="#{!comentariosBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
-                                #{comentariosBean.error} 
-                            </h:panelGroup>
-                            <div class="input-group" style="width: 100%;">
-                                <h:inputTextarea value="#{comentariosBean.contenido}" style="margin: 10px; max-width: 1090px; resize: vertical;" class="form-control" a:placeholder="Comenta algo..." />
-                            </div>
-                            <h:commandButton value="Enviar" action="#{comentariosBean.doCrear()}" style="width: 150px; margin-bottom: 10px;" class="btn btn-success" a:aria-expanded="false">
-                                <f:ajax execute="@form" render="@form" />
-                            </h:commandButton>
-                        </h:form>
-                    </center>
+                <br/>
+                <h3 style="color: #000000">Comentarios</h3>
+                <div class="separador"></div>
+                <center>
+                    <h:form>
+                        <div class="comentarios" style="#{comentariosBean.overflow()}">
+                            <c:forEach items="#{comentariosBean.listaComentarios}" var="comentario">
+                                <div class="comentario">
+                                    <div class="comentarioCabecera">
+                                        <div style="text-align: right; font-weight: normal; font-size: 10px; float: right">
+                                            <h:outputText value="#{comentario.fecha}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy hh:ss" />
+                                            </h:outputText>
+                                            <br/>
+                                            <h:commandLink value="Eliminar" action="#{comentariosBean.doBorrar(comentario)}" rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') or comentario.usuarioId.equals(usuarioBean.usuario)}" style="font-size: 12px; color: #bb0000;" >
+                                                <f:ajax execute="@form" render="@form" />
+                                            </h:commandLink>
+                                        </div>
+                                        #{comentario.usuarioId.usuario}
+                                    </div>
+                                    <div class="comentarioCuerpo">
+                                        #{comentario.contenido}
+                                    </div>
+                                </div>
+                            </c:forEach>
+                            <br/>
+                        </div>
+
+                        <h:panelGroup rendered="#{!comentariosBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
+                            #{comentariosBean.error} 
+                        </h:panelGroup>
+                        <div class="input-group" style="width: 100%;">
+                            <h:inputTextarea value="#{comentariosBean.contenido}" style="margin: 10px; max-width: 1090px; resize: vertical;" class="form-control" a:placeholder="Comenta algo..." />
+                        </div>
+                        <h:commandButton value="Enviar" action="#{comentariosBean.doCrear()}" style="width: 150px; margin-bottom: 10px;" class="btn btn-success" a:aria-expanded="false">
+                            <f:ajax execute="@form" render="@form" />
+                        </h:commandButton>
+                    </h:form>
+                </center>
                 </h:panelGroup>
                 <div class="containerFooter">
                     <center>

@@ -230,9 +230,9 @@ public class ProyectoBean {
             Fondo fondo = new Fondo();
             fondo.setNombre(fondoBean.getFondo());
             if (fondoBean.getFondo().contains("oscuro")) {
-                fondo.setOscuro('1');
+                fondo.setOscuro('o');
             } else {
-                fondo.setOscuro('0');
+                fondo.setOscuro('c');
             }
             fondo.setUrl("/Task4allJSF-war/images/fondos/" + fondoBean.getFondo());
             fondoFacade.create(fondo);

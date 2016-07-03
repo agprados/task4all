@@ -122,7 +122,7 @@ public class ProyectosBean {
 
             Fondo fondo = new Fondo();
             fondo.setNombre("fondo_claro_0.png");
-            fondo.setOscuro('0');
+            fondo.setOscuro('o');
             fondo.setUrl("/Task4allJSF-war/images/fondos/fondo_claro_0.png");
             fondoFacade.create(fondo);
             int claveFondo = fondoFacade.findMaxProyectoId();
