@@ -37,7 +37,8 @@
 
                     <h4>Nombre *</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
-                        <h:inputText value="#{usuarioBean.proyectoSeleccionado.nombre}" style="border-radius: 5px" class="form-control"/>
+                        #{proyectoBean.setNombre(usuarioBean.proyectoSeleccionado.nombre)}
+                        <h:inputText value="#{proyectoBean.nombre}" style="border-radius: 5px" class="form-control"/>
                     </div>
                     <br/>
                     <h4>Descripción</h4>
@@ -46,8 +47,7 @@
                     </div>
                     <br/>
                     <h4>Fecha objetivo</h4>
-                    <div class="input-group input-group-lg" style="width: 500px;">
-                        <p:growl id="msgs" showDetail="true" />
+                    <div class="input-group input-group-lg" style="width: 500px;">                        
                         <p:calendar id="popup" value="#{proyectoBean.fechaObjetivo}" pattern="dd/MM/yyyy" showOn="both"/>                      
                         <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">                            
                             <h:outputText value="#{proyectoBean.fechaObjetivo}">
@@ -59,8 +59,8 @@
 
                     <center>
                         <h4>Fondo</h4>  
-                        #{fondoBean.setFondo(usuarioBean.proyectoSeleccionado.fondoId.nombre)}
-                        <p:graphicImage id="fondo" style="border: 1px solid black; width: 350px; height: 170px" value="images/fondos/#{fondoBean.fondo}"/>
+                        #{fondoBean.setFondo(usuarioBean.proyectoSeleccionado.fondoId)}
+                        <p:graphicImage id="fondo" style="border: 1px solid black; width: 350px; height: 170px" value="#{fondoBean.fondo.url}"/>
                         <br/>
                         <h:commandLink style="font-size: 12px; height: 30px; width: 100px" action="#{fondoBean.anterior()}" class="btn btn-default" >
                             <i class="fa fa-arrow-left"></i>

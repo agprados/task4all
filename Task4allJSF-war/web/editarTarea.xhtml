@@ -56,6 +56,7 @@
 
                     <h4>Nombre *</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
+                        #{tareaBean.setNombre(usuarioBean.tareaSeleccionada.nombre)}
                         <h:inputText rendered="#{usuarioBean.tareaSeleccionada.id eq null}" value="#{tareaBean.nombre}" style="border-radius: 5px" class="form-control" a:autofocus="true"/>
                         <h:inputText rendered="#{usuarioBean.tareaSeleccionada.id ne null}" value="#{tareaBean.nombre}" style="border-radius: 5px" class="form-control" />                       
                     </div>

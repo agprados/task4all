@@ -38,6 +38,7 @@ import org.primefaces.json.JSONException;
 import org.primefaces.json.JSONObject;
 import org.primefaces.model.UploadedFile;
 import task4all.ejb.UsuarioFacade;
+import task4all.entity.Fondo;
 import task4all.entity.Lista;
 import task4all.entity.Proyecto;
 import task4all.entity.Tarea;
@@ -94,7 +95,7 @@ public class UsuarioBean {
         errorConfiguracion = "";
         correctaConfiguracion = "";
         errorSocial = "";
-        usuario = new Usuario();
+        usuario = new Usuario();        
     }
 
     public Usuario getUsuario() {

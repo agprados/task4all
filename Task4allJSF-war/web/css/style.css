@@ -301,6 +301,10 @@ a.btn.social-disconnected:hover {
     background: none;  
 }
 
+.cerrarSesion:hover{
+    background-color: #F5F5F5;
+}
+    
 .btn-proyecto-header {
     background: none !important;
     box-shadow: none !important;

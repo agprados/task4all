@@ -188,6 +188,14 @@ public class ProyectoBean {
         this.proyectosBean = proyectosBean;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public Date getFechaObjetivo() {
         return fechaObjetivo;
     }
@@ -197,6 +205,7 @@ public class ProyectoBean {
     }
 
     public String doEditar() {
+        nombre = usuarioBean.getProyectoSeleccionado().getNombre();
         if (usuarioBean.getProyectoSeleccionado().getFechaobjetivo() != null) {
             fechaObjetivo = usuarioBean.getProyectoSeleccionado().getFechaobjetivo();
         }
@@ -205,7 +214,7 @@ public class ProyectoBean {
     }
 
     public String doGuardar() {
-        if (usuarioBean.getProyectoSeleccionado().getNombre() == null || usuarioBean.getProyectoSeleccionado().getNombre().isEmpty()) {
+        if (nombre == null || nombre.isEmpty()) {
             error = "El nombre del proyecto tiene que tener al menos 1 caracter";
             return "editarProyecto";
         }
@@ -216,30 +225,11 @@ public class ProyectoBean {
             usuarioBean.getProyectoSeleccionado().setFechaobjetivo(null);
         }
 
-        Fondo antiguo = null;
-        if (!fondoBean.getFondo().equals(usuarioBean.getProyectoSeleccionado().getFondoId().getNombre())) {            
-            Fondo fondo = new Fondo();
-            fondo.setNombre(fondoBean.getFondo());
-            if (fondoBean.getFondo().contains("oscuro")) {
-                fondo.setOscuro('1');
-            } else {
-                fondo.setOscuro('0');
-            }
-            fondo.setUrl("/Task4allJSF-war/images/fondos/" + fondoBean.getFondo());
-            fondoFacade.create(fondo);
-            int claveFondo = fondoFacade.findMaxProyectoId();
-            fondo.setId(claveFondo);
-            
-            antiguo = usuarioBean.getProyectoSeleccionado().getFondoId();
-            usuarioBean.getProyectoSeleccionado().setFondoId(fondo);
-            
+        if (!fondoBean.getFondo().equals(usuarioBean.getProyectoSeleccionado().getFondoId())) {            
+            usuarioBean.getProyectoSeleccionado().setFondoId(fondoBean.getFondo());
         }
         
-        proyectoFacade.edit(usuarioBean.getProyectoSeleccionado());
-        
-        if(antiguo != null) {
-            fondoFacade.remove(antiguo);
-        }
+        proyectoFacade.edit(usuarioBean.getProyectoSeleccionado());       
 
         return "proyecto?faces-redirect=true";
     }
