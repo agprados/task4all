@@ -11,18 +11,17 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.application.FacesMessage;
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import task4all.ejb.FondoFacade;
 import task4all.ejb.ListaFacade;
 import task4all.ejb.ProyectoFacade;
 import task4all.ejb.TareaFacade;
 import task4all.ejb.UsuarioFacade;
 import task4all.ejb.UsuarioProyectoFacade;
-import task4all.entity.Fondo;
 import task4all.entity.Lista;
 import task4all.entity.Proyecto;
 import task4all.entity.Tarea;
@@ -48,8 +47,6 @@ public class ProyectoBean {
     private ProyectoFacade proyectoFacade;
     @EJB
     private UsuarioFacade usuarioFacade;
-    @EJB
-    private FondoFacade fondoFacade;
 
     @ManagedProperty(value = "#{usuarioBean}")
     private UsuarioBean usuarioBean;
@@ -227,11 +224,11 @@ public class ProyectoBean {
             usuarioBean.getProyectoSeleccionado().setFechaobjetivo(null);
         }
 
-        if (!fondoBean.getFondo().equals(usuarioBean.getProyectoSeleccionado().getFondoId())) {            
+        if (!fondoBean.getFondo().equals(usuarioBean.getProyectoSeleccionado().getFondoId())) {
             usuarioBean.getProyectoSeleccionado().setFondoId(fondoBean.getFondo());
         }
-        
-        proyectoFacade.edit(usuarioBean.getProyectoSeleccionado());       
+
+        proyectoFacade.edit(usuarioBean.getProyectoSeleccionado());
 
         return "proyecto?faces-redirect=true";
     }
@@ -295,23 +292,22 @@ public class ProyectoBean {
     public String doInvitar() {
         error = "";
         if (emailInvitacion == null || emailInvitacion.isEmpty()) {
-            error = "El email no puede estar vacío";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email no puede estar vacío",""));
             return "proyecto";
         }
         if (!emailInvitacion.contains("@") || !emailInvitacion.contains(".")) {
-            error = "El email no es válido";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email no es válido",""));            
             return "proyecto";
         }
 
         Usuario u = this.usuarioFacade.findUsuarioByEmail(emailInvitacion);
 
         if (u == null) {
-            error = "El usuario no se encuentra registrado en el sistema";
-            emailInvitacion = "";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario no se encuentra registrado en el sistema",""));
             return "proyecto";
         }
         if (usuarioProyectoFacade.findUsuarioProyectoByEmailAndProyecto(emailInvitacion, usuarioBean.getProyectoSeleccionado().getId()) != null) {
-            error = "Ese usuario ya pertenece al proyecto";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ese usuario ya pertenece al proyecto",""));        
             emailInvitacion = "";
             return "proyecto";
         }
@@ -320,7 +316,7 @@ public class ProyectoBean {
             mandarEmailInvitacion(emailInvitacion, usuarioBean.getProyectoSeleccionado().getId());
             emailInvitacion = "";
         } catch (Exception e) {
-            error = "Se ha producido un error al enviar la invitación";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "e ha producido un error al enviar la invitación",""));
             return "proyecto";
         }
 

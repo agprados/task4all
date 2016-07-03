@@ -51,10 +51,11 @@
                 </div>
                 <h:panelGroup>     
                     <br/>
-                    <h:panelGroup rendered="#{!proyectoBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
+                     <center>
+                    <p:messages autoUpdate="true" style="width: 600px"/>                    
+                    <h:panelGroup id="errores" rendered="#{!proyectoBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
                         #{proyectoBean.error}
-                    </h:panelGroup>
-                    <center>
+                    </h:panelGroup>                   
                         <h:outputText style="color: black; font-size: 10pt; font-style: italic; word-wrap:break-word;" value="#{usuarioBean.proyectoSeleccionado.descripcion}" rendered="#{usuarioBean.proyectoSeleccionado.fondoId.oscuro eq '0'}"/>
                         <h:outputText style="color: white; font-size: 10pt; font-style: italic; word-wrap:break-word;" value="#{usuarioBean.proyectoSeleccionado.descripcion}" rendered="#{usuarioBean.proyectoSeleccionado.fondoId.oscuro eq '1'}"/> 
                         <br/>
@@ -181,8 +182,8 @@
                                 <br/>
                                 <h:panelGrid columns="2">
                                     <h:inputText size="54" value="#{proyectoBean.emailInvitacion}" class="form-control" a:placeholder="Email o nombre de usuario" a:autofocus="true"/>
-                                    <h:commandButton style="margin-left: 3px" value="Invitar" action="#{proyectoBean.doInvitar()}" onclick="PF('invitacion').hide();" class="btn btn-primary">
-                                        <f:ajax execute="usuarios" render="usuarios"/>
+                                    <h:commandButton style="margin-left: 3px" value="Invitar" action="#{proyectoBean.doInvitar()}" class="btn btn-primary">
+                                        <p:ajax oncomplete="PF('invitacion').hide();" process="usuarios" update="usuarios errores"/>
                                     </h:commandButton>
                                 </h:panelGrid>
                             </p:dialog>
