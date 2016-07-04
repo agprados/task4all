@@ -59,7 +59,7 @@ public class ProyectoBean {
     private List<Lista> listas;
     private List<List<Tarea>> tareas;
     private String error;
-    private String emailInvitacion;
+    private String invitacion;
     private String nombre;
     private Date fechaObjetivo;
 
@@ -72,7 +72,7 @@ public class ProyectoBean {
     @PostConstruct
     public void init() {
         this.error = "";
-        emailInvitacion = "";
+        invitacion = "";
         listaMiembrosRoles = this.usuarioProyectoFacade.findUsuarioProyectoByProyecto(usuarioBean.getProyectoSeleccionado().getId());
         ordenarListaMiembros();
 
@@ -173,12 +173,12 @@ public class ProyectoBean {
         this.error = error;
     }
 
-    public String getEmailInvitacion() {
-        return emailInvitacion;
+    public String getInvitacion() {
+        return invitacion;
     }
 
-    public void setEmailInvitacion(String emailInvitacion) {
-        this.emailInvitacion = emailInvitacion;
+    public void setInvitacion(String invitacion) {
+        this.invitacion = invitacion;
     }
 
     public void setProyectosBean(ProyectosBean proyectosBean) {
@@ -291,30 +291,31 @@ public class ProyectoBean {
 
     public String doInvitar() {
         error = "";
-        if (emailInvitacion == null || emailInvitacion.isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email no puede estar vacío",""));
+        if (invitacion == null || invitacion.isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email o el nombre de usuarios no puede estar vacío",""));
             return "proyecto";
         }
-        if (!emailInvitacion.contains("@") || !emailInvitacion.contains(".")) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email no es válido",""));            
-            return "proyecto";
+        
+         Usuario u;
+        if (invitacion.contains("@") && invitacion.contains(".")) {
+           u = this.usuarioFacade.findUsuarioByEmail(invitacion);
+        } else {
+            u = this.usuarioFacade.findUsuarioByUsuario(invitacion);
         }
-
-        Usuario u = this.usuarioFacade.findUsuarioByEmail(emailInvitacion);
 
         if (u == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario no se encuentra registrado en el sistema",""));
             return "proyecto";
         }
-        if (usuarioProyectoFacade.findUsuarioProyectoByEmailAndProyecto(emailInvitacion, usuarioBean.getProyectoSeleccionado().getId()) != null) {
+        if (usuarioProyectoFacade.findUsuarioProyectoByEmailAndProyecto(u.getEmail(), usuarioBean.getProyectoSeleccionado().getId()) != null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ese usuario ya pertenece al proyecto",""));        
-            emailInvitacion = "";
+            invitacion = "";
             return "proyecto";
         }
 
         try {
-            mandarEmailInvitacion(emailInvitacion, usuarioBean.getProyectoSeleccionado().getId());
-            emailInvitacion = "";
+            mandarEmailInvitacion(u.getEmail(), usuarioBean.getProyectoSeleccionado().getId());
+            invitacion = "";
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "e ha producido un error al enviar la invitación",""));
             return "proyecto";
@@ -331,7 +332,7 @@ public class ProyectoBean {
 
         listaMiembrosRoles.add(up);
 
-        emailInvitacion = "";
+        invitacion = "";
 
         return "proyecto";
     }
