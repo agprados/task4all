@@ -13,28 +13,34 @@
                 <ul style="min-width: 220px;" class="dropdown-menu pull-left">
                     <h:form>
                         <h:panelGroup rendered="#{empty proyectosBean.proyectosLider and empty proyectosBean.proyectosMiembro}">
-                        <h:outputText value="No tienes ningún proyecto" style="font-size: 12pt; font-weight: bold; margin-left: 7px"/>
-                        <br/><br/>
-                        <h:outputText value="Anímate a crear algún proyecto" style="font-size: 11pt; margin-left: 7px"/>         
+                            <h:outputText value="No tienes ningún proyecto" style="font-size: 12pt; font-weight: bold; margin-left: 7px"/>
+                            <br/><br/>
+                            <h:outputText value="Anímate a crear algún proyecto" style="font-size: 11pt; margin-left: 7px"/>         
                         </h:panelGroup>
                         <h:panelGroup rendered="#{not empty proyectosBean.proyectosLider}">
-                        <h:outputText value="Proyectos siendo líder" style="font-size: 12pt; font-weight: bold; margin-left: 7px"/>
-                        <c:forEach items="#{proyectosBean.proyectosLider}" var="proyecto">                            
-                            <h:panelGrid columns="2" style="margin-top: 5px">
-                                <h:graphicImage style="border: 1px solid black; border-radius: 1px; margin-left: 12px; margin-right: 2px" value="/images/fondos/#{proyecto.fondoId.nombre}" height="22" width="16"/>
-                                <h:commandButton value="#{proyecto.nombre}" class="btn btn-default btn-proyecto-header" style="padding-left: 6px; padding-right: 6px; text-align: left; color: black; border: none; border-radius: 0;" action="#{proyectosBean.doVerProyecto(proyecto)}"/>
-                            </h:panelGrid>
-                        </c:forEach>
+                            <h:outputText value="Proyectos siendo líder" style="font-size: 12pt; font-weight: bold; margin-left: 7px"/>
+                            <c:forEach items="#{proyectosBean.proyectosLider}" var="proyecto">    
+                                <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="text-decoration: none;">
+                                    <div style="background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="proyecto-tareas proyecto-proyectos" >
+                                        <h:outputText style="color: black; font-size: 10.4pt" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                        <h:outputText style="color: white; font-size: 10.4pt" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/> 
+                                        <br/>                               
+                                    </div> 
+                                </h:commandLink>
+                            </c:forEach>
                         </h:panelGroup>
                         <h:panelGroup rendered="#{not empty proyectosBean.proyectosMiembro}">
-                        <li role="separator" class="divider"></li>
-                        <h:outputText value="Proyectos siendo miembro" style="font-size: 12pt; font-weight: bold; margin-left: 7px"/>
-                        <c:forEach items="#{proyectosBean.proyectosMiembro}" var="proyecto">
-                            <h:panelGrid columns="2" style="margin-top: 5px">
-                                <h:graphicImage style="border: 1px solid black; border-radius: 1px; margin-left: 12px; margin-right: 2px" value="/images/fondos/#{proyecto.fondoId.nombre}" height="22" width="16"/>
-                                <h:commandButton value="#{proyecto.nombre}" class="btn btn-default btn-proyecto-header" style="padding-left: 6px; padding-right: 6px; text-align: left; color: black; border: none; border-radius: 0;" action="#{proyectosBean.doVerProyecto(proyecto)}"/>
-                            </h:panelGrid>
-                        </c:forEach>
+                            <li role="separator" class="divider"></li>
+                            <h:outputText value="Proyectos siendo miembro" style="font-size: 12pt; font-weight: bold; margin-left: 7px"/>
+                            <c:forEach items="#{proyectosBean.proyectosMiembro}" var="proyecto">
+                                <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="text-decoration: none;">
+                                    <div style="background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="proyecto-tareas proyecto-proyectos" >
+                                        <h:outputText style="color: black; font-size: 10.4pt" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                        <h:outputText style="color: white; font-size: 10.4pt" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/> 
+                                        <br/>                               
+                                    </div> 
+                                </h:commandLink>
+                            </c:forEach>
                         </h:panelGroup>
                     </h:form>
                 </ul>

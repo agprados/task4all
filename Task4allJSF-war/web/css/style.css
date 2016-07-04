@@ -142,6 +142,11 @@ html body {
     overflow-wrap: normal;
 }
 
+.proyecto-proyectos {
+    height: 28px;
+    padding-top: 3px;
+}
+
 .proyecto-no-elementos {
     color:#999999; 
     background: #efefef; 

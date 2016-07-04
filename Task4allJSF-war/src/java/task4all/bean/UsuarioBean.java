@@ -384,7 +384,7 @@ public class UsuarioBean {
         usuario.setAvatar(null);
         this.usuarioFacade.edit(usuario);       
         
-        return "configuracion?faces-redirect=true";
+        return "configuracion";
     }
 
     public String doRecuperarContrasena() {
