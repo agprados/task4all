@@ -43,7 +43,7 @@
                 </h:panelGroup>
                 <h:panelGroup>                    
                     <h:form style="display: inline-block">
-                        <c:forEach items="#{proyectosBean.proyectosLider}" var="proyecto">
+                        <c:forEach items="#{usuarioBean.proyectosConTareasAsignadas}" var="proyecto">
                             <h:commandLink style="font-size: 22px; color: black" value="#{proyecto.nombre}" action="#{proyectosBean.doVerProyecto(proyecto)}" />
                             <c:forEach items="#{proyecto.listaCollection}" var="lista">    
                                 <c:forEach items="#{lista.tareaCollection}" var="tarea">                                    
@@ -63,26 +63,7 @@
                             </c:forEach>
                             <br/>
                         </c:forEach>
-                        <c:forEach items="#{proyectosBean.proyectosMiembro}" var="proyecto">
-                            <h:commandLink style="font-size: 22px; color: black" value="#{proyecto.nombre}" action="#{proyectosBean.doVerProyecto(proyecto)}" />
-                            <c:forEach items="#{proyecto.listaCollection}" var="lista">    
-                                <c:forEach items="#{lista.tareaCollection}" var="tarea">                                    
-                                    <h:panelGroup rendered="#{usuarioBean.getTareasAsignadas().contains(tarea)}">
-                                        <h:commandLink action="#{tareaBean.doMostrar(proyecto, lista, tarea)}" style="text-decoration: none;">
-                                            <div style="background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="proyecto-tareas" >
-                                                <h:outputText style="color: black; font-size: 12pt; font-weight: bold" value="#{tarea.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
-                                                <h:outputText style="color: white; font-size: 12pt; font-weight: bold" value="#{tarea.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>                                            
-                                                <h:outputText style="margin-left: 10px; float: right; margin-top: 1px" value="#{tarea.fechaobjetivo}">
-                                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="CET" />
-                                                </h:outputText> 
-                                                <br/>                               
-                                            </div>                                        
-                                        </h:commandLink>
-                                    </h:panelGroup>
-                                </c:forEach>
-                            </c:forEach>
-                            <br/>
-                        </c:forEach>
+                        
                     </h:form>   
                 </h:panelGroup>
                 <br/>

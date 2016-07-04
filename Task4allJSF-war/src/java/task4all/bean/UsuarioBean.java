@@ -17,6 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -69,10 +70,12 @@ public class UsuarioBean {
     private String errorRecuperacion;
     private String errorConfiguracion;
     private String errorSocial;
-    private String correctaConfiguracion;    
+    private String correctaConfiguracion;
     private Proyecto proyectoSeleccionado;
     private Tarea tareaSeleccionada;
     private Lista listaSeleccionada;
+    private List<Tarea> tareasAsignadas;
+    private List<Proyecto> proyectosConTareasAsignadas;
     private String rolActual;
     private String emailRecuperacion;
     private String facebookID;
@@ -82,7 +85,7 @@ public class UsuarioBean {
     private final String FB_SECRET = "cb65b5382724343d60019074e274e058";
     private final String GOOGLE_ID = "720887194151-e2tbl9ti0v612god4l566mhe7bjocoa5.apps.googleusercontent.com";
     private final String GOOGLE_SECRET = "NVJFgMbDMt-ab3H4szSblHnr";
-    
+
     /**
      * Creates a new instance of UsuarioBean
      */
@@ -92,13 +95,13 @@ public class UsuarioBean {
     @PostConstruct
     public void init() {
         okLogin = false;
-        errorLogin = "";        
+        errorLogin = "";
         errorRegistro = "";
         errorRecuperacion = "";
         errorConfiguracion = "";
         correctaConfiguracion = "";
         errorSocial = "";
-        usuario = new Usuario();        
+        usuario = new Usuario();
     }
 
     public Usuario getUsuario() {
@@ -160,7 +163,7 @@ public class UsuarioBean {
     public void setAvatar(UploadedFile avatar) {
         this.avatar = avatar;
     }
-    
+
     public String getEmailRecuperacion() {
         return emailRecuperacion;
     }
@@ -211,6 +214,22 @@ public class UsuarioBean {
 
     public void setListaSeleccionada(Lista listaSeleccionada) {
         this.listaSeleccionada = listaSeleccionada;
+    }
+
+    public List<Tarea> getTareasAsignadas() {
+        return this.usuarioTareaFacade.findTareasAsignadasByUsuario(usuario.getId());
+    }
+
+    public List<Proyecto> getProyectosConTareasAsignadas() {
+        proyectosConTareasAsignadas = new ArrayList<>();
+        Proyecto proyecto;
+        for (Tarea tarea : getTareasAsignadas()) {
+            proyecto = tarea.getListaId().getProyectoId();
+            if (!proyectosConTareasAsignadas.contains(proyecto)) {
+                proyectosConTareasAsignadas.add(proyecto);
+            }
+        }
+        return proyectosConTareasAsignadas;
     }
 
     public Proyecto getProyectoSeleccionado() {
@@ -301,9 +320,9 @@ public class UsuarioBean {
             errorConfiguracion = "El campo del email no puede estar vacío";
             return "configuracion";
         }
-        
-        if(!isValidEmail(email)) {
-             errorConfiguracion = "El email no es válido";
+
+        if (!isValidEmail(email)) {
+            errorConfiguracion = "El email no es válido";
             return "configuracion";
         }
 
@@ -314,14 +333,14 @@ public class UsuarioBean {
             errorConfiguracion = "Debes introducir tu contraseña actual";
             return "configuracion";
         }
-        
-        if(isPasswordSet()
+
+        if (isPasswordSet()
                 && contrasenaActual != null && !contrasenaActual.equals("")
                 && usuarioFacade.findUsuarioByUsuarioAndContrasena(usuario.getUsuario(), contrasenaActual) == null) {
             errorConfiguracion = "La contraseña actual no es correcta";
             return "configuracion";
         }
-        
+
         if (!contrasena.equals(verificaContrasena)) {
             errorConfiguracion = "Las contraseñas no coinciden";
             return "configuracion";
@@ -330,29 +349,29 @@ public class UsuarioBean {
         if (!contrasena.equals("") && !contrasena.equals(usuario.getContrasena())) {
             correctaConfiguracion = "Cambios realizados satisfactoriamente";
             usuario.setContrasena(contrasena);
-        } else if(!contrasena.equals("") && contrasena.equals(usuario.getContrasena())) {
+        } else if (!contrasena.equals("") && contrasena.equals(usuario.getContrasena())) {
             errorConfiguracion = "La contraseña no puede ser la misma";
             return "configuracion";
         }
-        
-        if(!nombre.equals(usuario.getNombre()) || !apellidos.equals(usuario.getApellidos())) {
+
+        if (!nombre.equals(usuario.getNombre()) || !apellidos.equals(usuario.getApellidos())) {
             usuario.setNombre(nombre);
             usuario.setApellidos(apellidos);
             correctaConfiguracion = "Cambios realizados satisfactoriamente";
         }
-        
-        if(!email.equalsIgnoreCase(usuario.getEmail())) {
+
+        if (!email.equalsIgnoreCase(usuario.getEmail())) {
             usuario.setEmail(email);
             correctaConfiguracion = "Cambios realizados satisfactoriamente";
         }
-        
+
         if (avatar != null) {
             try {
                 InputStream in = avatar.getInputstream();
                 String ruta = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/")).getAbsolutePath();
                 ruta = ruta.substring(0, ruta.lastIndexOf("dist"));
-                ruta = ruta.concat("Task4allJSF-war" + File.separator + "web" + File.separator + "images" + File.separator + "avatares" + File.separator);                
-                
+                ruta = ruta.concat("Task4allJSF-war" + File.separator + "web" + File.separator + "images" + File.separator + "avatares" + File.separator);
+
                 File f = new File(ruta, avatar.getFileName());
                 FileOutputStream fos = new FileOutputStream(f);
 
@@ -366,34 +385,34 @@ public class UsuarioBean {
                 } finally {
                     in.close();
                     fos.close();
-                }    
-                
+                }
+
                 correctaConfiguracion = "Cambios realizados satisfactoriamente. El avatar estará disponible en unos segundos";
-                
-                usuario.setAvatar(crearRutaAvatar(f.getPath()));    
-                
+
+                usuario.setAvatar(crearRutaAvatar(f.getPath()));
+
             } catch (IOException ex) {
                 Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        this.usuarioFacade.edit(usuario);       
+
+        this.usuarioFacade.edit(usuario);
 
         return "configuracion";
-    }  
+    }
 
     private String crearRutaAvatar(String path) {
         String ruta = path.substring(path.lastIndexOf(File.separator + "images"), path.length());
-        if(ruta.contains("\\")) {
+        if (ruta.contains("\\")) {
             ruta = ruta.replaceAll("\\\\", "/");
         }
         return ruta;
     }
-    
+
     public String doEliminarAvatar() {
         usuario.setAvatar(null);
-        this.usuarioFacade.edit(usuario);       
-        
+        this.usuarioFacade.edit(usuario);
+
         return "configuracion";
     }
 
@@ -404,7 +423,7 @@ public class UsuarioBean {
         }
 
         Usuario u = usuarioFacade.findUsuarioByEmail(emailRecuperacion);
-        
+
         if (u == null) {
             errorRecuperacion = "No hay ningún usuario registrado con ese email";
             return "recuperar";
@@ -448,74 +467,74 @@ public class UsuarioBean {
         } catch (Exception e) {
         }
     }
-    
+
     public String doCompletarRegistro() {
         errorRegistro = "";
-        
-        if(usuarioRegistro == null || usuarioRegistro.equals("")) {
+
+        if (usuarioRegistro == null || usuarioRegistro.equals("")) {
             errorRegistro = "Nombre de usuario vacío";
             email = null;
             return "loginSuccess";
         }
-        
-        if(usuarioFacade.findUsuarioByUsuario(usuarioRegistro) != null) {
+
+        if (usuarioFacade.findUsuarioByUsuario(usuarioRegistro) != null) {
             errorRegistro = "El usuario ya existe";
             email = null;
             return "loginSuccess";
         }
-        
-        if(email == null || email.isEmpty() || !isValidEmail(email)) {
+
+        if (email == null || email.isEmpty() || !isValidEmail(email)) {
             errorRegistro = "El email no es válido";
             email = null;
             return "loginSuccess";
         }
-        
-        if(usuarioFacade.findUsuarioByEmail(email) != null) {
+
+        if (usuarioFacade.findUsuarioByEmail(email) != null) {
             errorRegistro = "Ya existe un usuario con este email";
             email = null;
             return "loginSuccess";
         }
-        
+
         if (((facebookID == null || facebookID.isEmpty())
                 && (googleID == null || googleID.isEmpty()))
-                || usuarioRegistro == null|| usuarioRegistro.isEmpty()
+                || usuarioRegistro == null || usuarioRegistro.isEmpty()
                 || email == null || email.isEmpty()
                 || usuario == null) {
             errorRegistro = "No se ha podido completar el registro";
             return "loginSuccess";
         }
-        
+
         String uuid;
         boolean exists;
         do {
             uuid = UUID.randomUUID().toString();
             exists = usuarioFacade.findUsuarioByUUID(uuid) != null;
-        } while(exists);
-        
+        } while (exists);
+
         usuario.setUsuario(usuarioRegistro);
         usuario.setUuid(uuid);
         usuario.setEmail(email);
         usuario.setContrasena(contrasena);
-        if(facebookID != null && !facebookID.equals("")) {
+        if (facebookID != null && !facebookID.equals("")) {
             usuario.setFacebookid(facebookID);
         }
-        if(googleID != null && !googleID.equals("")) {
+        if (googleID != null && !googleID.equals("")) {
             usuario.setGoogleid(googleID);
         }
         usuario.setVerificado('1');
-        
+
         this.usuarioFacade.create(usuario);
         Integer clave = this.usuarioFacade.findMaxUsuarioId();
         usuario.setId(clave);
         okLogin = true;
-        
+
         errorRegistro = "";
         return "principal?faces-redirect=true";
     }
-    
+
     public String doNuevo() {
         errorRegistro = "";
-        if(contrasena == null || contrasena.isEmpty() || usuarioRegistro == null || usuarioRegistro.isEmpty() || email == null || email.isEmpty()) {             
+        if (contrasena == null || contrasena.isEmpty() || usuarioRegistro == null || usuarioRegistro.isEmpty() || email == null || email.isEmpty()) {
             errorRegistro = "Hay campos obligatorios vacíos";
             return "registrar";
         }
@@ -530,23 +549,23 @@ public class UsuarioBean {
             errorRegistro = "Ya existe un usuario con ese email o nombre de usuario";
             return "registrar";
         }
-        
+
         String uuid;
         boolean exists;
         do {
             uuid = UUID.randomUUID().toString();
             exists = usuarioFacade.findUsuarioByUUID(uuid) != null;
-        } while(exists);        
-        
+        } while (exists);
+
         usuario = new Usuario();
         usuario.setUsuario(usuarioRegistro);
         usuario.setUuid(uuid);
         usuario.setEmail(email);
         usuario.setContrasena(contrasena);
         usuario.setVerificado('0');
-        
+
         this.usuarioFacade.create(usuario);
-        Integer clave = this.usuarioFacade.findMaxUsuarioId();        
+        Integer clave = this.usuarioFacade.findMaxUsuarioId();
         usuario.setId(clave);
 
         errorRegistro = "";
@@ -554,14 +573,14 @@ public class UsuarioBean {
         email = "";
         return "login?faces-redirect=true";
     }
-    
+
     public String doLogin() {
         errorLogin = "";
         if (identificador == null || identificador.isEmpty() || contrasena == null || contrasena.isEmpty()) {
             errorLogin = "Hay campos vacíos";
             return "login";
         }
-        
+
         usuario = usuarioFacade.findUsuarioByUsuarioAndContrasena(identificador, contrasena);
 
         if (usuario == null) {
@@ -574,20 +593,16 @@ public class UsuarioBean {
         okLogin = true;
         return "loginSuccess?faces-redirect=true";
     }
-    
-    public List<Tarea> getTareasAsignadas() {
-        return this.usuarioTareaFacade.findTareasAsignadasByUsuario(usuario.getId());
-    }
 
     public void doFacebookLogin() {
         try {
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();            
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             String method = request.getParameter("method");
-            
-            if(method != null && !method.equals("fbPass") && !method.equals("glPass")) {
+
+            if (method != null && !method.equals("fbPass") && !method.equals("glPass")) {
                 doCheckLogout();
             }
-            
+
             String code = request.getParameter("code");
 
             if (method != null && (method.equals("fb") || method.equals("fbPass"))) {
@@ -598,7 +613,7 @@ public class UsuarioBean {
                     String content, linea;
                     JSONObject tokenResult, infoResult;
 
-                    url = new URL("https://graph.facebook.com/v2.3/oauth/access_token?client_id=" + FB_ID + "&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FTask4allJSF-war%2FloginSuccess.do%3Fmethod%3D"+method+"&client_secret=" + FB_SECRET + "&code=" + code);
+                    url = new URL("https://graph.facebook.com/v2.3/oauth/access_token?client_id=" + FB_ID + "&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FTask4allJSF-war%2FloginSuccess.do%3Fmethod%3D" + method + "&client_secret=" + FB_SECRET + "&code=" + code);
                     con = url.openConnection();
                     in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
@@ -618,25 +633,25 @@ public class UsuarioBean {
                             content += linea;
                         }
                         infoResult = new JSONObject(content);
-                        
+
                         this.facebookID = infoResult.getString("id");
-                        if(okLogin) {
+                        if (okLogin) {
                             usuario.setFacebookid(facebookID);
                             usuario.setFacebooktoken(tokenResult.getString("access_token"));
                             usuarioFacade.edit(usuario);
                         } else {
                             usuario = usuarioFacade.findUsuarioByFacebookId(facebookID);
-                        
+
                             if (usuario != null) {
                                 okLogin = true;
                             } else {
                                 usuario = usuarioFacade.findUsuarioByEmail(infoResult.has("email") ? infoResult.getString("email") : "");
-                                if(usuario != null && usuario.getVerificado()=='1') {
+                                if (usuario != null && usuario.getVerificado() == '1') {
                                     usuario.setFacebookid(facebookID);
                                     usuario.setFacebooktoken(tokenResult.getString("access_token"));
                                     usuarioFacade.edit(usuario);
                                     okLogin = true;
-                                } else if(usuario != null && usuario.getVerificado()=='0') {
+                                } else if (usuario != null && usuario.getVerificado() == '0') {
                                     usuario.setFacebookid(facebookID);
                                     usuario.setFacebooktoken(tokenResult.getString("access_token"));
                                     usuario.setContrasena("");
@@ -673,16 +688,16 @@ public class UsuarioBean {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void doGoogleLogin() {
         try {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             String method = request.getParameter("method");
-            
-            if(method != null && !method.equals("fbPass") && !method.equals("glPass")) {
+
+            if (method != null && !method.equals("fbPass") && !method.equals("glPass")) {
                 doCheckLogout();
             }
-            
+
             String code = request.getParameter("code");
 
             if (method != null && (method.equals("gl") || method.equals("glPass"))) {
@@ -695,20 +710,20 @@ public class UsuarioBean {
 
                     url = new URL("https://www.googleapis.com/oauth2/v4/token");
                     con = url.openConnection();
-                    String urlParameters = "client_id=" + GOOGLE_ID + "&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FTask4allJSF-war%2FloginSuccess.do%3Fmethod%3D"+method+"&client_secret=" + GOOGLE_SECRET + "&grant_type=authorization_code&code=" + code;
+                    String urlParameters = "client_id=" + GOOGLE_ID + "&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FTask4allJSF-war%2FloginSuccess.do%3Fmethod%3D" + method + "&client_secret=" + GOOGLE_SECRET + "&grant_type=authorization_code&code=" + code;
                     byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
                     int postDataLength = postData.length;
-                    
+
                     con.setDoOutput(true);
-                    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
+                    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                     con.setRequestProperty("charset", "utf-8");
                     con.setRequestProperty("Content-Length", Integer.toString(postDataLength));
                     con.setUseCaches(false);
-                    
-                    try(DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
+
+                    try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
                         wr.write(postData);
                     }
-                    
+
                     in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
                     content = "";
@@ -716,7 +731,7 @@ public class UsuarioBean {
                         content += linea;
                     }
                     tokenResult = new JSONObject(content);
-                    
+
                     if (tokenResult.getString("access_token") != null && !tokenResult.getString("access_token").equals("")) {
                         url = new URL("https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + tokenResult.getString("access_token"));
                         con = url.openConnection();
@@ -727,9 +742,9 @@ public class UsuarioBean {
                             content += linea;
                         }
                         infoResult = new JSONObject(content);
-                        
+
                         this.googleID = infoResult.getString("id");
-                        if(okLogin) {
+                        if (okLogin) {
                             usuario.setGoogleid(googleID);
                             usuario.setGoogletoken(tokenResult.getString("access_token"));
                             usuarioFacade.edit(usuario);
@@ -740,12 +755,12 @@ public class UsuarioBean {
                                 okLogin = true;
                             } else {
                                 usuario = usuarioFacade.findUsuarioByEmail(infoResult.has("email") ? infoResult.getString("email") : "");
-                                if(usuario != null && usuario.getVerificado()=='1') {
+                                if (usuario != null && usuario.getVerificado() == '1') {
                                     usuario.setGoogleid(googleID);
                                     usuario.setGoogletoken(tokenResult.getString("access_token"));
                                     usuarioFacade.edit(usuario);
                                     okLogin = true;
-                                } else if(usuario != null && usuario.getVerificado()=='0') {
+                                } else if (usuario != null && usuario.getVerificado() == '0') {
                                     usuario.setGoogleid(googleID);
                                     usuario.setGoogletoken(tokenResult.getString("access_token"));
                                     usuario.setContrasena("");
@@ -806,7 +821,7 @@ public class UsuarioBean {
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
                 context.redirect(context.getRequestContextPath() + "/principal.do");
             }
-        } catch (IOException ex) {                
+        } catch (IOException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -815,69 +830,69 @@ public class UsuarioBean {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String method = request.getParameter("method");
         String url = "/principal.do";
-        
-        if(method != null && (method.equals("fbPass") || method.equals("glPass"))) {
+
+        if (method != null && (method.equals("fbPass") || method.equals("glPass"))) {
             url = "/panel/configuracion.do";
         }
-        
+
         try {
             if (okLogin) {
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
                 context.redirect(context.getRequestContextPath() + url);
             }
-        } catch (IOException ex) {                
+        } catch (IOException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public boolean isValidEmail(String email) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         return pattern.matcher(email).matches();
     }
-    
+
     public boolean isFacebookConnected() {
         boolean connected = false;
-        
-        if(usuario != null && !usuario.getUsuario().equals("")) {
+
+        if (usuario != null && !usuario.getUsuario().equals("")) {
             connected = usuario.getFacebookid() != null && !usuario.getFacebookid().equals("");
         }
-        
+
         return connected;
     }
-    
+
     public boolean isGoogleConnected() {
         boolean connected = false;
-        
-        if(usuario != null && !usuario.getUsuario().equals("")) {
+
+        if (usuario != null && !usuario.getUsuario().equals("")) {
             connected = usuario.getGoogleid() != null && !usuario.getGoogleid().equals("");
         }
-        
+
         return connected;
     }
-    
+
     public boolean isPasswordSet() {
         return usuario.getContrasena() != null && !usuario.getContrasena().equals("");
     }
-    
+
     public String doDesconectarFacebook() {
-        if((usuario.getContrasena() == null || usuario.getContrasena().equals(""))
+        if ((usuario.getContrasena() == null || usuario.getContrasena().equals(""))
                 && (usuario.getGoogleid() == null || usuario.getGoogleid().equals(""))) {
             errorSocial = "Debes establecer una contraseña antes de desvincular por completo tu cuenta";
             return "configuracion";
         }
-        
+
         try {
             URL url;
             HttpURLConnection con;
-            url = new URL("https://graph.facebook.com/"+usuario.getFacebookid()+"/permissions?access_token="+usuario.getFacebooktoken());
+            url = new URL("https://graph.facebook.com/" + usuario.getFacebookid() + "/permissions?access_token=" + usuario.getFacebooktoken());
             con = (HttpURLConnection) url.openConnection();
             con.setDoOutput(true);
             con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             con.setRequestMethod("DELETE");
             con.connect();
             con.getResponseMessage();
-            
+
             usuario.setFacebookid(null);
             usuario.setFacebooktoken(null);
             usuarioFacade.edit(usuario);
@@ -886,26 +901,26 @@ public class UsuarioBean {
         } catch (IOException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return "configuracion";
     }
-    
+
     public String doDesconectarGoogle() {
         if ((usuario.getContrasena() == null || usuario.getContrasena().equals(""))
                 && (usuario.getFacebookid() == null || usuario.getFacebookid().equals(""))) {
             errorSocial = "Debes establecer una contraseña antes de desvincular por completo tu cuenta";
             return "configuracion";
         }
-        
+
         try {
             URL url;
             HttpURLConnection con;
-            url = new URL("https://accounts.google.com/o/oauth2/revoke?token="+usuario.getGoogletoken());
+            url = new URL("https://accounts.google.com/o/oauth2/revoke?token=" + usuario.getGoogletoken());
             con = (HttpURLConnection) url.openConnection();
             con.setDoOutput(true);
             con.connect();
             con.getResponseCode();
-            
+
             usuario.setGoogleid(null);
             usuario.setGoogletoken(null);
             usuarioFacade.edit(usuario);
@@ -914,7 +929,7 @@ public class UsuarioBean {
         } catch (IOException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return "configuracion";
     }
 }
