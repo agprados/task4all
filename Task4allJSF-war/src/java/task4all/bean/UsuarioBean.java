@@ -74,8 +74,6 @@ public class UsuarioBean {
     private Proyecto proyectoSeleccionado;
     private Tarea tareaSeleccionada;
     private Lista listaSeleccionada;
-    private List<Tarea> tareasAsignadas;
-    private List<Proyecto> proyectosConTareasAsignadas;
     private String rolActual;
     private String emailRecuperacion;
     private String facebookID;
@@ -216,22 +214,6 @@ public class UsuarioBean {
         this.listaSeleccionada = listaSeleccionada;
     }
 
-    public List<Tarea> getTareasAsignadas() {
-        return this.usuarioTareaFacade.findTareasAsignadasByUsuario(usuario.getId());
-    }
-
-    public List<Proyecto> getProyectosConTareasAsignadas() {
-        proyectosConTareasAsignadas = new ArrayList<>();
-        Proyecto proyecto;
-        for (Tarea tarea : getTareasAsignadas()) {
-            proyecto = tarea.getListaId().getProyectoId();
-            if (!proyectosConTareasAsignadas.contains(proyecto)) {
-                proyectosConTareasAsignadas.add(proyecto);
-            }
-        }
-        return proyectosConTareasAsignadas;
-    }
-
     public Proyecto getProyectoSeleccionado() {
         return proyectoSeleccionado;
     }
@@ -310,6 +292,22 @@ public class UsuarioBean {
 
     public void setGoogleID(String googleID) {
         this.googleID = googleID;
+    }
+    
+    public List<Tarea> getTareasAsignadas() {
+        return this.usuarioTareaFacade.findTareasAsignadasByUsuario(usuario.getId());
+    }
+
+    public List<Proyecto> getProyectosConTareasAsignadas() {
+        List<Proyecto> proyectosConTareasAsignadas = new ArrayList<>();
+        Proyecto proyecto;
+        for (Tarea tarea : getTareasAsignadas()) {
+            proyecto = tarea.getListaId().getProyectoId();
+            if (!proyectosConTareasAsignadas.contains(proyecto)) {
+                proyectosConTareasAsignadas.add(proyecto);
+            }
+        }
+        return proyectosConTareasAsignadas;
     }
 
     public String doEditar() {
