@@ -128,8 +128,8 @@
                     </c:forEach>      
 
                     <p:commandButton class="btn btn-default usuario-invitacion" style="font-size: 20pt; padding: 0px" value="+" onclick="PF('asignacion').show();"/>
-                    <p:dialog rendered="#{tareaBean.listaUsuariosSinAsignar.isEmpty()}" header="Asignación de la tarea" widgetVar="asignacion" modal="true" resizable="false" >
-                        <h:panelGroup>
+                    <p:dialog header="Asignación de la tarea" widgetVar="asignacion" modal="true" resizable="false" showEffect="drop" hideEffect="drop">
+                        <h:panelGroup rendered="#{tareaBean.listaUsuariosSinAsignar.isEmpty()}">
                             No tienes usuarios para asignar a la tarea. Puede deberse a:
                             <br/>
                             <br/>
@@ -138,16 +138,14 @@
                             <br/>
                             &emsp;&emsp;- Estar solo en el proyecto. Invita gente!! :)
                             <br/>                          
-                        </h:panelGroup>  
-                    </p:dialog>
-                    <p:dialog rendered="#{!tareaBean.listaUsuariosSinAsignar.isEmpty()}" header="Asignación de la tarea" widgetVar="asignacion" modal="true" resizable="false" showEffect="drop" hideEffect="drop">
-                        <h:panelGroup>
+                        </h:panelGroup>                          
+                        <h:panelGroup rendered="#{!tareaBean.listaUsuariosSinAsignar.isEmpty()}">
                             Puedes asignar a la tarea los siguientes usuarios:
                             <br/>
                             <center>
                                 <c:forEach items="#{tareaBean.listaUsuariosSinAsignar}" var="noAsignado">                                   
                                     <h:panelGroup rendered="#{noAsignado.rol.toLowerCase().equalsIgnoreCase('líder')}">                                       
-                                        <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioId)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario">
+                                        <p:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioId)}" style="color: #000000; text-decoration: none; cursor: pointer;" oncomplete="PF('asignacion').hide();" update="asignados" class="usuario">                                            
                                             <center>
                                                 <b><h:outputText value="#{noAsignado.usuarioId.usuario}"/></b>
                                                 <br/>
@@ -157,10 +155,10 @@
                                                 <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
                                                 <br/>                                                                                    
                                             </center>
-                                        </h:commandLink>
+                                        </p:commandLink>
                                     </h:panelGroup>
                                     <h:panelGroup rendered="#{noAsignado.rol.toLowerCase().equalsIgnoreCase('miembro')}">
-                                        <h:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioId)}" style="color: #000000; text-decoration: none; cursor: pointer;" class="usuario usuario-miembro">
+                                        <p:commandLink action="#{tareaBean.doAsignarUsuario(noAsignado.usuarioId)}" style="color: #000000; text-decoration: none; cursor: pointer;" oncomplete="PF('asignacion').hide();" update="asignados" class="usuario usuario-miembro">
                                             <center>
                                                 <b><h:outputText value="#{noAsignado.usuarioId.usuario}"/></b>
                                                 <br/>
@@ -170,7 +168,8 @@
                                                 <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
                                                 <br/>                                                                                    
                                             </center>
-                                        </h:commandLink>
+                                            
+                                        </p:commandLink>
                                     </h:panelGroup>                                    
                                 </c:forEach> 
                                 <br/>

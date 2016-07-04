@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.application.FacesMessage;
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -58,7 +59,7 @@ public class ProyectoBean {
     private List<Lista> listas;
     private List<List<Tarea>> tareas;
     private String error;
-    private String emailInvitacion;
+    private String invitacion;
     private String nombre;
     private Date fechaObjetivo;
 
@@ -71,7 +72,7 @@ public class ProyectoBean {
     @PostConstruct
     public void init() {
         this.error = "";
-        emailInvitacion = "";
+        invitacion = "";
         
         // Comprobación para que no entre cuando se selecciona una tarea en tareas.xhtml
         if (usuarioBean.getProyectoSeleccionado() != null) {
@@ -176,12 +177,12 @@ public class ProyectoBean {
         this.error = error;
     }
 
-    public String getEmailInvitacion() {
-        return emailInvitacion;
+    public String getInvitacion() {
+        return invitacion;
     }
 
-    public void setEmailInvitacion(String emailInvitacion) {
-        this.emailInvitacion = emailInvitacion;
+    public void setInvitacion(String invitacion) {
+        this.invitacion = invitacion;
     }
 
     public void setProyectosBean(ProyectosBean proyectosBean) {
@@ -294,33 +295,33 @@ public class ProyectoBean {
 
     public String doInvitar() {
         error = "";
-        if (emailInvitacion == null || emailInvitacion.isEmpty()) {
-            error = "El email no puede estar vacío";
+        if (invitacion == null || invitacion.isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email o el nombre de usuarios no puede estar vacío",""));
             return "proyecto";
         }
-        if (!emailInvitacion.contains("@") || !emailInvitacion.contains(".")) {
-            error = "El email no es válido";
-            return "proyecto";
+        
+         Usuario u;
+        if (invitacion.contains("@") && invitacion.contains(".")) {
+           u = this.usuarioFacade.findUsuarioByEmail(invitacion);
+        } else {
+            u = this.usuarioFacade.findUsuarioByUsuario(invitacion);
         }
-
-        Usuario u = this.usuarioFacade.findUsuarioByEmail(emailInvitacion);
 
         if (u == null) {
-            error = "El usuario no se encuentra registrado en el sistema";
-            emailInvitacion = "";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario no se encuentra registrado en el sistema",""));
             return "proyecto";
         }
-        if (usuarioProyectoFacade.findUsuarioProyectoByEmailAndProyecto(emailInvitacion, usuarioBean.getProyectoSeleccionado().getId()) != null) {
-            error = "Ese usuario ya pertenece al proyecto";
-            emailInvitacion = "";
+        if (usuarioProyectoFacade.findUsuarioProyectoByEmailAndProyecto(u.getEmail(), usuarioBean.getProyectoSeleccionado().getId()) != null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ese usuario ya pertenece al proyecto",""));        
+            invitacion = "";
             return "proyecto";
         }
 
         try {
-            mandarEmailInvitacion(emailInvitacion, usuarioBean.getProyectoSeleccionado().getId());
-            emailInvitacion = "";
+            mandarEmailInvitacion(u.getEmail(), usuarioBean.getProyectoSeleccionado().getId());
+            invitacion = "";
         } catch (Exception e) {
-            error = "Se ha producido un error al enviar la invitación";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "e ha producido un error al enviar la invitación",""));
             return "proyecto";
         }
 
@@ -335,7 +336,7 @@ public class ProyectoBean {
 
         listaMiembrosRoles.add(up);
 
-        emailInvitacion = "";
+        invitacion = "";
 
         return "proyecto";
     }
