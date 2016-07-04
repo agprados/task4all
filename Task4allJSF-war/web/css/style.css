@@ -142,9 +142,20 @@ html body {
     overflow-wrap: normal;
 }
 
-.proyecto-proyectos {
+.dropdown-proyecto {
+    display: block;
+    vertical-align: top;
+    margin: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    overflow: visible;
+    overflow-wrap: normal;
     height: 28px;
     padding-top: 3px;
+    white-space: nowrap;
+    width: auto;
 }
 
 .proyecto-no-elementos {

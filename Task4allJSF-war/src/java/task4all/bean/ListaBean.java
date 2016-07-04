@@ -87,7 +87,7 @@ public class ListaBean {
             
             return "proyecto";
         } else {
-            error = "El nombre de la lista no puede estar vacío";
+            error = "El nombre no puede estar vacío";
             return "proyecto";
         }
     }
