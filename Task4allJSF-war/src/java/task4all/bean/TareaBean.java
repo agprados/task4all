@@ -136,12 +136,7 @@ public class TareaBean {
     }
 
     public String doEditar() {
-        nombre = usuarioBean.getTareaSeleccionada().getNombre();
-        if (usuarioBean.getTareaSeleccionada().getFechaobjetivo() != null) {
-            fechaObjetivo = usuarioBean.getTareaSeleccionada().getFechaobjetivo();
-        }
-
-        return "editarTarea";
+        return "editarTarea?faces-redirect=true";
     }
 
     public String doBorrar() {

@@ -301,6 +301,11 @@ public class UsuarioBean {
             errorConfiguracion = "El campo del email no puede estar vacío";
             return "configuracion";
         }
+        
+        if(!isValidEmail(email)) {
+             errorConfiguracion = "El email no es válido";
+            return "configuracion";
+        }
 
         if (isPasswordSet()
                 && (contrasenaActual == null || contrasenaActual.equals(""))
@@ -333,6 +338,11 @@ public class UsuarioBean {
         if(!nombre.equals(usuario.getNombre()) || !apellidos.equals(usuario.getApellidos())) {
             usuario.setNombre(nombre);
             usuario.setApellidos(apellidos);
+            correctaConfiguracion = "Cambios realizados satisfactoriamente";
+        }
+        
+        if(!email.equalsIgnoreCase(usuario.getEmail())) {
+            usuario.setEmail(email);
             correctaConfiguracion = "Cambios realizados satisfactoriamente";
         }
         

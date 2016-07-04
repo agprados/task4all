@@ -67,8 +67,8 @@
                     </div>
                     <br/>
                     <h4>Fecha objetivo</h4>
-                    <div class="input-group input-group-lg">                        
-                        <p:growl id="msgs" showDetail="true" />
+                    <div class="input-group input-group-lg">
+                        #{tareaBean.setFechaObjetivo(usuarioBean.tareaSeleccionada.fechaobjetivo)}
                         <p:calendar id="popup" value="#{tareaBean.fechaObjetivo}" pattern="dd/MM/yyyy HH:mm" showOn="both"/>                      
                         <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
                             <h:outputText value="#{tareaBean.fechaObjetivo}" class="form-control">

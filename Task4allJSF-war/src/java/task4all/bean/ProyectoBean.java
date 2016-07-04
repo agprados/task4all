@@ -206,12 +206,7 @@ public class ProyectoBean {
     }
 
     public String doEditar() {
-        nombre = usuarioBean.getProyectoSeleccionado().getNombre();
-        if (usuarioBean.getProyectoSeleccionado().getFechaobjetivo() != null) {
-            fechaObjetivo = usuarioBean.getProyectoSeleccionado().getFechaobjetivo();
-        }
-
-        return "editarProyecto";
+        return "editarProyecto?faces-redirect=true";
     }
 
     public String doGuardar() {

@@ -47,7 +47,8 @@
                     </div>
                     <br/>
                     <h4>Fecha objetivo</h4>
-                    <div class="input-group input-group-lg" style="width: 500px;">                        
+                    <div class="input-group input-group-lg" style="width: 500px;">
+                        #{proyectoBean.setFechaObjetivo(usuarioBean.proyectoSeleccionado.fechaobjetivo)}                        
                         <p:calendar id="popup" value="#{proyectoBean.fechaObjetivo}" pattern="dd/MM/yyyy" showOn="both"/>                      
                         <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">                            
                             <h:outputText value="#{proyectoBean.fechaObjetivo}">

@@ -110,9 +110,8 @@ public class ListaBean {
 
     public String doEditarLista(Lista lista) {
         usuarioBean.setListaSeleccionada(lista);
-        nombre = lista.getNombre();
 
-        return "editarLista";
+        return "editarLista?faces-redirect=true";
     }
     
     public String doBorrar(Lista lista) {
