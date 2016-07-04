@@ -20,6 +20,7 @@ import task4all.ejb.TareaFacade;
 import task4all.ejb.UsuarioProyectoFacade;
 import task4all.ejb.UsuarioTareaFacade;
 import task4all.entity.Lista;
+import task4all.entity.Proyecto;
 import task4all.entity.Tarea;
 import task4all.entity.Usuario;
 import task4all.entity.UsuarioProyecto;
@@ -122,7 +123,16 @@ public class TareaBean {
     public String doMostrar(Tarea t) {
         usuarioBean.setTareaSeleccionada(t);
         cargarLista();
-        return "tarea?faces-redirect=true";
+        return "/tarea?faces-redirect=true";
+    }
+    
+    public String doMostrar(Proyecto p, Lista l, Tarea t) {
+        usuarioBean.setProyectoSeleccionado(p);
+        usuarioBean.setListaSeleccionada(l);
+        usuarioBean.setTareaSeleccionada(t);
+        
+        cargarLista();
+        return "/tarea?faces-redirect=true";
     }
 
     public String doEditar() {

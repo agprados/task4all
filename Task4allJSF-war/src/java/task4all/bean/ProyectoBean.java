@@ -16,13 +16,11 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import task4all.ejb.FondoFacade;
 import task4all.ejb.ListaFacade;
 import task4all.ejb.ProyectoFacade;
 import task4all.ejb.TareaFacade;
 import task4all.ejb.UsuarioFacade;
 import task4all.ejb.UsuarioProyectoFacade;
-import task4all.entity.Fondo;
 import task4all.entity.Lista;
 import task4all.entity.Proyecto;
 import task4all.entity.Tarea;
@@ -48,8 +46,6 @@ public class ProyectoBean {
     private ProyectoFacade proyectoFacade;
     @EJB
     private UsuarioFacade usuarioFacade;
-    @EJB
-    private FondoFacade fondoFacade;
 
     @ManagedProperty(value = "#{usuarioBean}")
     private UsuarioBean usuarioBean;
@@ -76,19 +72,23 @@ public class ProyectoBean {
     public void init() {
         this.error = "";
         emailInvitacion = "";
-        listaMiembrosRoles = this.usuarioProyectoFacade.findUsuarioProyectoByProyecto(usuarioBean.getProyectoSeleccionado().getId());
-        ordenarListaMiembros();
+        
+        // Comprobación para que no entre cuando se selecciona una tarea en tareas.xhtml
+        if (usuarioBean.getProyectoSeleccionado() != null) {
+            listaMiembrosRoles = this.usuarioProyectoFacade.findUsuarioProyectoByProyecto(usuarioBean.getProyectoSeleccionado().getId());
+            ordenarListaMiembros();
 
-        listas = this.listaFacade.findListasByProyecto(usuarioBean.getProyectoSeleccionado().getId());
-        tareas = new ArrayList<>();
-        for (int i = 0; i < listas.size(); i++) {
-            tareas.add(this.tareaFacade.findTareasByLista(listas.get(i).getId()));
-        }
+            listas = this.listaFacade.findListasByProyecto(usuarioBean.getProyectoSeleccionado().getId());
+            tareas = new ArrayList<>();
+            for (int i = 0; i < listas.size(); i++) {
+                tareas.add(this.tareaFacade.findTareasByLista(listas.get(i).getId()));
+            }
 
-        for (int i = 0; i < listaMiembrosRoles.size(); i++) {
-            if (listaMiembrosRoles.get(i).getUsuarioId().getUsuario().equals(this.usuarioBean.getUsuario().getUsuario())) {
-                this.usuarioBean.setRolActual(listaMiembrosRoles.get(i).getRol());
-                break;
+            for (int i = 0; i < listaMiembrosRoles.size(); i++) {
+                if (listaMiembrosRoles.get(i).getUsuarioId().getUsuario().equals(this.usuarioBean.getUsuario().getUsuario())) {
+                    this.usuarioBean.setRolActual(listaMiembrosRoles.get(i).getRol());
+                    break;
+                }
             }
         }
     }
@@ -227,11 +227,11 @@ public class ProyectoBean {
             usuarioBean.getProyectoSeleccionado().setFechaobjetivo(null);
         }
 
-        if (!fondoBean.getFondo().equals(usuarioBean.getProyectoSeleccionado().getFondoId())) {            
+        if (!fondoBean.getFondo().equals(usuarioBean.getProyectoSeleccionado().getFondoId())) {
             usuarioBean.getProyectoSeleccionado().setFondoId(fondoBean.getFondo());
         }
-        
-        proyectoFacade.edit(usuarioBean.getProyectoSeleccionado());       
+
+        proyectoFacade.edit(usuarioBean.getProyectoSeleccionado());
 
         return "proyecto?faces-redirect=true";
     }

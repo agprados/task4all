@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import task4all.entity.Tarea;
 import task4all.entity.Usuario;
 import task4all.entity.UsuarioTarea;
 
@@ -45,7 +46,7 @@ public class UsuarioTareaFacade extends AbstractFacade<UsuarioTarea> {
        return l;
     }
     
-    public List<UsuarioTarea> findUsuarioTareaByTarea (Integer tarea) {
+    public List<UsuarioTarea> findUsuarioTareaByTarea(Integer tarea) {
         Query q;
         
         q = em.createNamedQuery("UsuarioTarea.findByTarea");
@@ -53,7 +54,7 @@ public class UsuarioTareaFacade extends AbstractFacade<UsuarioTarea> {
         return q.getResultList();
     }
     
-    public UsuarioTarea findUsuarioTareaByUsuarioAndTarea (String u, Integer id) {
+    public UsuarioTarea findUsuarioTareaByUsuarioAndTarea(String u, Integer id) {
         Query q;
         
         q = em.createNamedQuery("UsuarioTarea.findByTareaAndUsuario");
@@ -68,4 +69,14 @@ public class UsuarioTareaFacade extends AbstractFacade<UsuarioTarea> {
         }
         return up;
     }
+    
+    public List<Tarea> findTareasAsignadasByUsuario(Integer id) {
+        Query q;
+        
+        q = em.createNamedQuery("UsuarioTarea.findTareasAsignadasByUsuario");
+        q.setParameter("id",id);        
+        
+        return q.getResultList();
+    }
+    
 }

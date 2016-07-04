@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Task4all - Tareas</title>
         <meta charset="UTF-8" />
@@ -22,31 +23,71 @@
         #{usuarioBean.doCheckLogin()}
         <ui:include src="/includes/header.xhtml" />
         <center>
-        <div class="container" style="margin-top: 50px;">
-            <div class="containerHeader">
-                <h2 style="float: left;">
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    Panel de usuario
-                </h2>
+            <div class="container" style="margin-top: 50px;">
+                <div class="containerHeader">
+                    <h2 style="float: left;">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        Panel de usuario
+                    </h2>
+                </div>
+                <ul class="nav nav-tabs nav-justified">
+                    <li role="presentation" class="active"><h:link outcome="tareas">Tareas</h:link></li>
+                    <li role="presentation"><h:link outcome="perfil?faces-redirect=true">Perfil</h:link></li>
+                    <li role="presentation"><h:link outcome="configuracion?faces-redirect=true">Configuración</h:link></li>
+                </ul>
+                <br/> 
+                <h:panelGroup rendered="#{proyectosBean.proyectosLider.isEmpty() and proyectosBean.proyectosMiembro.isEmpty()}" layout="block" class="alert alert-info" a:role="alert">
+                    <center>
+                        No tienes tareas asignadas. Tómate el día libre.
+                    </center>
+                </h:panelGroup>
+                <h:panelGroup>                    
+                    <h:form style="display: inline-block">
+                        <c:forEach items="#{proyectosBean.proyectosLider}" var="proyecto">
+                            <h:commandLink style="font-size: 22px; color: black" value="#{proyecto.nombre}" action="#{proyectosBean.doVerProyecto(proyecto)}" />
+                            <c:forEach items="#{proyecto.listaCollection}" var="lista">    
+                                <c:forEach items="#{lista.tareaCollection}" var="tarea">                                    
+                                    <h:panelGroup rendered="#{usuarioBean.getTareasAsignadas().contains(tarea)}">
+                                        <h:commandLink action="#{tareaBean.doMostrar(proyecto, lista, tarea)}" style="text-decoration: none;">
+                                            <div style="background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="proyecto-tareas" >
+                                                <h:outputText style="color: black; font-size: 12pt; font-weight: bold" value="#{tarea.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                                <h:outputText style="color: white; font-size: 12pt; font-weight: bold" value="#{tarea.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>                                            
+                                                <h:outputText style="margin-left: 10px; float: right; margin-top: 1px" value="#{tarea.fechaobjetivo}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="CET" />
+                                                </h:outputText> 
+                                                <br/>                               
+                                            </div>                                        
+                                        </h:commandLink>
+                                    </h:panelGroup>
+                                </c:forEach>
+                            </c:forEach>
+                            <br/>
+                        </c:forEach>
+                        <c:forEach items="#{proyectosBean.proyectosMiembro}" var="proyecto">
+                            <h:commandLink style="font-size: 22px; color: black" value="#{proyecto.nombre}" action="#{proyectosBean.doVerProyecto(proyecto)}" />
+                            <c:forEach items="#{proyecto.listaCollection}" var="lista">    
+                                <c:forEach items="#{lista.tareaCollection}" var="tarea">                                    
+                                    <h:panelGroup rendered="#{usuarioBean.getTareasAsignadas().contains(tarea)}">
+                                        <h:commandLink action="#{tareaBean.doMostrar(proyecto, lista, tarea)}" style="text-decoration: none;">
+                                            <div style="background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="proyecto-tareas" >
+                                                <h:outputText style="color: black; font-size: 12pt; font-weight: bold" value="#{tarea.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                                <h:outputText style="color: white; font-size: 12pt; font-weight: bold" value="#{tarea.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>                                            
+                                                <h:outputText style="margin-left: 10px; float: right; margin-top: 1px" value="#{tarea.fechaobjetivo}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="CET" />
+                                                </h:outputText> 
+                                                <br/>                               
+                                            </div>                                        
+                                        </h:commandLink>
+                                    </h:panelGroup>
+                                </c:forEach>
+                            </c:forEach>
+                            <br/>
+                        </c:forEach>
+                    </h:form>   
+                </h:panelGroup>
+                <br/>
             </div>
-            <ul class="nav nav-tabs nav-justified">
-                <li role="presentation" class="active"><h:link outcome="tareas">Tareas</h:link></li>
-                <li role="presentation"><h:link outcome="perfil?faces-redirect=true">Perfil</h:link></li>
-                <li role="presentation"><h:link outcome="configuracion?faces-redirect=true">Configuración</h:link></li>
-            </ul>
-            <br/>
-            <h:panelGroup layout="block" class="alert alert-info" a:role="alert">
-                <center>
-                   No tienes tareas asignadas. Tómate el día libre.
-                </center>
-            </h:panelGroup>
-            <br/>
-            <c:forEach items="#{tareasBean.tareasUsuario}" var="tarea">
-                #{tarea.nombre}
-            </c:forEach>
-            <br/>
-        </div>
-    </center>
+        </center>
         <ui:include src="/includes/footer.xhtml" />
     </h:body>
 </html>

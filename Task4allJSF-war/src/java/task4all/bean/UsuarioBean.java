@@ -17,6 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -38,7 +39,7 @@ import org.primefaces.json.JSONException;
 import org.primefaces.json.JSONObject;
 import org.primefaces.model.UploadedFile;
 import task4all.ejb.UsuarioFacade;
-import task4all.entity.Fondo;
+import task4all.ejb.UsuarioTareaFacade;
 import task4all.entity.Lista;
 import task4all.entity.Proyecto;
 import task4all.entity.Tarea;
@@ -50,6 +51,8 @@ public class UsuarioBean {
 
     @EJB
     private UsuarioFacade usuarioFacade;
+    @EJB
+    private UsuarioTareaFacade usuarioTareaFacade;
 
     private Usuario usuario;
     private String identificador;
@@ -560,6 +563,10 @@ public class UsuarioBean {
         }
         okLogin = true;
         return "loginSuccess?faces-redirect=true";
+    }
+    
+    public List<Tarea> getTareasAsignadas() {
+        return this.usuarioTareaFacade.findTareasAsignadasByUsuario(usuario.getId());
     }
 
     public void doFacebookLogin() {

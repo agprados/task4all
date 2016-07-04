@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UsuarioTarea.findById", query = "SELECT u FROM UsuarioTarea u WHERE u.id = :id"),
     @NamedQuery(name = "UsuarioTarea.findByUsuarioUsuario", query = "SELECT u FROM UsuarioTarea u WHERE u.usuarioId = :usuarioUsuario"),
     @NamedQuery(name = "UsuarioTarea.findByTarea", query = "SELECT u FROM UsuarioTarea u WHERE u.tareaId.id = :id"),
-    @NamedQuery(name = "UsuarioTarea.findByTareaAndUsuario", query = "SELECT u FROM UsuarioTarea u WHERE u.tareaId.id = :id AND u.usuarioId.usuario = :u")})
+    @NamedQuery(name = "UsuarioTarea.findByTareaAndUsuario", query = "SELECT u FROM UsuarioTarea u WHERE u.tareaId.id = :id AND u.usuarioId.usuario = :u"),
+    @NamedQuery(name = "UsuarioTarea.findTareasAsignadasByUsuario", query = "SELECT u.tareaId FROM UsuarioTarea u WHERE u.usuarioId.id = :id")})
 public class UsuarioTarea implements Serializable {
 
     private static final long serialVersionUID = 1L;

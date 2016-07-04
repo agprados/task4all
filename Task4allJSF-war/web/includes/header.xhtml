@@ -22,7 +22,7 @@
                         <c:forEach items="#{proyectosBean.proyectosLider}" var="proyecto">                            
                             <h:panelGrid columns="2" style="margin-top: 5px">
                                 <h:graphicImage style="border: 1px solid black; border-radius: 1px; margin-left: 12px; margin-right: 2px" value="/images/fondos/#{proyecto.fondoId.nombre}" height="22" width="16"/>
-                                <h:commandButton value="#{proyecto.nombre}" class="btn btn-default btn-proyecto-header" style="padding-left: 6px; padding-right: 6px;text-align: left; color: black; border: none; border-radius: 0;" action="#{proyectosBean.doVerProyecto(proyecto)}"/>
+                                <h:commandButton value="#{proyecto.nombre}" class="btn btn-default btn-proyecto-header" style="padding-left: 6px; padding-right: 6px; text-align: left; color: black; border: none; border-radius: 0;" action="#{proyectosBean.doVerProyecto(proyecto)}"/>
                             </h:panelGrid>
                         </c:forEach>
                         </h:panelGroup>
@@ -32,7 +32,7 @@
                         <c:forEach items="#{proyectosBean.proyectosMiembro}" var="proyecto">
                             <h:panelGrid columns="2" style="margin-top: 5px">
                                 <h:graphicImage style="border: 1px solid black; border-radius: 1px; margin-left: 12px; margin-right: 2px" value="/images/fondos/#{proyecto.fondoId.nombre}" height="22" width="16"/>
-                                <h:commandButton value="#{proyecto.nombre}" class="btn btn-default btn-proyecto-header" style="padding-left: 6px; padding-right: 6px;text-align: left; color: black; border: none; border-radius: 0;" action="#{proyectosBean.doVerProyecto(proyecto)}"/>
+                                <h:commandButton value="#{proyecto.nombre}" class="btn btn-default btn-proyecto-header" style="padding-left: 6px; padding-right: 6px; text-align: left; color: black; border: none; border-radius: 0;" action="#{proyectosBean.doVerProyecto(proyecto)}"/>
                             </h:panelGrid>
                         </c:forEach>
                         </h:panelGroup>
