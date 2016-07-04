@@ -45,13 +45,10 @@
                                         Serás el <b>líder</b> y podrás invitar a más usuarios a colaborar
                                     </center>
                                     <br/>
-                                    <div class="input-group" style="width: 100%;">
-                                        <h:inputText value="#{proyectosBean.nombre}" class="form-control" a:placeholder="Nombre del proyecto" a:aria-describedby="basic-addon1" a:autofocus="true"/>
-                                    </div>
-                                    <br/>
-                                    <center>
-                                        <h:commandButton value="Crear" action="#{proyectosBean.doCrearProyecto()}" class="btn btn-primary" a:aria-expanded="true" />   
-                                    </center>
+                                    <h:panelGrid columns="2">                                            
+                                        <h:inputText size="100" value="#{proyectosBean.nombre}" class="form-control" a:placeholder="Nombre del proyecto" a:autofocus="true"/>
+                                        <h:commandButton style="margin-left: 3px" value="Crear" action="#{proyectosBean.doCrearProyecto()}" class="btn btn-primary" />   
+                                    </h:panelGrid>     
                                 </h:form>
                             </li>
                         </ul>
