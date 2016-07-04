@@ -57,6 +57,7 @@ public class ComentariosBean {
         // Comprobación para que no entre cuando se accede a proyectos.xhtml sin iniciar sesión
         if(proyectoSeleccionado != null) {
             listaComentarios =  comentarioFacade.findComentariosByProyecto(proyectoSeleccionado.getId());
+            adaptarContenido();
         }
     }
 
@@ -116,19 +117,14 @@ public class ComentariosBean {
         this.error = error;
     }
     
-    public String doCrear() {
+    public String doCrear() {       
         if(this.contenido.isEmpty()) {
             error = "El comentario no puede estar vacío";
             return "proyecto";
-        }
+        }        
+       
+        Comentario comentario = new Comentario();
         
-        int id;
-        try{
-            id=comentarioFacade.findMaxComentarioId();
-        }catch (NullPointerException e){
-            id=1;
-        }
-        Comentario comentario = new Comentario(id+1);                                                     
         comentario.setContenido(this.contenido);
         comentario.setFecha(new Date());
         comentario.setProyectoId(proyectoSeleccionado);
@@ -136,6 +132,8 @@ public class ComentariosBean {
         Actividad a = crearActividad(usuarioLogueado, proyectoSeleccionado);
         comentario.setActividadId(a);
         this.comentarioFacade.create(comentario);
+        int clave = this.comentarioFacade.findMaxComentarioId();
+        comentario.setId(clave);
                 
         proyectoSeleccionado.getComentarioCollection().add(comentario);
         this.proyectoFacade.edit(proyectoSeleccionado);
@@ -185,5 +183,11 @@ public class ComentariosBean {
     public String overflow() {
         if (listaComentarios.size() > 5) return "height: 520px; overflow: auto;";
         else return "";
+    }
+    
+    public void adaptarContenido() {
+        for(int i = 0; i<listaComentarios.size(); i++) {
+            (listaComentarios.get(i).getContenido()).replaceAll(System.getProperty("line.separator"), "<br/>");
+        }
     }
 }

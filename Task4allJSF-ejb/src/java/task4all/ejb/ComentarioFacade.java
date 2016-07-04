@@ -8,6 +8,7 @@ package task4all.ejb;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import task4all.entity.Comentario;
@@ -41,6 +42,13 @@ public class ComentarioFacade extends AbstractFacade<Comentario> {
         Query q;
         
         q = em.createQuery("select max(c.id) from Comentario c");
-        return (Integer)q.getSingleResult();
+        
+        int id;
+        try {
+            id = (Integer)q.getSingleResult();
+        } catch (NoResultException e) {
+            id = 0;
+        }
+        return id;
     }
 }

@@ -189,9 +189,10 @@
                                 <br/>
                                 <h:panelGrid columns="2">
                                     <h:inputText size="54" value="#{proyectoBean.invitacion}" class="form-control" a:placeholder="Email o nombre de usuario" a:autofocus="true"/>
-                                    <h:commandButton style="margin-left: 3px" value="Invitar" action="#{proyectoBean.doInvitar()}" class="btn btn-primary">
+                                    <h:commandButton id="enviar" style="margin-left: 3px" value="Invitar" action="#{proyectoBean.doInvitar()}" class="btn btn-primary">
                                         <p:ajax oncomplete="PF('invitacion').hide();" process="usuarios" update="usuarios errores"/>
                                     </h:commandButton>
+                                    <p:defaultCommand target="enviar" />
                                 </h:panelGrid>
                             </p:dialog>
                         </h:panelGroup>
@@ -253,9 +254,10 @@
 
                                     <h:panelGrid columns="2">                                            
                                         <h:inputText size="100" value="#{listaBean.nombre}" class="form-control" a:placeholder="Nombre" />
-                                        <h:commandButton style="margin-left: 3px" action="#{listaBean.doCrearLista()}" value="Crear" class="btn btn-primary" >                                
+                                        <h:commandButton id="crearLista" style="margin-left: 3px" action="#{listaBean.doCrearLista()}" value="Crear" class="btn btn-primary" >                                
                                             <f:ajax execute="@form" render="@form" />
                                         </h:commandButton>
+                                        <p:defaultCommand target="crearLista"/>
                                     </h:panelGrid>
                                     <br/>
                                 </center>
@@ -279,13 +281,13 @@
                                                 </h:outputText>
                                                 <br/>
                                                 <h:commandLink value="Eliminar" action="#{comentariosBean.doBorrar(comentario)}" rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') or comentario.usuarioId.equals(usuarioBean.usuario)}" style="font-size: 12px; color: #bb0000;" >
-                                                    <f:ajax execute="@form" render="@form" />
+                                                    <f:ajax execute="@this" render="@form" />
                                                 </h:commandLink>
                                             </div>
                                             #{comentario.usuarioId.usuario}
                                         </div>
                                         <div class="comentarioCuerpo">
-                                            #{comentario.contenido}
+                                            <h:outputText style="white-space: pre-wrap" value="#{comentario.contenido}"/>
                                         </div>
                                     </div>
                                 </c:forEach>
@@ -295,12 +297,16 @@
                             <h:panelGroup rendered="#{!comentariosBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
                                 #{comentariosBean.error} 
                             </h:panelGroup>
-                            <div class="input-group" style="width: 100%;">
-                                <h:inputTextarea value="#{comentariosBean.contenido}" style="margin: 10px; max-width: 1090px; resize: vertical;" class="form-control" a:placeholder="Comenta algo..." />
-                            </div>
-                            <h:commandButton value="Enviar" action="#{comentariosBean.doCrear()}" style="width: 150px; margin-bottom: 10px;" class="btn btn-success" a:aria-expanded="false">
-                                <f:ajax execute="@form" render="@form" />
-                            </h:commandButton>
+                            <div class="input-group" style="width: 70%; margin: auto;">
+                                <p:inputTextarea rows="3" maxlength="200" autoResize="false" value="#{comentariosBean.contenido}" counter="contador" counterTemplate="Quedan {0} caracteres" style="width: 100%; margin-top: 15px;" class="form-control" a:placeholder="Comenta algo..." />
+                                <br/><br/><br/><br/>
+                                <h:outputText id="contador" style="float: right;"/>                               
+                                <br/><br/>
+                                <h:commandButton id="enviarComentario" value="Enviar" action="#{comentariosBean.doCrear()}" style="width: 150px; margin: auto;" class="btn btn-success" a:aria-expanded="false">
+                                    <f:ajax execute="@form" render="@form" />
+                                </h:commandButton>
+                                <p:defaultCommand target="enviarComentario"/>
+                            </div>   
                         </h:form>
                     </center>
                 </h:panelGroup>

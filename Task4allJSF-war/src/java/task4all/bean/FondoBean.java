@@ -5,6 +5,7 @@
  */
 package task4all.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -16,7 +17,7 @@ import task4all.entity.Fondo;
 
 @ManagedBean
 @ViewScoped
-public class FondoBean {
+public class FondoBean implements Serializable{
     
     @EJB
     private FondoFacade fondoFacade;
