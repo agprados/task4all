@@ -51,11 +51,11 @@
                 </div>
                 <h:panelGroup>     
                     <br/>
-                     <center>
-                    <p:messages autoUpdate="true"/>                    
-                    <h:panelGroup id="errores" rendered="#{!proyectoBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
-                        #{proyectoBean.error}
-                    </h:panelGroup>                   
+                    <center>
+                        <p:messages autoUpdate="true"/>                    
+                        <h:panelGroup id="errores" rendered="#{!proyectoBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
+                            #{proyectoBean.error}
+                        </h:panelGroup>                   
                         <h:outputText style="color: black; font-size: 10pt; font-style: italic; word-wrap:break-word;" value="#{usuarioBean.proyectoSeleccionado.descripcion}" rendered="#{usuarioBean.proyectoSeleccionado.fondoId.oscuro eq '0'}"/>
                         <h:outputText style="color: white; font-size: 10pt; font-style: italic; word-wrap:break-word;" value="#{usuarioBean.proyectoSeleccionado.descripcion}" rendered="#{usuarioBean.proyectoSeleccionado.fondoId.oscuro eq '1'}"/> 
                         <br/>
@@ -75,7 +75,8 @@
                                         <br/>
                                         <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
                                         <br/>
-                                        <p:commandLink styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; font-size: 13px; color: black" />                           
+                                        <p:commandLink id="info#{miembro.usuarioId.usuario}1" styleClass="fa fa-info-circle" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; font-size: 13px; color: black" />                           
+                                        <p:tooltip for="info#{miembro.usuarioId.usuario}1" value="Información de usuario" position="bottom" />
                                     </center>                                
                                 </div>
                             </h:panelGroup>
@@ -90,14 +91,18 @@
                                         <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
                                         <br/>
                                         <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and !miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario) or (!usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario))}"> 
-                                            <p:commandLink styleClass="glyphicon glyphicon-remove" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').show();" style="text-decoration: none; font-size: 13px; color: #bb0000" />                                            
+                                            <p:commandLink id="remove#{miembro.usuarioId.usuario}1" styleClass="glyphicon glyphicon-remove" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').show();" style="text-decoration: none; font-size: 13px; color: #bb0000" />                                            
+                                            <p:tooltip rendered="#{!miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario)}" for="remove#{miembro.usuarioId.usuario}1" value="Eliminar miembro" position="bottom" />
+                                            <p:tooltip rendered="#{miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario)}" for="remove#{miembro.usuarioId.usuario}1" value="Salir del proyecto" position="bottom" />
                                         </h:panelGroup>
-                                        <p:commandLink rendered="#{miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario) or usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black" /> 
-                                        <p:commandLink rendered="#{!miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario) and !usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; font-size: 13px; color: black" /> 
+                                        <p:commandLink id="info#{miembro.usuarioId.usuario}2" rendered="#{miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario) or usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black" /> 
+                                        <p:commandLink id="info#{miembro.usuarioId.usuario}3" rendered="#{!miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario) and !usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; font-size: 13px; color: black" /> 
+                                        <p:tooltip for="info#{miembro.usuarioId.usuario}2 info#{miembro.usuarioId.usuario}3" value="Información de usuario" position="bottom" />
                                         <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and !miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario)}">
-                                            <p:commandLink onclick="PF('#{miembro.usuarioId.usuario}Liderazgo').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black;" >
+                                            <p:commandLink id="leader#{miembro.usuarioId.usuario}" onclick="PF('#{miembro.usuarioId.usuario}Liderazgo').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black;" >
                                                 <h:graphicImage style="margin-bottom: 3.5px" value="/images/iconos/crown.png" width="11" height="11"/>
                                             </p:commandLink>
+                                            <p:tooltip for="leader#{miembro.usuarioId.usuario}" value="Pasar liderazgo" position="bottom" />
                                         </h:panelGroup>
                                     </center>       
                                 </div>
@@ -113,10 +118,12 @@
                                         <i style="color: #aaaaaa;">#{miembro.rol.toLowerCase()}</i>
                                         <br/>
                                         <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') and !miembro.usuarioId.usuario.equals(usuarioBean.usuario.usuario)}">
-                                            <p:commandLink styleClass="glyphicon glyphicon-remove" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').show();" style="text-decoration: none; font-size: 13px; color: #bb0000" /> 
+                                            <p:commandLink id="remove#{miembro.usuarioId.usuario}2" styleClass="glyphicon glyphicon-remove" onclick="PF('#{miembro.usuarioId.usuario}Eliminacion').show();" style="text-decoration: none; font-size: 13px; color: #bb0000" /> 
+                                            <p:tooltip for="remove#{miembro.usuarioId.usuario}2" value="Eliminar miembro" position="bottom" />
                                         </h:panelGroup>
-                                        <p:commandLink rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black" />                                    
-                                        <p:commandLink rendered="#{!usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; font-size: 13px; color: black" />                                    
+                                        <p:commandLink id="info#{miembro.usuarioId.usuario}4" rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; margin-left: 15px; font-size: 13px; color: black" />                                    
+                                        <p:commandLink id="info#{miembro.usuarioId.usuario}5" rendered="#{!usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" styleClass="fa fa-info-circle" value="" onclick="PF('#{miembro.usuarioId.usuario}Informacion').show();" style="text-decoration: none; font-size: 13px; color: black" />                                    
+                                        <p:tooltip for="info#{miembro.usuarioId.usuario}4 info#{miembro.usuarioId.usuario}5" value="Información de usuario" position="bottom" />
                                     </center>
                                 </div>
                             </h:panelGroup> 
@@ -233,9 +240,9 @@
                                     </p:dialog>
                                 </div>
                             </c:forEach>
-                            <div class="lista lista-crear">
+                            <div style="padding-bottom: 18px" class="lista lista-crear">
                                 <center>
-                                    <h4 style="margin-bottom: -10px;">Crear lista</h4>
+                                    <h4 style="margin-bottom: -10px;">Nueva lista</h4>
                                 </center>
                                 <br/>
                                 <div class="separador"></div>
@@ -244,15 +251,13 @@
                                         #{listaBean.error} 
                                     </h:panelGroup>
 
-                                    <div class="input-group" style="width: 100%;">
-                                        <h:inputText value="#{listaBean.nombre}" class="form-control" a:placeholder="Nombre" a:aria-describedby="basic-addon1" />
-                                    </div>
-                                    <br/>
-                                    <center>
-                                        <h:commandButton id="crearLista" action="#{listaBean.doCrearLista()}" value="Crear" class="btn btn-primary" a:aria-expanded="true">                                
+                                    <h:panelGrid columns="2">                                            
+                                        <h:inputText size="100" value="#{listaBean.nombre}" class="form-control" a:placeholder="Nombre" />
+                                        <h:commandButton style="margin-left: 3px" action="#{listaBean.doCrearLista()}" value="Crear" class="btn btn-primary" >                                
                                             <f:ajax execute="@form" render="@form" />
                                         </h:commandButton>
-                                    </center>
+                                    </h:panelGrid>
+                                    <br/>
                                 </center>
                             </div>
                         </h:form>

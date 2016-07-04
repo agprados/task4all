@@ -53,7 +53,11 @@ public class ComentariosBean {
         this.error = "";
         usuarioLogueado = usuarioFacade.findUsuarioByUsuario(this.usuarioBean.getUsuario().getUsuario());
         proyectoSeleccionado = usuarioBean.getProyectoSeleccionado();
-        listaComentarios =  comentarioFacade.findComentariosByProyecto(proyectoSeleccionado.getId());
+        
+        // Comprobación para que no entre cuando se accede a proyectos.xhtml sin iniciar sesión
+        if(proyectoSeleccionado != null) {
+            listaComentarios =  comentarioFacade.findComentariosByProyecto(proyectoSeleccionado.getId());
+        }
     }
 
     public List<Comentario> getListaComentarios() {
