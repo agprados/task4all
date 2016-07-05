@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -48,7 +49,7 @@ import task4all.entity.Usuario;
 
 @ManagedBean
 @SessionScoped
-public class UsuarioBean {
+public class UsuarioBean implements Serializable {
 
     @EJB
     private UsuarioFacade usuarioFacade;

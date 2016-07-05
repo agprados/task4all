@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import task4all.entity.Lista;
+import task4all.entity.Tarea;
 
 
 @Stateless
@@ -41,5 +42,15 @@ public class ListaFacade extends AbstractFacade<Lista> {
         
         q = em.createQuery("select max(l.id) from Lista l");
         return (Integer)q.getSingleResult();
+    }
+    
+    public List<Lista> findListasByNombreLike(String nombre) {
+        Query q;
+        
+        q = em.createNamedQuery("Lista.findListasByNombreLike");
+        
+        q.setParameter("nombre", "%" + nombre + "%");
+        
+        return q.getResultList();
     }
 }

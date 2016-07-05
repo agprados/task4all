@@ -17,7 +17,7 @@ import task4all.entity.Fondo;
 
 @ManagedBean
 @ViewScoped
-public class FondoBean implements Serializable{
+public class FondoBean implements Serializable {
     
     @EJB
     private FondoFacade fondoFacade;

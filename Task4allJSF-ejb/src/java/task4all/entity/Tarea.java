@@ -43,7 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tarea.findByFechaobjetivo", query = "SELECT t FROM Tarea t WHERE t.fechaobjetivo = :fechaobjetivo"),
     @NamedQuery(name = "Tarea.findByFechafin", query = "SELECT t FROM Tarea t WHERE t.fechafin = :fechafin"),
     @NamedQuery(name = "Tarea.findByPrioridad", query = "SELECT t FROM Tarea t WHERE t.prioridad = :prioridad"),
-    @NamedQuery(name = "Tarea.findByLista", query = "SELECT t FROM Tarea t WHERE t.listaId.id = :id")})
+    @NamedQuery(name = "Tarea.findByLista", query = "SELECT t FROM Tarea t WHERE t.listaId.id = :id"),
+    @NamedQuery(name = "Tarea.findTareasByNombreLike", query = "SELECT t FROM Tarea t WHERE UPPER(t.nombre) LIKE UPPER(:nombre)")})
 public class Tarea implements Serializable {
 
     private static final long serialVersionUID = 1L;

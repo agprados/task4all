@@ -5,6 +5,7 @@
  */
 package task4all.ejb;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,5 +33,15 @@ public class ProyectoFacade extends AbstractFacade<Proyecto> {
         
         q = em.createQuery("select max(p.id) from Proyecto p");
         return (Integer)q.getSingleResult();
+    }
+    
+    public List<Proyecto> findProyectosByNombreLike(String nombre) {
+        Query q;
+        
+        q = em.createNamedQuery("Proyecto.findProyectosByNombreLike");
+        
+        q.setParameter("nombre", "%" + nombre + "%");
+        
+        return q.getResultList();
     }
 }

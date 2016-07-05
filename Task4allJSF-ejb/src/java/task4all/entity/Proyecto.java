@@ -29,7 +29,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
 @Entity
 @Table(name = "PROYECTO")
 @XmlRootElement
@@ -40,7 +39,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Proyecto.findByDescripcion", query = "SELECT p FROM Proyecto p WHERE p.descripcion = :descripcion"),
     @NamedQuery(name = "Proyecto.findByFechacreacion", query = "SELECT p FROM Proyecto p WHERE p.fechacreacion = :fechacreacion"),
     @NamedQuery(name = "Proyecto.findByFechaobjetivo", query = "SELECT p FROM Proyecto p WHERE p.fechaobjetivo = :fechaobjetivo"),
-    @NamedQuery(name = "Proyecto.findByFechafin", query = "SELECT p FROM Proyecto p WHERE p.fechafin = :fechafin")})
+    @NamedQuery(name = "Proyecto.findByFechafin", query = "SELECT p FROM Proyecto p WHERE p.fechafin = :fechafin"),
+    @NamedQuery(name = "Proyecto.findProyectosByNombreLike", query = "SELECT p FROM Proyecto p WHERE UPPER(p.nombre) LIKE UPPER(:nombre)")})
 public class Proyecto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,8 +49,8 @@ public class Proyecto implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "SEQ_PROYECTO")
-    @SequenceGenerator(name="SEQ_PROYECTO", sequenceName = "PROYECTO_id_SEQ", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PROYECTO")
+    @SequenceGenerator(name = "SEQ_PROYECTO", sequenceName = "PROYECTO_id_SEQ", allocationSize = 1)
     private Integer id;
     @Basic(optional = false)
     @NotNull
@@ -212,5 +212,5 @@ public class Proyecto implements Serializable {
     public String toString() {
         return "task4all.entity.Proyecto[ id=" + id + " ]";
     }
-    
+
 }

@@ -50,4 +50,15 @@ public class TareaFacade extends AbstractFacade<Tarea> {
         q = em.createQuery("select max(t.id) from Tarea t");
         return (Integer)q.getSingleResult();
     }
+    
+    public List<Tarea> findTareasByNombreLike(String nombre) {
+        Query q;
+        
+        q = em.createNamedQuery("Tarea.findTareasByNombreLike");
+        
+        q.setParameter("nombre", "%" + nombre + "%");
+        
+        return q.getResultList();
+    }
+    
 }
