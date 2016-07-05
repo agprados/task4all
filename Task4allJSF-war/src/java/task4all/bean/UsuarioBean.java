@@ -55,6 +55,11 @@ public class UsuarioBean implements Serializable {
     private UsuarioFacade usuarioFacade;
     @EJB
     private UsuarioTareaFacade usuarioTareaFacade;
+    
+    private final String FB_ID = "747075862097456";
+    private final String FB_SECRET = "cb65b5382724343d60019074e274e058";
+    private final String GOOGLE_ID = "720887194151-e2tbl9ti0v612god4l566mhe7bjocoa5.apps.googleusercontent.com";
+    private final String GOOGLE_SECRET = "NVJFgMbDMt-ab3H4szSblHnr";
 
     private Usuario usuario;
     private String identificador;
@@ -80,11 +85,8 @@ public class UsuarioBean implements Serializable {
     private String emailRecuperacion;
     private String facebookID;
     private String googleID;
-    private boolean okLogin;
-    private final String FB_ID = "747075862097456";
-    private final String FB_SECRET = "cb65b5382724343d60019074e274e058";
-    private final String GOOGLE_ID = "720887194151-e2tbl9ti0v612god4l566mhe7bjocoa5.apps.googleusercontent.com";
-    private final String GOOGLE_SECRET = "NVJFgMbDMt-ab3H4szSblHnr";
+    private boolean okLogin;    
+    private String cadenaABuscar;
 
     /**
      * Creates a new instance of UsuarioBean
@@ -302,6 +304,14 @@ public class UsuarioBean implements Serializable {
 
     public void setGoogleID(String googleID) {
         this.googleID = googleID;
+    }
+
+    public String getCadenaABuscar() {
+        return cadenaABuscar;
+    }
+
+    public void setCadenaABuscar(String cadenaABuscar) {
+        this.cadenaABuscar = cadenaABuscar;
     }
     
     public List<Tarea> getTareasAsignadas() {
@@ -967,5 +977,9 @@ public class UsuarioBean implements Serializable {
         }
 
         return "configuracion";
+    }
+    
+    public String buscar() {
+        return "/busqueda?faces-redirect=true";
     }
 }

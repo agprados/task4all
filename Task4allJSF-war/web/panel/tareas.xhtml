@@ -14,8 +14,6 @@
 
         <!-- Compiled and minified Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
-        <!-- jQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <!-- Compiled and minified Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     </h:head>
@@ -46,27 +44,27 @@
                     <br/>
                     <h:panelGroup style="margin-left: 20px">
                         <h:form style="display: inline-block">
-                        <c:forEach items="#{usuarioBean.proyectosConTareasAsignadas}" var="proyecto">
-                            <h:commandLink style="font-size: 22px; color: black" value="#{proyecto.nombre}" action="#{proyectosBean.doVerProyecto(proyecto)}" />
-                            <c:forEach items="#{proyecto.listaCollection}" var="lista">    
-                                <c:forEach items="#{lista.tareaCollection}" var="tarea">                                    
-                                    <h:panelGroup rendered="#{usuarioBean.getTareasAsignadas().contains(tarea)}">
-                                        <h:commandLink action="#{tareaBean.doMostrar(proyecto, lista, tarea)}" style="text-decoration: none;">
-                                            <div style="background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="container-proyectos-tareas-listas" >
-                                                <h:outputText style="color: black; font-size: 12pt; font-weight: bold" value="#{tarea.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
-                                                <h:outputText style="color: white; font-size: 12pt; font-weight: bold" value="#{tarea.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>                                            
-                                                <h:outputText style="margin-left: 10px; float: right; margin-top: 1px" value="#{tarea.fechaobjetivo}">
-                                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="CET" />
-                                                </h:outputText> 
-                                                <br/>                               
-                                            </div>                                        
-                                        </h:commandLink>
-                                    </h:panelGroup>
+                            <c:forEach items="#{usuarioBean.proyectosConTareasAsignadas}" var="proyecto">
+                                <h:commandLink style="font-size: 22px; color: black" value="#{proyecto.nombre}" action="#{proyectosBean.doVerProyecto(proyecto)}" />
+                                <c:forEach items="#{proyecto.listaCollection}" var="lista">    
+                                    <c:forEach items="#{lista.tareaCollection}" var="tarea">                                    
+                                        <h:panelGroup rendered="#{usuarioBean.getTareasAsignadas().contains(tarea)}">
+                                            <h:commandLink action="#{tareaBean.doMostrar(proyecto, lista, tarea)}" style="text-decoration: none;">
+                                                <div style="background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="container-proyectos-tareas-listas" >
+                                                    <h:outputText style="color: black; font-size: 12pt; font-weight: bold" value="#{tarea.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                                    <h:outputText style="color: white; font-size: 12pt; font-weight: bold" value="#{tarea.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>                                            
+                                                    <h:outputText style="margin-left: 10px; float: right; margin-top: 1px" value="#{tarea.fechaobjetivo}">
+                                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="CET" />
+                                                    </h:outputText> 
+                                                    <br/>                               
+                                                </div>                                        
+                                            </h:commandLink>
+                                        </h:panelGroup>
+                                    </c:forEach>
                                 </c:forEach>
-                            </c:forEach>
-                            <br/>
-                        </c:forEach>                        
-                    </h:form> 
+                                <br/>
+                            </c:forEach>                        
+                        </h:form> 
                     </h:panelGroup>  
                 </h:panelGroup>
                 <br/>

@@ -121,12 +121,16 @@
                     <h2>Verifica tu cuenta</h2>
                     <br/>
                     <h4>Estado de la cuenta:
-                        <h:panelGroup id="verificada" rendered="#{usuarioBean.usuario.verificado eq '1'}">
-                            <span style="color: #33C867;" class="fa fa-check"></span>
-                            <p:tooltip for="verificada" value="Cuenta verificada" position="bottom" />
+                        <h:panelGroup rendered="#{usuarioBean.usuario.verificado eq '1'}">
+                            <h:outputText value="Verificada" style="font-size: 16px"/>
+                            <h:panelGroup id="verificada">
+                                <span style="color: #33C867;" class="fa fa-check"></span>
+                                <p:tooltip for="verificada" value="Cuenta verificada" position="bottom"/>
+                            </h:panelGroup>
                         </h:panelGroup>
                         <h:panelGroup rendered="#{usuarioBean.usuario.verificado eq '0'}">
-                            <h:panelGroup id="noVerificada">
+                            <h:outputText value="No verificada" style="font-size: 16px"/>
+                            <h:panelGroup id="noVerificada">                                
                                 <span style="color: red;" class="fa fa-times"></span>
                                 <p:tooltip for="noVerificada" value="Cuenta no verificada" position="bottom" /></h:panelGroup>
                             <br/><br/>

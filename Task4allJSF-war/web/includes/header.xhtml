@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">    
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">    
     <h:body>
         <div class="header">
             <div style="float: left; margin: 4px;" class="dropdown">
@@ -50,9 +51,10 @@
             <h:form>
                 <div style="float: left; margin: 4px; width: 300px;" class="col-lg-6">
                     <div class="input-group">
-                        <h:inputText maxlength="100" value="#{busquedaBean.cadenaABuscar}" style="background: #666; border: 1px solid #000; color: white;" class="form-control buscadorHeader" a:placeholder="Quiero buscar..."/>
+                        <h:inputText maxlength="100" value="#{usuarioBean.cadenaABuscar}" style="background: #666; border: 1px solid #000; color: white;" class="form-control buscadorHeader" a:placeholder="Quiero buscar..."/>
                         <span class="input-group-btn">
-                            <h:commandButton style="background: #eee; border: 1px solid #000;" action="#{busquedaBean.doBuscar()}" value="Buscar" class="btn btn-default" />
+                            <h:commandButton id="buscar" style="background: #eee; border: 1px solid #000;" action="#{usuarioBean.buscar()}" value="Buscar" class="btn btn-default" />
+                            <p:defaultCommand target="buscar"/>
                         </span>
                     </div>
                 </div>

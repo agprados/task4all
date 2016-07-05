@@ -5,12 +5,14 @@
  */
 package task4all.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import task4all.ejb.ListaFacade;
 import task4all.ejb.ProyectoFacade;
 import task4all.ejb.TareaFacade;
@@ -19,8 +21,8 @@ import task4all.entity.Proyecto;
 import task4all.entity.Tarea;
 
 @ManagedBean
-@SessionScoped
-public class BusquedaBean {
+@ViewScoped
+public class BusquedaBean implements Serializable {
 
     @EJB
     private ProyectoFacade proyectoFacade;
@@ -29,6 +31,9 @@ public class BusquedaBean {
     @EJB
     private TareaFacade tareaFacade;
 
+    @ManagedProperty(value = "#{usuarioBean}")
+    private UsuarioBean usuarioBean;
+    
     private List<Proyecto> resultadosProyectos;
     private List<Lista> resultadosListas;
     private List<Tarea> resultadosTareas;
@@ -46,6 +51,14 @@ public class BusquedaBean {
         resultadosProyectos = new ArrayList<>();
         resultadosListas = new ArrayList<>();
         resultadosTareas = new ArrayList<>();
+        if(usuarioBean.getCadenaABuscar() != null && !usuarioBean.getCadenaABuscar().isEmpty()) {            
+            cadenaABuscar = usuarioBean.getCadenaABuscar();
+            doBuscar();
+        }
+    }
+
+    public void setUsuarioBean(UsuarioBean usuarioBean) {
+        this.usuarioBean = usuarioBean;
     }
 
     public List<Proyecto> getResultadosProyectos() {
@@ -88,7 +101,11 @@ public class BusquedaBean {
         this.cadenaBuscada = cadenaBuscada;
     }
 
-    public String doBuscar() {
+    public void doBuscar() {
+        resultadosProyectos = new ArrayList<>();
+        resultadosListas = new ArrayList<>();
+        resultadosTareas = new ArrayList<>();
+        
         if (cadenaABuscar != null && !cadenaABuscar.isEmpty()) {
             resultadosProyectos = proyectoFacade.findProyectosByNombreLike(cadenaABuscar);
             resultadosListas = listaFacade.findListasByNombreLike(cadenaABuscar);
@@ -96,9 +113,8 @@ public class BusquedaBean {
         }
         
         cadenaBuscada = cadenaABuscar;
-        cadenaABuscar = "";        
-
-        return "/busqueda";
+        cadenaABuscar = "";  
+        usuarioBean.setCadenaABuscar("");
     }
 
 }
