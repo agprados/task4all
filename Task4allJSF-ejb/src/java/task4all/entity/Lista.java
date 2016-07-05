@@ -35,8 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Lista.findById", query = "SELECT l FROM Lista l WHERE l.id = :id"),
     @NamedQuery(name = "Lista.findByNombre", query = "SELECT l FROM Lista l WHERE l.nombre = :nombre"),
     @NamedQuery(name = "Lista.findByDescripcion", query = "SELECT l FROM Lista l WHERE l.descripcion = :descripcion"),
-    @NamedQuery(name = "Lista.findByProyecto", query = "SELECT l FROM Lista l WHERE l.proyectoId.id = :id"),
-    @NamedQuery(name = "Lista.findListasByNombreLike", query = "SELECT l FROM Lista l WHERE UPPER(l.nombre) LIKE UPPER(:nombre)")})
+    @NamedQuery(name = "Lista.findByProyecto", query = "SELECT l FROM Lista l WHERE l.proyectoId.id = :id")})
 public class Lista implements Serializable {
 
     private static final long serialVersionUID = 1L;

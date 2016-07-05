@@ -51,12 +51,13 @@ public class TareaFacade extends AbstractFacade<Tarea> {
         return (Integer)q.getSingleResult();
     }
     
-    public List<Tarea> findTareasByNombreLike(String nombre) {
+    public List<Tarea> findTareasByUsuarioAndNombreLike(Integer usuario, String nombre) {
         Query q;
         
-        q = em.createNamedQuery("Tarea.findTareasByNombreLike");
+        q = em.createQuery("SELECT t FROM Tarea t, Proyecto p, UsuarioProyecto up WHERE t.listaId.proyectoId.id = p.id AND p.id = up.proyectoId.id AND UPPER(t.nombre) LIKE UPPER(:nombre) AND up.usuarioId.id = :usuario");
         
         q.setParameter("nombre", "%" + nombre + "%");
+        q.setParameter("usuario", usuario);
         
         return q.getResultList();
     }

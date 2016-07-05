@@ -11,7 +11,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import task4all.entity.Lista;
-import task4all.entity.Tarea;
 
 
 @Stateless
@@ -44,12 +43,13 @@ public class ListaFacade extends AbstractFacade<Lista> {
         return (Integer)q.getSingleResult();
     }
     
-    public List<Lista> findListasByNombreLike(String nombre) {
+    public List<Lista> findListasByUsuarioAndNombreLike(Integer usuario, String nombre) {
         Query q;
         
-        q = em.createNamedQuery("Lista.findListasByNombreLike");
+        q = em.createQuery("SELECT l FROM Lista l, Proyecto p, UsuarioProyecto up WHERE l.proyectoId.id = p.id AND p.id = up.proyectoId.id AND UPPER(l.nombre) LIKE UPPER(:nombre) AND up.usuarioId.id = :usuario");
         
         q.setParameter("nombre", "%" + nombre + "%");
+        q.setParameter("usuario", usuario);
         
         return q.getResultList();
     }

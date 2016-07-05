@@ -39,8 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Proyecto.findByDescripcion", query = "SELECT p FROM Proyecto p WHERE p.descripcion = :descripcion"),
     @NamedQuery(name = "Proyecto.findByFechacreacion", query = "SELECT p FROM Proyecto p WHERE p.fechacreacion = :fechacreacion"),
     @NamedQuery(name = "Proyecto.findByFechaobjetivo", query = "SELECT p FROM Proyecto p WHERE p.fechaobjetivo = :fechaobjetivo"),
-    @NamedQuery(name = "Proyecto.findByFechafin", query = "SELECT p FROM Proyecto p WHERE p.fechafin = :fechafin"),
-    @NamedQuery(name = "Proyecto.findProyectosByNombreLike", query = "SELECT p FROM Proyecto p WHERE UPPER(p.nombre) LIKE UPPER(:nombre)")})
+    @NamedQuery(name = "Proyecto.findByFechafin", query = "SELECT p FROM Proyecto p WHERE p.fechafin = :fechafin")})
 public class Proyecto implements Serializable {
 
     private static final long serialVersionUID = 1L;

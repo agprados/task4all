@@ -107,9 +107,9 @@ public class BusquedaBean implements Serializable {
         resultadosTareas = new ArrayList<>();
         
         if (cadenaABuscar != null && !cadenaABuscar.isEmpty()) {
-            resultadosProyectos = proyectoFacade.findProyectosByNombreLike(cadenaABuscar);
-            resultadosListas = listaFacade.findListasByNombreLike(cadenaABuscar);
-            resultadosTareas = tareaFacade.findTareasByNombreLike(cadenaABuscar);
+            resultadosProyectos = proyectoFacade.findProyectosByUsuarioAndNombreLike(usuarioBean.getUsuario().getId(), cadenaABuscar);
+            resultadosListas = listaFacade.findListasByUsuarioAndNombreLike(usuarioBean.getUsuario().getId(), cadenaABuscar);
+            resultadosTareas = tareaFacade.findTareasByUsuarioAndNombreLike(usuarioBean.getUsuario().getId(), cadenaABuscar);
         }
         
         cadenaBuscada = cadenaABuscar;

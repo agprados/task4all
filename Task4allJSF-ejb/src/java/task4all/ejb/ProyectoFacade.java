@@ -35,12 +35,13 @@ public class ProyectoFacade extends AbstractFacade<Proyecto> {
         return (Integer)q.getSingleResult();
     }
     
-    public List<Proyecto> findProyectosByNombreLike(String nombre) {
+    public List<Proyecto> findProyectosByUsuarioAndNombreLike(Integer usuario, String nombre) {
         Query q;
         
-        q = em.createNamedQuery("Proyecto.findProyectosByNombreLike");
+        q = em.createQuery("SELECT p FROM Proyecto p, UsuarioProyecto up WHERE p.id = up.proyectoId.id AND UPPER(p.nombre) LIKE UPPER(:nombre) AND up.usuarioId.id = :usuario");
         
         q.setParameter("nombre", "%" + nombre + "%");
+        q.setParameter("usuario", usuario);
         
         return q.getResultList();
     }
