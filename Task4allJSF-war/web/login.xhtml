@@ -32,8 +32,18 @@
 
                     <h:panelGroup rendered="#{param.ok eq 'true'}" layout="block">
                         <br/>
-                        <div layout="block" class="alert alert-info" a:role="alert" style="width: 300px;"> Inicia sesión para poder ver el proyecto</div>
-
+                        <div layout="block" class="alert alert-info" a:role="alert" style="width: 300px;">Inicia sesión para aceptar la invitación</div>                        
+                        #{usuarioBean.setProyectoInvitacion(param.proyectoId)}
+                        #{usuarioBean.setEmailInvitacion(param.email)}
+                        #{usuarioBean.setAceptarInvitacion(true)}
+                        <div class="separador"></div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{param.ok eq 'false'}" layout="block">
+                        <br/>
+                        <div layout="block" class="alert alert-info" a:role="alert" style="width: 300px;">Inicia sesión para rechazar la invitación</div>                        
+                        #{usuarioBean.setProyectoInvitacion(param.proyectoId)}
+                        #{usuarioBean.setEmailInvitacion(param.email)}
+                        #{usuarioBean.setAceptarInvitacion(false)}
                         <div class="separador"></div>
                     </h:panelGroup>
 
@@ -57,10 +67,10 @@
                     <br/>
                     <div class="separador"></div>
                     <br/>
-                    <h:panelGroup rendered="#{!usuarioBean.errorLogin.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert" style="width: 300px;">
-                        #{usuarioBean.errorLogin} 
-                    </h:panelGroup>
                     <h:form>
+                        <h:panelGroup rendered="#{!usuarioBean.errorLogin.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert" style="width: 300px;">
+                            #{usuarioBean.errorLogin} 
+                        </h:panelGroup>                    
                         <div class="input-group" style="width: 300px;">
                             <h:inputText value="#{usuarioBean.identificador}" class="form-control" a:placeholder="Usuario" a:autofocus="true" />
                         </div>
@@ -70,7 +80,9 @@
                         </div>
                         <br/>                        
                         #{usuarioBean.setErrorLogin("")}
-                        <h:commandButton value="Iniciar sesión" action="#{usuarioBean.doLogin()}" class="btn btn-success"></h:commandButton> 
+                        <h:commandButton value="Iniciar sesión" action="#{usuarioBean.doLogin()}" class="btn btn-success">
+                            <f:ajax execute="@form" render="@form"/>
+                        </h:commandButton> 
                     </h:form>
                     <br/>
                     <h:link value="Recuperar contraseña" outcome="recuperar?faces-redirect=true" />

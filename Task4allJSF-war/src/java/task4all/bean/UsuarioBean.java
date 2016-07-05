@@ -95,11 +95,14 @@ public class UsuarioBean implements Serializable {
     private Tarea tareaSeleccionada;
     private Lista listaSeleccionada;
     private String rolActual;
-    private String emailRecuperacion;
+    private String identificadorRecuperacion;
     private String facebookID;
     private String googleID;
     private boolean okLogin;
     private String cadenaABuscar;
+    private Integer proyectoInvitacion;
+    private String emailInvitacion;
+    private boolean aceptarInvitacion;
 
     /**
      * Creates a new instance of UsuarioBean
@@ -116,7 +119,7 @@ public class UsuarioBean implements Serializable {
         errorConfiguracion = "";
         correctaConfiguracion = "";
         errorSocial = "";
-        usuario = new Usuario();
+        usuario = new Usuario();        
     }
 
     public Usuario getUsuario() {
@@ -187,12 +190,12 @@ public class UsuarioBean implements Serializable {
         this.avatar = avatar;
     }
 
-    public String getEmailRecuperacion() {
-        return emailRecuperacion;
+    public String getIdentificadorRecuperacion() {
+        return identificadorRecuperacion;
     }
 
-    public void setEmailRecuperacion(String emailRecuperacion) {
-        this.emailRecuperacion = emailRecuperacion;
+    public void setIdentificadorRecuperacion(String identificadorRecuperacion) {
+        this.identificadorRecuperacion = identificadorRecuperacion;
     }
 
     public void setVerificaContrasena(String verificaContrasena) {
@@ -331,6 +334,30 @@ public class UsuarioBean implements Serializable {
         return this.usuarioTareaFacade.findTareasAsignadasByUsuario(usuario.getId());
     }
 
+    public Integer getProyectoInvitacion() {
+        return proyectoInvitacion;
+    }
+
+    public void setProyectoInvitacion(Integer proyectoInvitacion) {
+        this.proyectoInvitacion = proyectoInvitacion;
+    }
+
+    public String getEmailInvitacion() {
+        return emailInvitacion;
+    }
+
+    public void setEmailInvitacion(String emailInvitacion) {
+        this.emailInvitacion = emailInvitacion;
+    }
+
+    public boolean isAceptarInvitacion() {
+        return aceptarInvitacion;
+    }
+
+    public void setAceptarInvitacion(boolean aceptarInvitacion) {
+        this.aceptarInvitacion = aceptarInvitacion;
+    }
+
     public List<Proyecto> getProyectosConTareasAsignadas() {
         List<Proyecto> proyectosConTareasAsignadas = new ArrayList<>();
         Proyecto proyecto;
@@ -458,20 +485,20 @@ public class UsuarioBean implements Serializable {
     }
 
     public String doRecuperarContrasena() {
-        if (emailRecuperacion == null || emailRecuperacion.isEmpty()) {
-            errorRecuperacion = "El campo email no puede estar vacío";
+        if (identificadorRecuperacion == null || identificadorRecuperacion.isEmpty()) {
+            errorRecuperacion = "Introduzca el email o el nombre de usuario";
             return "recuperar";
         }
-
-        if (!isValidEmail(emailRecuperacion)) {
-            errorRecuperacion = "El email introducido no es válido";
-            return "recuperar";
+        
+        Usuario u;
+        if (isValidEmail(identificadorRecuperacion)) {
+            u = this.usuarioFacade.findUsuarioByEmail(identificadorRecuperacion);
+        } else {
+            u = this.usuarioFacade.findUsuarioByUsuario(identificadorRecuperacion);
         }
-
-        Usuario u = usuarioFacade.findUsuarioByEmail(emailRecuperacion);
 
         if (u == null) {
-            errorRecuperacion = "No hay ningún usuario registrado con ese email";
+            errorRecuperacion = "No existe ningún usuario registrado con ese email o nombre de usuario";
             return "recuperar";
         }
         mandarEmailContraseña(u);
@@ -498,8 +525,7 @@ public class UsuarioBean implements Serializable {
                     new InternetAddress(u.getEmail()));
             message.setSubject("Recuperación de contraseña de Task4all");
             message.setText(
-                    "<p>Estos son sus datos de acceso:</p>"
-                    + "<li>Usuario: " + u.getUsuario() + "</li> "
+                    "<p>Esta es tu contraseña:</p>"
                     + "<li>Contraseña: " + u.getContrasena() + "</li> "
                     + "<p><a href=\"http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do\">Acceder a Task4all</a></p>"
                     + "<p>No responder a este mensaje.<p/>",
@@ -649,8 +675,38 @@ public class UsuarioBean implements Serializable {
                 return "login";
             }
         }
-        okLogin = true;
+        okLogin = true;      
+        
+        comprobarInvitacionEmail();
+                  
         return "loginSuccess?faces-redirect=true";
+    }
+    
+    private void comprobarInvitacionEmail() {
+        if(proyectoInvitacion != null && usuario.getEmail().equals(emailInvitacion)) {
+            if(aceptarInvitacion) {
+                aceptarInvitacionEmail();
+            } else {
+                rechazarInvitacionEmail();
+            }
+        }      
+    }
+    
+    private void aceptarInvitacionEmail() {
+        UsuarioProyecto up = this.usuarioProyectoFacade.findUsuarioProyectoByEmailAndProyecto(emailInvitacion, proyectoInvitacion);        
+        up.setRol("Miembro");
+        this.usuarioProyectoFacade.edit(up);
+        
+        proyectoInvitacion = null;
+        emailInvitacion = "";
+    }
+    
+    private void rechazarInvitacionEmail() {
+        UsuarioProyecto up = this.usuarioProyectoFacade.findUsuarioProyectoByEmailAndProyecto(emailInvitacion, proyectoInvitacion);
+        this.usuarioProyectoFacade.remove(up);
+        
+        proyectoInvitacion = null;
+        emailInvitacion = "";
     }
 
     public void doFacebookLogin() {
@@ -896,6 +952,7 @@ public class UsuarioBean implements Serializable {
 
         try {
             if (okLogin) {
+                comprobarInvitacionEmail();
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
                 context.redirect(context.getRequestContextPath() + url);
             }
@@ -1018,6 +1075,6 @@ public class UsuarioBean implements Serializable {
         this.usuarioFacade.remove(usuario);
 
         return doLogout();
-    }
+    }  
 
 }

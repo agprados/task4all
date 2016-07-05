@@ -74,7 +74,7 @@ public class ProyectoBean {
     public void init() {
         this.error = "";
         invitacion = "";
-        
+
         // Comprobación para que no entre cuando se selecciona una tarea en tareas.xhtml
         if (usuarioBean.getProyectoSeleccionado() != null) {
             listaMiembrosRoles = this.usuarioProyectoFacade.findUsuarioProyectoByProyecto(usuarioBean.getProyectoSeleccionado().getId());
@@ -291,23 +291,23 @@ public class ProyectoBean {
     public String doInvitar() {
         error = "";
         if (invitacion == null || invitacion.isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email o el nombre de usuarios no puede estar vacío",""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email o el nombre de usuarios no puede estar vacío", ""));
             return "proyecto";
         }
-        
-         Usuario u;
+
+        Usuario u;
         if (isValidEmail(invitacion)) {
-           u = this.usuarioFacade.findUsuarioByEmail(invitacion);
+            u = this.usuarioFacade.findUsuarioByEmail(invitacion);
         } else {
             u = this.usuarioFacade.findUsuarioByUsuario(invitacion);
         }
 
         if (u == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario no se encuentra registrado en el sistema",""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario no se encuentra registrado en el sistema", ""));
             return "proyecto";
         }
         if (usuarioProyectoFacade.findUsuarioProyectoByEmailAndProyecto(u.getEmail(), usuarioBean.getProyectoSeleccionado().getId()) != null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ese usuario ya pertenece al proyecto",""));        
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ese usuario ya pertenece al proyecto", ""));
             invitacion = "";
             return "proyecto";
         }
@@ -316,7 +316,7 @@ public class ProyectoBean {
             mandarEmailInvitacion(u.getEmail(), usuarioBean.getProyectoSeleccionado().getId());
             invitacion = "";
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "e ha producido un error al enviar la invitación",""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "e ha producido un error al enviar la invitación", ""));
             return "proyecto";
         }
 
@@ -354,10 +354,11 @@ public class ProyectoBean {
         message.addRecipient(
                 Message.RecipientType.TO,
                 new InternetAddress(email));
-        message.setSubject("Invitación a proyecto en Task4all");
+        message.setSubject("Invitación a un proyecto en Task4all");
         message.setText(
-                "<p>Ha recibido una invitaci&oacute;n para unirse a un proyecto en Task4all.</p>"
-                + "<p><a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?email=" + email + "&proyectoId=" + proyectoId + "&ok=" + true + ">Unirse al proyecto</a></p>"
+                "<p>Ha recibido una invitaci&oacute;n de " + usuarioBean.getUsuario().getUsuario() + " para unirse al proyecto <i>" + usuarioBean.getProyectoSeleccionado().getNombre() + "</i> en Task4all.</p>"
+                + "<p>Puedes <a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?email=" + email + "&proyectoId=" + proyectoId + "&ok=" + true + ">unirte al proyecto</a>"
+                + " o <a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?email=" + email + "&proyectoId=" + proyectoId + "&ok=" + false + "> rechazar la invitación</a>.</p>"
                 + "<p>No responder a este mensaje.<p/>",
                 "ISO-8859-1",
                 "html");
@@ -367,7 +368,7 @@ public class ProyectoBean {
         t.sendMessage(message, message.getAllRecipients());
         t.close();
     }
-    
+
     public boolean isValidEmail(String email) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
