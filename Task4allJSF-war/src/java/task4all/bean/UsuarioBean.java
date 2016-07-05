@@ -59,6 +59,7 @@ public class UsuarioBean implements Serializable {
     private Usuario usuario;
     private String identificador;
     private String usuarioRegistro;
+    private String nombreUsuario;
     private String nombre;
     private String apellidos;
     private String email;
@@ -117,6 +118,14 @@ public class UsuarioBean implements Serializable {
 
     public void setIdentificador(String identificador) {
         this.identificador = identificador;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
     public String getNombre() {
@@ -319,6 +328,11 @@ public class UsuarioBean implements Serializable {
             errorConfiguracion = "El campo del email no puede estar vacío";
             return "configuracion";
         }
+        
+        if (nombreUsuario == null || nombreUsuario.isEmpty()) {
+            errorConfiguracion = "El campo del nombre de usuario no puede estar vacío";
+            return "configuracion";
+        }
 
         if (!isValidEmail(email)) {
             errorConfiguracion = "El email no es válido";
@@ -351,6 +365,11 @@ public class UsuarioBean implements Serializable {
         } else if (!contrasena.equals("") && contrasena.equals(usuario.getContrasena())) {
             errorConfiguracion = "La contraseña no puede ser la misma";
             return "configuracion";
+        }
+        
+        if (!nombreUsuario.equals(usuario.getUsuario())) {
+            usuario.setUsuario(nombreUsuario);
+            correctaConfiguracion = "Cambios realizados satisfactoriamente";
         }
 
         if (!nombre.equals(usuario.getNombre()) || !apellidos.equals(usuario.getApellidos())) {

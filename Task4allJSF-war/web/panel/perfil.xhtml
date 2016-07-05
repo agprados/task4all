@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Task4all - Perfil</title>
         <meta charset="UTF-8" />
@@ -11,10 +12,11 @@
 
         <!-- Compiled and minified Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
-        <!-- jQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        
         <!-- Compiled and minified Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <!-- FontAwesome css -->
+        <link href="http://designers.hubspot.com/hs-fs/hub/327485/file-2054199286-css/font-awesome.css" rel="stylesheet" />
     </h:head>
     <h:body style="overflow-y: scroll">
         #{usuarioBean.doCheckLogin()}
@@ -36,7 +38,14 @@
                 <h2>Información de usuario</h2>                
                 <center>
                     <h:graphicImage value="#{usuarioBean.usuario.avatar}" height="80" width="80"/>
-                    <h4>Usuario: #{usuarioBean.usuario.usuario}</h4>
+                    <h:panelGroup rendered="#{usuarioBean.usuario.verificado eq '1'}">
+                        <h4>Usuario: #{usuarioBean.usuario.usuario} <h:panelGroup id="verificada"><span style="color: #33C867;" class="fa fa-check"></span></h:panelGroup></h4>
+                        <p:tooltip for="verificada" value="Cuenta verificada" position="bottom" />
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{usuarioBean.usuario.verificado eq '0'}">
+                        <h4>Usuario: #{usuarioBean.usuario.usuario} <h:panelGroup id="noVerificada"><span style="color: red;" class="fa fa-times"></span></h:panelGroup></h4>
+                        <p:tooltip for="noVerificada" value="Cuenta no verificada" position="bottom" />
+                    </h:panelGroup>
                     <h4>Nombre: #{usuarioBean.usuario.nombre} #{usuarioBean.usuario.apellidos}</h4>
                     <h4>Email: #{usuarioBean.usuario.email} </h4>  
                     <br/>

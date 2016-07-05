@@ -10,7 +10,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import task4all.ejb.ListaFacade;
 import task4all.ejb.ProyectoFacade;
 import task4all.ejb.TareaFacade;
@@ -19,7 +19,7 @@ import task4all.entity.Proyecto;
 import task4all.entity.Tarea;
 
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class BusquedaBean {
 
     @EJB
