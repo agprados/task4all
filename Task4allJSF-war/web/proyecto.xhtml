@@ -277,7 +277,7 @@
                                         <div class="comentarioCabecera">
                                             <div style="text-align: right; font-weight: normal; font-size: 10px; float: right">
                                                 <h:outputText value="#{comentario.fecha}">
-                                                    <f:convertDateTime pattern="dd/MM/yyyy hh:ss" />
+                                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                                                 </h:outputText>
                                                 <br/>
                                                 <h:commandLink value="Eliminar" action="#{comentariosBean.doBorrar(comentario)}" rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER') or comentario.usuarioId.equals(usuarioBean.usuario)}" style="font-size: 12px; color: #bb0000;" >
