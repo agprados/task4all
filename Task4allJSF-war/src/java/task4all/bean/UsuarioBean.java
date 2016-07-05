@@ -416,7 +416,12 @@ public class UsuarioBean implements Serializable {
     }
 
     public String doRecuperarContrasena() {
-        if (emailRecuperacion == null || emailRecuperacion.isEmpty() || !isValidEmail(emailRecuperacion)) {
+        if (emailRecuperacion == null || emailRecuperacion.isEmpty()) {
+            errorRecuperacion = "El campo email no puede estar vacío";
+            return "recuperar";
+        }
+        
+        if(!isValidEmail(emailRecuperacion)) {
             errorRecuperacion = "El email introducido no es válido";
             return "recuperar";
         }
@@ -471,7 +476,7 @@ public class UsuarioBean implements Serializable {
         errorRegistro = "";
 
         if (usuarioRegistro == null || usuarioRegistro.equals("")) {
-            errorRegistro = "Nombre de usuario vacío";
+            errorRegistro = "El nombre de usuario no puede estar vacío";
             email = null;
             return "loginSuccess";
         }
@@ -482,7 +487,13 @@ public class UsuarioBean implements Serializable {
             return "loginSuccess";
         }
 
-        if (email == null || email.isEmpty() || !isValidEmail(email)) {
+        if (email == null || email.isEmpty()) {
+            errorRegistro = "El campo email no puede estar vacío";
+            email = null;
+            return "loginSuccess";
+        }
+        
+        if (!isValidEmail(email)) {
             errorRegistro = "El email no es válido";
             email = null;
             return "loginSuccess";
@@ -537,6 +548,13 @@ public class UsuarioBean implements Serializable {
             errorRegistro = "Hay campos obligatorios vacíos";
             return "registrar";
         }
+        
+        if (!isValidEmail(email)) {
+            errorRegistro = "El email introducido no es válido";
+            email = null;
+            return "loginSuccess";
+        }
+        
         if (!contrasena.equals(verificaContrasena)) {
             errorRegistro = "Las contraseñas no coinciden";
             return "registrar";

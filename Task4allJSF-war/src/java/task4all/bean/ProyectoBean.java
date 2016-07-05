@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -296,7 +297,7 @@ public class ProyectoBean {
         }
         
          Usuario u;
-        if (invitacion.contains("@") && invitacion.contains(".")) {
+        if (isValidEmail(invitacion)) {
            u = this.usuarioFacade.findUsuarioByEmail(invitacion);
         } else {
             u = this.usuarioFacade.findUsuarioByUsuario(invitacion);
@@ -366,6 +367,12 @@ public class ProyectoBean {
         t.connect(remitente, contraseña);
         t.sendMessage(message, message.getAllRecipients());
         t.close();
+    }
+    
+    public boolean isValidEmail(String email) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        return pattern.matcher(email).matches();
     }
 
 }
