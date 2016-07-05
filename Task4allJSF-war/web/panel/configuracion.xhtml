@@ -118,24 +118,40 @@
                     </div>
                     <br/>  
                     <div class="separador"></div>
-                    <h2>Verifica tu cuenta</h2>
-                    <br/>
-                    <h4>Estado de la cuenta:
-                        <h:panelGroup rendered="#{usuarioBean.usuario.verificado eq '1'}">
-                            <h:outputText value="Verificada" style="font-size: 16px"/>
-                            <h:panelGroup id="verificada">
-                                <span style="color: #33C867;" class="fa fa-check"></span>
-                                <p:tooltip for="verificada" value="Cuenta verificada" position="bottom"/>
-                            </h:panelGroup>
+                    <h2>Estado de la cuenta</h2>
+                    <br/>                    
+                    <h:panelGroup rendered="#{usuarioBean.usuario.verificado eq '1'}">
+                        <h:outputText value="Verificada" style="font-size: 16px"/>
+                        <h:panelGroup id="verificada">
+                            <span style="color: #33C867;" class="fa fa-check"></span>
+                            <p:tooltip for="verificada" value="Cuenta verificada" position="bottom"/>
                         </h:panelGroup>
-                        <h:panelGroup rendered="#{usuarioBean.usuario.verificado eq '0'}">
-                            <h:outputText value="No verificada" style="font-size: 16px"/>
-                            <h:panelGroup id="noVerificada">                                
-                                <span style="color: red;" class="fa fa-times"></span>
-                                <p:tooltip for="noVerificada" value="Cuenta no verificada" position="bottom" /></h:panelGroup>
-                            <br/><br/>
-                            <h:commandLink value="Mandar email de verificación"/>
-                        </h:panelGroup></h4>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{usuarioBean.usuario.verificado eq '0'}">
+                        <h:outputText value="No verificada" style="font-size: 16px"/>
+                        <h:panelGroup id="noVerificada">                                
+                            <span style="color: red;" class="fa fa-times"></span>
+                            <p:tooltip for="noVerificada" value="Cuenta no verificada" position="bottom" /></h:panelGroup>
+                        <br/>
+                        <h:commandLink style="font-size: 16px" value="Mandar email de verificación"/>                        
+                    </h:panelGroup>
+                    <br/><br/>
+                    <h:commandButton value="Eliminar cuenta" onclick="PF('eliminacionUsuario').show(); return false;" class="btn btn-danger"/>
+                    <p:dialog header="Eliminar cuenta" widgetVar="eliminacionUsuario" modal="true" resizable="false" closeOnEscape="true" closable="false">
+                        <center>
+                            ¿Estás seguro de eliminar tu cuenta?
+                            <br/>
+                            Se borrarará toda la asociada (datos personales, proyectos, tareas...) y no podrás volver a acceder con ella.
+                            <br/>
+                            El nombre de usuario y email quedarán libres para volver a usarse.
+                            <br/>
+                            <br/>                                           
+                            <h:commandButton value="Cancelar" onclick="PF('eliminacionUsuario').hide();" class="btn btn-default"> 
+                                <f:ajax/>
+                            </h:commandButton>
+                            <h:commandButton style="margin-left: 3px" value="Eliminar" action="#{usuarioBean.doBorrarCuenta()}" class="btn btn-danger"/>
+                        </center>
+                    </p:dialog>
                     <br/>
                     <div class="separador"></div>
                     <h2>Redes sociales</h2>
@@ -202,8 +218,8 @@
                     </div>
                     <br/>
                     <div class="separador"></div>
-                    <center>
-                        <h:commandButton value="Guardar" action="#{usuarioBean.doEditar()}" class="btn btn-success"/>
+                    <center>                        
+                        <h:commandButton value="Guardar" action="#{usuarioBean.doEditar()}" style="margin-left: 3px" class="btn btn-success"/>                        
                     </center>
                 </h:form>
             </div>

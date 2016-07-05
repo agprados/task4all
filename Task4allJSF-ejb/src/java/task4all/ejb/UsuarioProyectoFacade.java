@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import task4all.entity.Proyecto;
 import task4all.entity.UsuarioProyecto;
 
 
@@ -75,6 +76,16 @@ public class UsuarioProyectoFacade extends AbstractFacade<UsuarioProyecto> {
             up = null;
         }
         return up;
+    }
+    
+    public List<Proyecto> findProyectosByUsuarioAndRol (Integer usuario, String rol) {
+        Query q;
+        
+        q = em.createQuery("SELECT up.proyectoId FROM UsuarioProyecto up WHERE up.usuarioId.id = :usuario AND UPPER(up.rol) = UPPER(:rol)");
+        q.setParameter("usuario", usuario);
+        q.setParameter("rol", rol);        
+        
+        return q.getResultList();
     }
     
 }

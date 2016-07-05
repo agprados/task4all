@@ -150,9 +150,11 @@ public class ComentariosBean {
         return "proyecto";
     }
     
-    public String doBorrar(Comentario c){
+    public String doBorrar(Comentario c){        
         this.comentarioFacade.remove(c);
         listaComentarios.remove(c);
+        
+        this.actividadFacade.remove(c.getActividadId());
         return "proyecto";
     }
     

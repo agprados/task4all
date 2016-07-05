@@ -27,11 +27,19 @@ public class ActividadFacade extends AbstractFacade<Actividad> {
         super(Actividad.class);
     }
     
-    public Integer findMaxActividadId () {
+    public Integer findMaxActividadId() {
         Query q;
         
         q = em.createQuery("select max(a.id) from Actividad a");
         return (Integer)q.getSingleResult();
+    }
+    
+    public void deleteActividadesByUsuario(int id) {
+        Query q;
+        
+        q = em.createQuery("DELETE FROM Actividad a WHERE a.usuarioId.id = :usuario");
+        q.setParameter("usuario", id);
+        q.executeUpdate();
     }
     
 }

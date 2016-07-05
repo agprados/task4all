@@ -40,12 +40,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.primefaces.json.JSONException;
 import org.primefaces.json.JSONObject;
 import org.primefaces.model.UploadedFile;
+import task4all.ejb.ActividadFacade;
+import task4all.ejb.ComentarioFacade;
+import task4all.ejb.ProyectoFacade;
 import task4all.ejb.UsuarioFacade;
+import task4all.ejb.UsuarioProyectoFacade;
 import task4all.ejb.UsuarioTareaFacade;
 import task4all.entity.Lista;
 import task4all.entity.Proyecto;
 import task4all.entity.Tarea;
 import task4all.entity.Usuario;
+import task4all.entity.UsuarioProyecto;
 
 @ManagedBean
 @SessionScoped
@@ -55,7 +60,15 @@ public class UsuarioBean implements Serializable {
     private UsuarioFacade usuarioFacade;
     @EJB
     private UsuarioTareaFacade usuarioTareaFacade;
-    
+    @EJB
+    private ComentarioFacade comentarioFacade;
+    @EJB
+    private UsuarioProyectoFacade usuarioProyectoFacade;
+    @EJB
+    private ProyectoFacade proyectoFacade;
+    @EJB
+    private ActividadFacade actividadFacade;
+
     private final String FB_ID = "747075862097456";
     private final String FB_SECRET = "cb65b5382724343d60019074e274e058";
     private final String GOOGLE_ID = "720887194151-e2tbl9ti0v612god4l566mhe7bjocoa5.apps.googleusercontent.com";
@@ -85,7 +98,7 @@ public class UsuarioBean implements Serializable {
     private String emailRecuperacion;
     private String facebookID;
     private String googleID;
-    private boolean okLogin;    
+    private boolean okLogin;
     private String cadenaABuscar;
 
     /**
@@ -313,7 +326,7 @@ public class UsuarioBean implements Serializable {
     public void setCadenaABuscar(String cadenaABuscar) {
         this.cadenaABuscar = cadenaABuscar;
     }
-    
+
     public List<Tarea> getTareasAsignadas() {
         return this.usuarioTareaFacade.findTareasAsignadasByUsuario(usuario.getId());
     }
@@ -338,7 +351,7 @@ public class UsuarioBean implements Serializable {
             errorConfiguracion = "El campo del email no puede estar vacío";
             return "configuracion";
         }
-        
+
         if (nombreUsuario == null || nombreUsuario.isEmpty()) {
             errorConfiguracion = "El campo del nombre de usuario no puede estar vacío";
             return "configuracion";
@@ -376,7 +389,7 @@ public class UsuarioBean implements Serializable {
             errorConfiguracion = "La contraseña no puede ser la misma";
             return "configuracion";
         }
-        
+
         if (!nombreUsuario.equals(usuario.getUsuario())) {
             usuario.setUsuario(nombreUsuario);
             correctaConfiguracion = "Cambios realizados satisfactoriamente";
@@ -449,8 +462,8 @@ public class UsuarioBean implements Serializable {
             errorRecuperacion = "El campo email no puede estar vacío";
             return "recuperar";
         }
-        
-        if(!isValidEmail(emailRecuperacion)) {
+
+        if (!isValidEmail(emailRecuperacion)) {
             errorRecuperacion = "El email introducido no es válido";
             return "recuperar";
         }
@@ -521,7 +534,7 @@ public class UsuarioBean implements Serializable {
             email = null;
             return "loginSuccess";
         }
-        
+
         if (!isValidEmail(email)) {
             errorRegistro = "El email no es válido";
             email = null;
@@ -577,13 +590,13 @@ public class UsuarioBean implements Serializable {
             errorRegistro = "Hay campos obligatorios vacíos";
             return "registrar";
         }
-        
+
         if (!isValidEmail(email)) {
             errorRegistro = "El email introducido no es válido";
             email = null;
             return "loginSuccess";
         }
-        
+
         if (!contrasena.equals(verificaContrasena)) {
             errorRegistro = "Las contraseñas no coinciden";
             return "registrar";
@@ -602,8 +615,7 @@ public class UsuarioBean implements Serializable {
             uuid = UUID.randomUUID().toString();
             exists = usuarioFacade.findUsuarioByUUID(uuid) != null;
         } while (exists);
-
-        usuario = new Usuario();
+        
         usuario.setUsuario(usuarioRegistro);
         usuario.setUuid(uuid);
         usuario.setEmail(email);
@@ -617,6 +629,7 @@ public class UsuarioBean implements Serializable {
         errorRegistro = "";
         usuarioRegistro = "";
         email = "";
+        usuario = new Usuario();
         return "login?faces-redirect=true";
     }
 
@@ -978,8 +991,33 @@ public class UsuarioBean implements Serializable {
 
         return "configuracion";
     }
-    
+
     public String buscar() {
         return "/busqueda?faces-redirect=true";
     }
+
+    public String doBorrarCuenta() {
+        List<Proyecto> proyectosLider = this.usuarioProyectoFacade.findProyectosByUsuarioAndRol(usuario.getId(), "líder");
+
+        for (Proyecto proyecto : proyectosLider) {
+            for (UsuarioProyecto usuarioProyecto : proyecto.getUsuarioProyectoCollection()) {
+                if (usuarioProyecto.getRol().equalsIgnoreCase("miembro")) {
+                    errorConfiguracion = "No se puede borrar la cuenta ya que tienes proyectos siendo líder con más de 1 miembro. Pasa el liderazgo a otro miembro";
+                    return "configuracion";
+                }
+            }
+        }
+        
+        for(Proyecto proyecto : proyectosLider) {
+            this.proyectoFacade.remove(proyecto);
+        }
+        
+        this.comentarioFacade.deleteComentariosByUsuario(usuario.getId());
+        this.actividadFacade.deleteActividadesByUsuario(usuario.getId());
+        
+        this.usuarioFacade.remove(usuario);
+
+        return doLogout();
+    }
+
 }

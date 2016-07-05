@@ -226,13 +226,10 @@ public class TareaBean {
         listaAsignados = new ArrayList<>();
         listaUsuariosSinAsignar = new ArrayList<>();
         if (usuarioBean.getTareaSeleccionada() != null) {
-            System.out.println("hay tarea sel");
             List<UsuarioTarea> listaUsuariosAsignados = this.usuarioTareaFacade.findUsuarioTareaByTarea(usuarioBean.getTareaSeleccionada().getId());
             if (listaUsuariosAsignados.isEmpty()) {
-                System.out.println("sin usuarios");
                 listaUsuariosSinAsignar = this.usuarioProyectoFacade.findUsuarioProyectoByProyecto(usuarioBean.getProyectoSeleccionado().getId());
             } else {
-                System.out.println("usuarios");
                 int cont;
                 boolean asignado;
                 for (UsuarioProyecto up : this.usuarioProyectoFacade.findUsuarioProyectoByProyecto(usuarioBean.getProyectoSeleccionado().getId())) {
@@ -240,14 +237,12 @@ public class TareaBean {
                     asignado = false;
                     while (asignado == false && cont < listaUsuariosAsignados.size()) {
                         if (listaUsuariosAsignados.get(cont).getUsuarioId().equals(up.getUsuarioId())) {
-                            System.out.println("usuario asignado");
                             listaAsignados.add(up);
                             asignado = true;
                         }
                         cont++;
                     }
                     if (asignado == false && !up.getRol().equalsIgnoreCase("invitado")) {
-                        System.out.println("usuario no asignado");
                         listaUsuariosSinAsignar.add(up);
                     }
                 }

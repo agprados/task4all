@@ -283,7 +283,6 @@ public class ProyectoBean {
         if (usuarioBean.getRolActual().equalsIgnoreCase("líder")) {
             Proyecto proyecto = this.proyectoFacade.find(usuarioBean.getProyectoSeleccionado().getId());
             proyectoFacade.remove(proyecto);
-            proyectosBean.getProyectosLider().remove(usuarioBean.getProyectoSeleccionado());
         }
 
         return "principal?faces-redirect=true";

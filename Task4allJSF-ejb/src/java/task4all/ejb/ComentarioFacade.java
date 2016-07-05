@@ -38,7 +38,7 @@ public class ComentarioFacade extends AbstractFacade<Comentario> {
         return q.getResultList();
     }
     
-     public Integer findMaxComentarioId () {
+     public Integer findMaxComentarioId() {
         Query q;
         
         q = em.createQuery("select max(c.id) from Comentario c");
@@ -50,5 +50,13 @@ public class ComentarioFacade extends AbstractFacade<Comentario> {
             id = 0;
         }
         return id;
+    }
+     
+     public void deleteComentariosByUsuario(int id) {
+        Query q;
+        
+        q = em.createQuery("DELETE FROM Comentario c WHERE c.usuarioId.id = :usuario");
+        q.setParameter("usuario", id);
+        q.executeUpdate();
     }
 }

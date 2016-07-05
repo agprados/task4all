@@ -175,7 +175,7 @@
                                     <br/>                                           
                                     <a onclick="PF('#{miembro.usuarioId.usuario}Liderazgo').hide();" class="btn btn-default">Cancelar</a> 
                                     <h:commandButton style="margin-left: 3px" value="Continuar" action="#{proyectoBean.doPasarLiderazgo(miembro)}" onclick="PF('#{miembro.usuarioId.usuario}Liderazgo').hide();" class="btn btn-success"> 
-                                        <f:ajax execute="@this" render="usuarios"/>
+                                        <f:ajax execute="@this" render="usuarios comentarios"/>
                                     </h:commandButton>
                                 </center>
                             </p:dialog>
@@ -270,7 +270,7 @@
                     <h:outputText style="color: white; font-size: 17pt" value="Comentarios" rendered="#{usuarioBean.proyectoSeleccionado.fondoId.oscuro eq '1'}"/>
                     <div class="separador"></div>
                     <center>
-                        <h:form>
+                        <h:form id="comentarios">
                             <div class="comentarios" style="#{comentariosBean.overflow()}">
                                 <c:forEach items="#{comentariosBean.listaComentarios}" var="comentario">
                                     <div class="comentario">
