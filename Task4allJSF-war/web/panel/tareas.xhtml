@@ -41,8 +41,11 @@
                         No tienes tareas asignadas. Tómate el día libre.
                     </center>
                 </h:panelGroup>
-                <h:panelGroup>                    
-                    <h:form style="display: inline-block">
+                <h:panelGroup>
+                    <h2>Tareas asignadas</h2>  
+                    <br/>
+                    <h:panelGroup style="margin-left: 20px">
+                        <h:form style="display: inline-block">
                         <c:forEach items="#{usuarioBean.proyectosConTareasAsignadas}" var="proyecto">
                             <h:commandLink style="font-size: 22px; color: black" value="#{proyecto.nombre}" action="#{proyectosBean.doVerProyecto(proyecto)}" />
                             <c:forEach items="#{proyecto.listaCollection}" var="lista">    
@@ -62,9 +65,9 @@
                                 </c:forEach>
                             </c:forEach>
                             <br/>
-                        </c:forEach>
-                        
-                    </h:form>   
+                        </c:forEach>                        
+                    </h:form> 
+                    </h:panelGroup>  
                 </h:panelGroup>
                 <br/>
             </div>
