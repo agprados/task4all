@@ -21,7 +21,7 @@
         #{usuarioBean.doCheckLogin()}
         <ui:include src="/includes/header.xhtml" />
         <center>
-            <div class="container" style="margin-top: 50px;">
+            <div class="container">
                 <h:panelGroup rendered="#{usuarioBean.tareaSeleccionada.id eq null}">
                     <div class="containerHeader">
                         <h2 style="float: left;">
@@ -72,7 +72,7 @@
                         <p:calendar id="popup" value="#{tareaBean.fechaObjetivo}" pattern="dd/MM/yyyy HH:mm" showOn="both"/>                      
                         <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
                             <h:outputText value="#{tareaBean.fechaObjetivo}" class="form-control">
-                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                             </h:outputText>
                         </p:dialog>
                     </div>
