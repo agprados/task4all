@@ -6,6 +6,16 @@
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
+        <h:panelGroup rendered="#{param.ok eq 'true'}">                                   
+            #{usuarioBean.setProyectoInvitacion(param.proyectoId)}
+            #{usuarioBean.setEmailInvitacion(param.email)}
+            #{usuarioBean.setAceptarInvitacion(true)}            
+        </h:panelGroup>
+        <h:panelGroup rendered="#{param.ok eq 'false'}">                                   
+            #{usuarioBean.setProyectoInvitacion(param.proyectoId)}
+            #{usuarioBean.setEmailInvitacion(param.email)}
+            #{usuarioBean.setAceptarInvitacion(false)}            
+        </h:panelGroup>
         #{usuarioBean.doCheckLogout()}
         <title>Task4all - Login</title>
         <meta charset="UTF-8" />

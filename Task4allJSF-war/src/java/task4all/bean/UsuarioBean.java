@@ -924,6 +924,7 @@ public class UsuarioBean implements Serializable {
     public void doCheckLogout() {
         try {
             if (okLogin) {
+                comprobarInvitacionEmail();
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
                 context.redirect(context.getRequestContextPath() + "/principal.do");
             }
