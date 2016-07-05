@@ -433,7 +433,7 @@ public class UsuarioBean implements Serializable {
             correctaConfiguracion = "Cambios realizados satisfactoriamente";
         }
 
-        if (avatar != null) {
+        if (avatar != null && avatar.getFileName() != null && !avatar.getFileName().isEmpty()) {
             try {
                 InputStream in = avatar.getInputstream();
                 String ruta = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/")).getAbsolutePath();
