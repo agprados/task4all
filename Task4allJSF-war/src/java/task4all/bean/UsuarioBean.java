@@ -679,7 +679,7 @@ public class UsuarioBean implements Serializable {
         
         comprobarInvitacionEmail();
                   
-        return "loginSuccess?faces-redirect=true";
+        return "principal?faces-redirect=true";
     }
     
     private void comprobarInvitacionEmail() {
@@ -713,11 +713,6 @@ public class UsuarioBean implements Serializable {
         try {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             String method = request.getParameter("method");
-
-            if (method != null && !method.equals("fbPass") && !method.equals("glPass")) {
-                doCheckLogout();
-            }
-
             String code = request.getParameter("code");
 
             if (method != null && (method.equals("fb") || method.equals("fbPass"))) {
@@ -808,10 +803,6 @@ public class UsuarioBean implements Serializable {
         try {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             String method = request.getParameter("method");
-
-            if (method != null && !method.equals("fbPass") && !method.equals("glPass")) {
-                doCheckLogout();
-            }
 
             String code = request.getParameter("code");
 
@@ -916,7 +907,7 @@ public class UsuarioBean implements Serializable {
     public String doLogout() {
         okLogin = false;
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "index?faces-redirect=true";
+        return "/index?faces-redirect=true";
     }
 
     public void doCheckLogin() {
