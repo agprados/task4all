@@ -132,6 +132,8 @@
                         <h:panelGroup id="noVerificada">                                
                             <span style="color: red;" class="fa fa-times"></span>
                             <p:tooltip for="noVerificada" value="Cuenta no verificada" position="bottom" /></h:panelGroup>
+                        <br/><br/>
+                        <h:outputText value="ADVERTENCIA" style="color: red; font-size: 16px"/><h:outputText value=": No podrás crear proyectos hasta que verifique la cuenta" style="font-size: 16px"/>
                         <br/>
                         <h:commandLink style="font-size: 16px" value="Mandar email de verificación" action="#{usuarioBean.enviarEmailVerificacion()}"/>                        
                     </h:panelGroup>
