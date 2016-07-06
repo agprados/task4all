@@ -763,14 +763,14 @@ public class UsuarioBean implements Serializable {
     }
     
     private void comprobarVerificacionEmail() {
-        if (verificacion && usuario.getUsuario().equals(usuarioVerificacion)) {
+        if (verificacion && usuario.getUsuario().equalsIgnoreCase(usuarioVerificacion)) {
             usuario.setVerificado('1');            
             this.usuarioFacade.edit(usuario);
         }
     }
 
     private void comprobarInvitacionEmail() {
-        if (proyectoInvitacion != null && usuario.getEmail().equals(emailInvitacion)) {
+        if (proyectoInvitacion != null && usuario.getEmail().equalsIgnoreCase(emailInvitacion)) {
             if (aceptarInvitacion) {
                 aceptarInvitacionEmail();
             } else {
@@ -1051,8 +1051,8 @@ public class UsuarioBean implements Serializable {
     public boolean isFacebookConnected() {
         boolean connected = false;
 
-        if (usuario != null && !usuario.getUsuario().equals("")) {
-            connected = usuario.getFacebookid() != null && !usuario.getFacebookid().equals("");
+        if (usuario != null && !usuario.getUsuario().isEmpty()) {
+            connected = usuario.getFacebookid() != null && !usuario.getFacebookid().isEmpty();
         }
 
         return connected;
@@ -1061,20 +1061,20 @@ public class UsuarioBean implements Serializable {
     public boolean isGoogleConnected() {
         boolean connected = false;
 
-        if (usuario != null && !usuario.getUsuario().equals("")) {
-            connected = usuario.getGoogleid() != null && !usuario.getGoogleid().equals("");
+        if (usuario != null && !usuario.getUsuario().isEmpty()) {
+            connected = usuario.getGoogleid() != null && !usuario.getGoogleid().isEmpty();
         }
 
         return connected;
     }
 
     public boolean isPasswordSet() {
-        return usuario.getContrasena() != null && !usuario.getContrasena().equals("");
+        return usuario.getContrasena() != null && !usuario.getContrasena().isEmpty();
     }
 
     public String doDesconectarFacebook() {
-        if ((usuario.getContrasena() == null || usuario.getContrasena().equals(""))
-                && (usuario.getGoogleid() == null || usuario.getGoogleid().equals(""))) {
+        if ((usuario.getContrasena() == null || usuario.getContrasena().isEmpty())
+                && (usuario.getGoogleid() == null || usuario.getGoogleid().isEmpty())) {
             FacesContext.getCurrentInstance().addMessage("social", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debes establecer una contraseña antes de desvincular por completo tu cuenta", ""));
             return "configuracion";
         }
@@ -1106,8 +1106,8 @@ public class UsuarioBean implements Serializable {
     }
 
     public String doDesconectarGoogle() {
-        if ((usuario.getContrasena() == null || usuario.getContrasena().equals(""))
-                && (usuario.getFacebookid() == null || usuario.getFacebookid().equals(""))) {
+        if ((usuario.getContrasena() == null || usuario.getContrasena().isEmpty())
+                && (usuario.getFacebookid() == null || usuario.getFacebookid().isEmpty())) {
             FacesContext.getCurrentInstance().addMessage("social", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debes establecer una contraseña antes de desvincular por completo tu cuenta", ""));
             return "configuracion";
         }
