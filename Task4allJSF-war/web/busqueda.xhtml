@@ -25,14 +25,8 @@
         <center>            
             <div class="container">
                 <h:form>
-                    <div class="containerHeader">                    
-                        <h:panelGroup rendered="#{empty busquedaBean.resultadosProyectos and empty busquedaBean.resultadosListas and empty busquedaBean.resultadosTareas}">
-                            <h2 style="float: left;">
-                                <span class="fa fa-search" aria-hidden="true"></span>
-                                Búsqueda
-                            </h2>
-                        </h:panelGroup>
-                        <h:panelGroup rendered="#{not empty busquedaBean.resultadosProyectos or not empty busquedaBean.resultadosListas or not empty busquedaBean.resultadosTareas}">
+                    <div class="containerHeader">
+                        <h:panelGroup rendered="#{busquedaBean.cadenaBuscada.length() ne 0}">
                             <h2 style="float: left;">
                                 <span class="fa fa-search" aria-hidden="true"></span>
                                 Resultados de "#{busquedaBean.cadenaBuscada}"

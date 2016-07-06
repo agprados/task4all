@@ -31,10 +31,7 @@
                     </h2>
                 </div>
                 <h:form>
-                    <h:panelGroup rendered="#{!proyectoBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
-                        <center>#{proyectoBean.error}</center>
-                    </h:panelGroup>
-
+                    <p:messages autoUpdate="true" for="proyecto"/>
                     <h4>Nombre *</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
                         #{proyectoBean.setNombre(usuarioBean.proyectoSeleccionado.nombre)}
@@ -43,7 +40,8 @@
                     <br/>
                     <h4>Descripción</h4>
                     <div class="input-group input-group-lg" style="width: 500px;">
-                        <h:inputText value="#{usuarioBean.proyectoSeleccionado.descripcion}" style="border-radius: 5px" class="form-control" />
+                        #{proyectoBean.setDescripcion(usuarioBean.proyectoSeleccionado.descripcion)}
+                        <h:inputText value="#{proyectoBean.descripcion}" style="border-radius: 5px" class="form-control" />
                     </div>
                     <br/>
                     <h4>Fecha objetivo</h4>

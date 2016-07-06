@@ -10,9 +10,11 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import task4all.ejb.FondoFacade;
 import task4all.ejb.ProyectoFacade;
 import task4all.ejb.UsuarioProyectoFacade;
@@ -38,7 +40,6 @@ public class ProyectosBean {
     private List<Proyecto> proyectosMiembro;
     private List<Proyecto> proyectosInvitado;
     private String nombre;
-    private String error;
 
     /**
      * Creates a new instance of PoyectoBean
@@ -48,7 +49,6 @@ public class ProyectosBean {
 
     @PostConstruct
     public void init() {
-        error = "";
         List<UsuarioProyecto> listaProyectosUsuario = this.usuarioProyectoFacade.findUsuarioProyectoByUsuario(usuarioBean.getUsuario().getUsuario());
 
         this.proyectosLider = new ArrayList<>();
@@ -98,14 +98,6 @@ public class ProyectosBean {
         this.nombre = nombre;
     }
 
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String errorProyecto) {
-        this.error = errorProyecto;
-    }
-
     public UsuarioBean getUsuarioBean() {
         return usuarioBean;
     }
@@ -116,15 +108,16 @@ public class ProyectosBean {
 
     public String doCrearProyecto() {
         if (usuarioBean.getUsuario().getVerificado() == '0') {
-            error = "No puedes crear proyectos hasta verificar tu cuenta";
+            FacesContext.getCurrentInstance().addMessage("proyectos", new FacesMessage(FacesMessage.SEVERITY_ERROR, "No puedes crear proyectos hasta verificar tu cuenta", ""));
             return "principal";
         }
 
-        if (nombre == null || nombre.isEmpty()) {
-            error = "El nombre no puede estar vacío";
+        if (nombre == null || nombre.trim().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage("proyectos", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El nombre no puede estar vacío", ""));
             return "principal";
         }
-
+        nombre = nombre.trim();
+        
         Proyecto proyecto = new Proyecto();
         proyecto.setNombre(nombre);
         proyecto.setFechacreacion(new Date());

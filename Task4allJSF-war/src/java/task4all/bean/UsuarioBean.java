@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -85,12 +86,6 @@ public class UsuarioBean implements Serializable {
     private String verificaContrasena;
     private String contrasenaActual;
     private UploadedFile avatar;
-    private String errorLogin;
-    private String errorRegistro;
-    private String errorRecuperacion;
-    private String errorConfiguracion;
-    private String errorSocial;
-    private String correctaConfiguracion;
     private Proyecto proyectoSeleccionado;
     private Tarea tareaSeleccionada;
     private Lista listaSeleccionada;
@@ -115,12 +110,6 @@ public class UsuarioBean implements Serializable {
     @PostConstruct
     public void init() {
         okLogin = false;
-        errorLogin = "";
-        errorRegistro = "";
-        errorRecuperacion = "";
-        errorConfiguracion = "";
-        correctaConfiguracion = "";
-        errorSocial = "";
         usuario = new Usuario();
     }
 
@@ -204,38 +193,6 @@ public class UsuarioBean implements Serializable {
         this.verificaContrasena = verificaContrasena;
     }
 
-    public String getErrorLogin() {
-        return errorLogin;
-    }
-
-    public void setErrorLogin(String errorLogin) {
-        this.errorLogin = errorLogin;
-    }
-
-    public String getErrorRegistro() {
-        return errorRegistro;
-    }
-
-    public void setErrorRegistro(String errorRegistro) {
-        this.errorRegistro = errorRegistro;
-    }
-
-    public String getErrorRecuperacion() {
-        return errorRecuperacion;
-    }
-
-    public void setErrorRecuperacion(String errorRecuperacion) {
-        this.errorRecuperacion = errorRecuperacion;
-    }
-
-    public String getErrorSocial() {
-        return errorSocial;
-    }
-
-    public void setErrorSocial(String errorSocial) {
-        this.errorSocial = errorSocial;
-    }
-
     public Lista getListaSeleccionada() {
         return listaSeleccionada;
     }
@@ -290,22 +247,6 @@ public class UsuarioBean implements Serializable {
 
     public void setOkLogin(boolean okLogin) {
         this.okLogin = okLogin;
-    }
-
-    public String getErrorConfiguracion() {
-        return errorConfiguracion;
-    }
-
-    public void setErrorConfiguracion(String errorConfiguracion) {
-        this.errorConfiguracion = errorConfiguracion;
-    }
-
-    public String getCorrectaConfiguracion() {
-        return correctaConfiguracion;
-    }
-
-    public void setCorrectaConfiguracion(String correctaConfiguracion) {
-        this.correctaConfiguracion = correctaConfiguracion;
     }
 
     public String getFacebookID() {
@@ -389,66 +330,75 @@ public class UsuarioBean implements Serializable {
     }
 
     public String doEditar() {
-        errorConfiguracion = "";
-        correctaConfiguracion = "";
-
-        if (email == null || email.isEmpty()) {
-            errorConfiguracion = "El campo del email no puede estar vacío";
+        Boolean cambiosCorrectos = false;
+        Boolean cambioAvatar = false;
+        
+        if (email == null || email.trim().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El campo del email no puede estar vacío", ""));
             return "configuracion";
         }
 
-        if (nombreUsuario == null || nombreUsuario.isEmpty()) {
-            errorConfiguracion = "El campo del nombre de usuario no puede estar vacío";
+        if (nombreUsuario == null || nombreUsuario.trim().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El campo del nombre de usuario no puede estar vacío", ""));
             return "configuracion";
         }
+        nombreUsuario = nombreUsuario.trim();
+        email = email.trim();
+        nombre = nombre.trim();
+        apellidos = apellidos.trim();
 
         if (!isValidEmail(email)) {
-            errorConfiguracion = "El email no es válido";
+            FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email no es válido", ""));
             return "configuracion";
         }
 
         if (isPasswordSet()
-                && (contrasenaActual == null || contrasenaActual.equals(""))
-                && (contrasena != null && !contrasena.equals(""))
-                && (verificaContrasena != null && !verificaContrasena.equals(""))) {
-            errorConfiguracion = "Debes introducir tu contraseña actual";
+                && (contrasenaActual == null || contrasenaActual.trim().isEmpty())
+                && (contrasena != null && !contrasena.trim().isEmpty())
+                && (verificaContrasena != null && !verificaContrasena.trim().isEmpty())) {
+            FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debes introducir tu contraseña actual", ""));
             return "configuracion";
         }
 
         if (isPasswordSet()
-                && contrasenaActual != null && !contrasenaActual.equals("")
+                && contrasenaActual != null && !contrasenaActual.trim().isEmpty()
                 && usuarioFacade.findUsuarioByUsuarioAndContrasena(usuario.getUsuario(), contrasenaActual) == null) {
-            errorConfiguracion = "La contraseña actual no es correcta";
+            FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "La contraseña actual no es correcta", ""));
             return "configuracion";
         }
 
         if (!contrasena.equals(verificaContrasena)) {
-            errorConfiguracion = "Las contraseñas no coinciden";
+            FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Las contraseñas no coinciden", ""));
             return "configuracion";
         }
 
-        if (!contrasena.equals("") && !contrasena.equals(usuario.getContrasena())) {
-            correctaConfiguracion = "Cambios realizados satisfactoriamente";
+        if (!contrasena.trim().isEmpty() && !contrasena.equals(usuario.getContrasena())) {
             usuario.setContrasena(contrasena);
-        } else if (!contrasena.equals("") && contrasena.equals(usuario.getContrasena())) {
-            errorConfiguracion = "La contraseña no puede ser la misma";
+            cambiosCorrectos = true;
+        } else if (!contrasena.trim().isEmpty() && contrasena.equals(usuario.getContrasena())) {
+            FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "La contraseña no puede ser la misma", ""));
             return "configuracion";
         }
-
+        
         if (!nombreUsuario.equals(usuario.getUsuario())) {
+            Usuario u = this.usuarioFacade.findUsuarioByUsuario(nombreUsuario);
+            if(u != null) {
+                FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El nombre de usuario no está disponible", ""));
+                return "configuracion";
+            }
             usuario.setUsuario(nombreUsuario);
-            correctaConfiguracion = "Cambios realizados satisfactoriamente";
+            cambiosCorrectos = true;
         }
-
+        
         if (!nombre.equals(usuario.getNombre()) || !apellidos.equals(usuario.getApellidos())) {
             usuario.setNombre(nombre);
             usuario.setApellidos(apellidos);
-            correctaConfiguracion = "Cambios realizados satisfactoriamente";
+            cambiosCorrectos = true;
         }
 
         if (!email.equalsIgnoreCase(usuario.getEmail())) {
             usuario.setEmail(email);
-            correctaConfiguracion = "Cambios realizados satisfactoriamente";
+            cambiosCorrectos = true;
         }
 
         if (avatar != null && avatar.getFileName() != null && !avatar.getFileName().isEmpty()) {
@@ -472,10 +422,10 @@ public class UsuarioBean implements Serializable {
                     in.close();
                     fos.close();
                 }
-
-                correctaConfiguracion = "Cambios realizados satisfactoriamente. El avatar estará disponible en unos segundos";
-
+                
                 usuario.setAvatar(crearRutaAvatar(f.getPath()));
+                cambiosCorrectos = true;
+                cambioAvatar = true;                
 
             } catch (IOException ex) {
                 Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -483,7 +433,9 @@ public class UsuarioBean implements Serializable {
         }
 
         this.usuarioFacade.edit(usuario);
-
+        if(cambiosCorrectos) FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_INFO, "Cambios realizados satisfactoriamente", ""));
+        if(cambioAvatar) FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_INFO, "El avatar estará disponible en unos segundos", ""));
+        
         return "configuracion";
     }
 
@@ -503,10 +455,11 @@ public class UsuarioBean implements Serializable {
     }
 
     public String doRecuperarContrasena() {
-        if (identificadorRecuperacion == null || identificadorRecuperacion.isEmpty()) {
-            errorRecuperacion = "Introduzca el email o el nombre de usuario";
+        if (identificadorRecuperacion == null || identificadorRecuperacion.trim().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Introduzca el email o el nombre de usuario", ""));
             return "recuperar";
         }
+        identificadorRecuperacion = identificadorRecuperacion.trim();
 
         Usuario u;
         if (isValidEmail(identificadorRecuperacion)) {
@@ -516,7 +469,7 @@ public class UsuarioBean implements Serializable {
         }
 
         if (u == null) {
-            errorRecuperacion = "No existe ningún usuario registrado con ese email o nombre de usuario";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No existe ningún usuario registrado con ese email o nombre de usuario", ""));
             return "recuperar";
         }
         enviarEmailContraseña(u);
@@ -559,34 +512,32 @@ public class UsuarioBean implements Serializable {
     }
 
     public String doCompletarRegistro() {
-        errorRegistro = "";
-
-        if (usuarioRegistro == null || usuarioRegistro.equals("")) {
-            errorRegistro = "El nombre de usuario no puede estar vacío";
-            email = null;
+        if (usuarioRegistro == null || usuarioRegistro.trim().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El nombre de usuario no puede estar vacío", ""));
             return "loginSuccess";
         }
+        
+        if (email == null || email.trim().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El campo email no puede estar vacío", ""));
+            return "loginSuccess";
+        }
+        
+        usuarioRegistro = usuarioRegistro.trim();
+        email = email.trim();
 
         if (usuarioFacade.findUsuarioByUsuario(usuarioRegistro) != null) {
-            errorRegistro = "El usuario ya existe";
-            email = null;
-            return "loginSuccess";
-        }
-
-        if (email == null || email.isEmpty()) {
-            errorRegistro = "El campo email no puede estar vacío";
-            email = null;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario ya existe", ""));
             return "loginSuccess";
         }
 
         if (!isValidEmail(email)) {
-            errorRegistro = "El email no es válido";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email no es válido", ""));
             email = null;
             return "loginSuccess";
         }
 
         if (usuarioFacade.findUsuarioByEmail(email) != null) {
-            errorRegistro = "Ya existe un usuario con este email";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ya existe un usuario con este email", ""));
             email = null;
             return "loginSuccess";
         }
@@ -596,7 +547,7 @@ public class UsuarioBean implements Serializable {
                 || usuarioRegistro == null || usuarioRegistro.isEmpty()
                 || email == null || email.isEmpty()
                 || usuario == null) {
-            errorRegistro = "No se ha podido completar el registro";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se ha podido completar el registro", ""));
             return "loginSuccess";
         }
 
@@ -610,7 +561,6 @@ public class UsuarioBean implements Serializable {
         usuario.setUsuario(usuarioRegistro);
         usuario.setUuid(uuid);
         usuario.setEmail(email);
-        usuario.setContrasena(contrasena);
         if (facebookID != null && !facebookID.equals("")) {
             usuario.setFacebookid(facebookID);
         }
@@ -624,35 +574,35 @@ public class UsuarioBean implements Serializable {
         usuario.setId(clave);
         okLogin = true;
 
-        errorRegistro = "";
-
         enviarEmailTrasRegistro();
 
         return "principal?faces-redirect=true";
     }
 
     public String doNuevo() {
-        errorRegistro = "";
-        if (contrasena == null || contrasena.isEmpty() || usuarioRegistro == null || usuarioRegistro.isEmpty() || email == null || email.isEmpty()) {
-            errorRegistro = "Hay campos obligatorios vacíos";
+        if (contrasena == null || contrasena.trim().isEmpty() || usuarioRegistro == null || usuarioRegistro.trim().isEmpty() || email == null || email.trim().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hay campos obligatorios vacíos", ""));
             return "registrar";
         }
+        usuarioRegistro = usuarioRegistro.trim();
+        email = email.trim();
+        nombre = nombre.trim();
+        apellidos = apellidos.trim();
 
         if (!isValidEmail(email)) {
-            errorRegistro = "El email introducido no es válido";
-            email = null;
-            return "loginSuccess";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email introducido no es válido", ""));
+            return "registrar";
         }
 
         if (!contrasena.equals(verificaContrasena)) {
-            errorRegistro = "Las contraseñas no coinciden";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Las contraseñas no coinciden", ""));
             return "registrar";
         }
 
-        Usuario u = usuarioFacade.findUsuarioByUsuarioOrEmail(usuarioRegistro, email);
+        List<Usuario> u = usuarioFacade.findUsuarioByUsuarioOrEmail(usuarioRegistro, email);
 
-        if (u != null) {
-            errorRegistro = "Ya existe un usuario con ese email o nombre de usuario";
+        if (!u.isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ya existe un usuario con ese email o nombre de usuario", ""));
             return "registrar";
         }
 
@@ -667,6 +617,8 @@ public class UsuarioBean implements Serializable {
         usuario.setUuid(uuid);
         usuario.setEmail(email);
         usuario.setContrasena(contrasena);
+        usuario.setNombre(nombre);
+        usuario.setApellidos(apellidos);
         usuario.setVerificado('0');
 
         this.usuarioFacade.create(usuario);
@@ -675,7 +627,6 @@ public class UsuarioBean implements Serializable {
 
         enviarEmailTrasRegistro();
 
-        errorRegistro = "";
         usuarioRegistro = "";
         email = "";
         usuario = new Usuario();
@@ -737,7 +688,7 @@ public class UsuarioBean implements Serializable {
                     Message.RecipientType.TO,
                     new InternetAddress(usuario.getEmail()));
             message.setSubject("Verificar cuenta de Task4all");
-            message.setText("<a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?usuario=" + usuario.getUsuario() + "&verificar=" + true + ">Verificar cuenta</a>"
+            message.setText("Tal como ha solicitado, le enviamos el email de verificación de nuevo. Por favor, <a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?usuario=" + usuario.getUsuario() + "&verificar=" + true + ">verifique su cuenta</a>"
                     + "<p>No responder a este mensaje.<p/>",
                     "ISO-8859-1",
                     "html");
@@ -747,7 +698,7 @@ public class UsuarioBean implements Serializable {
             t.sendMessage(message, message.getAllRecipients());
             t.close();
             
-            correctaConfiguracion = "Email enviado. Revise su bandeja de entrada";
+            FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_INFO, "Email enviado. Revise su bandeja de entrada", ""));
         } catch (Exception e) {
         }
     }
@@ -783,24 +734,23 @@ public class UsuarioBean implements Serializable {
             t.sendMessage(message, message.getAllRecipients());
             t.close();
             
-            correctaConfiguracion = "Email enviado. Revise su bandeja de entrada";
         } catch (Exception e) {
         }
     }
 
     public String doLogin() {
-        errorLogin = "";
-        if (identificador == null || identificador.isEmpty() || contrasena == null || contrasena.isEmpty()) {
-            errorLogin = "Hay campos vacíos";
+        if (identificador == null || identificador.trim().isEmpty() || contrasena == null || contrasena.trim().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hay campos vacíos", ""));
             return "login";
         }
-
+        identificador = identificador.trim();
+        
         usuario = usuarioFacade.findUsuarioByUsuarioAndContrasena(identificador, contrasena);
 
         if (usuario == null) {
             usuario = usuarioFacade.findUsuarioByEmailAndContrasena(identificador, contrasena);
             if (usuario == null) {
-                errorLogin = "Login incorrecto";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login incorrecto", ""));
                 return "login";
             }
         }
@@ -1125,10 +1075,15 @@ public class UsuarioBean implements Serializable {
     public String doDesconectarFacebook() {
         if ((usuario.getContrasena() == null || usuario.getContrasena().equals(""))
                 && (usuario.getGoogleid() == null || usuario.getGoogleid().equals(""))) {
-            errorSocial = "Debes establecer una contraseña antes de desvincular por completo tu cuenta";
+            FacesContext.getCurrentInstance().addMessage("social", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debes establecer una contraseña antes de desvincular por completo tu cuenta", ""));
             return "configuracion";
         }
+        desconectarFacebook();
 
+        return "configuracion";
+    }
+    
+    private void desconectarFacebook() {
         try {
             URL url;
             HttpURLConnection con;
@@ -1148,17 +1103,20 @@ public class UsuarioBean implements Serializable {
         } catch (IOException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        return "configuracion";
     }
 
     public String doDesconectarGoogle() {
         if ((usuario.getContrasena() == null || usuario.getContrasena().equals(""))
                 && (usuario.getFacebookid() == null || usuario.getFacebookid().equals(""))) {
-            errorSocial = "Debes establecer una contraseña antes de desvincular por completo tu cuenta";
+            FacesContext.getCurrentInstance().addMessage("social", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debes establecer una contraseña antes de desvincular por completo tu cuenta", ""));
             return "configuracion";
         }
+        desconectarGoogle();
 
+        return "configuracion";
+    }
+    
+    private void desconectarGoogle() {
         try {
             URL url;
             HttpURLConnection con;
@@ -1176,8 +1134,6 @@ public class UsuarioBean implements Serializable {
         } catch (IOException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        return "configuracion";
     }
 
     public String buscar() {
@@ -1190,7 +1146,7 @@ public class UsuarioBean implements Serializable {
         for (Proyecto proyecto : proyectosLider) {
             for (UsuarioProyecto usuarioProyecto : proyecto.getUsuarioProyectoCollection()) {
                 if (usuarioProyecto.getRol().equalsIgnoreCase("miembro")) {
-                    errorConfiguracion = "No se puede borrar la cuenta ya que tienes proyectos siendo líder con más de un miembro. Pasa el liderazgo a otro miembro";
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede borrar la cuenta ya que tienes proyectos siendo líder con más de un miembro. Pasa el liderazgo a otro miembro", ""));
                     return "configuracion";
                 }
             }
@@ -1202,6 +1158,13 @@ public class UsuarioBean implements Serializable {
 
         this.comentarioFacade.deleteComentariosByUsuario(usuario.getId());
         this.actividadFacade.deleteActividadesByUsuario(usuario.getId());
+        
+        if(isFacebookConnected()) {
+            desconectarFacebook();
+        }
+        if(isGoogleConnected()) {
+            desconectarGoogle();
+        }
 
         this.usuarioFacade.remove(usuario);
         enviarEmailDespedida();

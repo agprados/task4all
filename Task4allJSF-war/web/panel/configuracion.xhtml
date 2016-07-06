@@ -39,14 +39,7 @@
                 </ul>
                 <h:form enctype="multipart/form-data">  
                     <br/>
-                    <h:panelGroup rendered="#{usuarioBean.errorConfiguracion.length() != 0}" layout="block" class="alert alert-danger" a:role="alert">
-                        <center>#{usuarioBean.errorConfiguracion}</center>                    
-                    </h:panelGroup>
-                    #{usuarioBean.setErrorConfiguracion("")}
-                    <h:panelGroup rendered="#{usuarioBean.correctaConfiguracion.length() != 0}" layout="block" class="alert alert-success" a:role="alert">
-                        <center>#{usuarioBean.correctaConfiguracion}</center>                   
-                    </h:panelGroup>
-                    #{usuarioBean.setCorrectaConfiguracion("")}
+                    <p:messages autoUpdate="true" for="configuracion"/>
                     <h2>Modifica tus datos</h2>
                     <br/>   
                     <h4>Usuario</h4>
@@ -156,10 +149,7 @@
                     <div class="separador"></div>
                     <h2>Redes sociales</h2>
                     <br/>
-                    <h:panelGroup rendered="#{usuarioBean.errorSocial.length() != 0}" layout="block" class="alert alert-danger" a:role="alert">
-                        <center>#{usuarioBean.errorSocial}</center>                    
-                    </h:panelGroup>
-                    #{usuarioBean.setErrorSocial("")}
+                    <p:messages autoUpdate="true" for="social"/>
                     <div style="font-size: 20px">
                         <a class="btn btn-social-icon btn-facebook">
                             <span class="fa fa-facebook"></span>   

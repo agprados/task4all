@@ -13,7 +13,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import task4all.ejb.ListaFacade;
 import task4all.ejb.ProyectoFacade;
 import task4all.ejb.TareaFacade;
@@ -100,8 +99,10 @@ public class BusquedaBean implements Serializable {
         if (usuarioBean.getCadenaABuscar() != null && !usuarioBean.getCadenaABuscar().isEmpty()) {            
             cadenaABuscar = usuarioBean.getCadenaABuscar();
             usuarioBean.setCadenaABuscar("");
-        } 
+        }        
         if(cadenaABuscar != null && !cadenaABuscar.isEmpty()) {
+            cadenaABuscar = cadenaABuscar.trim();
+            
             resultadosProyectos = proyectoFacade.findProyectosByUsuarioAndNombreLike(usuarioBean.getUsuario().getId(), cadenaABuscar);
             resultadosListas = listaFacade.findListasByUsuarioAndNombreLike(usuarioBean.getUsuario().getId(), cadenaABuscar);
             resultadosTareas = tareaFacade.findTareasByUsuarioAndNombreLike(usuarioBean.getUsuario().getId(), cadenaABuscar);

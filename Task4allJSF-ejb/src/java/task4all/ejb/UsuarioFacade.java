@@ -5,6 +5,7 @@
  */
 package task4all.ejb;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -97,20 +98,14 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         return u;
     }
 
-    public Usuario findUsuarioByUsuarioOrEmail(String usuario, String email) {
+    public List<Usuario> findUsuarioByUsuarioOrEmail(String usuario, String email) {
         Query q;
 
         q = em.createNamedQuery("Usuario.findByUsuarioOrEmail");
         q.setParameter("usuario", usuario);
         q.setParameter("email", email);
-
-        Usuario u;
-        try {
-            u = (Usuario) q.getSingleResult();
-        } catch (NoResultException e) {
-            u = null;
-        }
-        return u;
+        
+        return q.getResultList();
     }
 
     public Usuario findUsuarioByFacebookId(String facebookId) {

@@ -59,9 +59,9 @@ public class ProyectoBean {
     private List<UsuarioProyecto> listaMiembrosRoles;
     private List<Lista> listas;
     private List<List<Tarea>> tareas;
-    private String error;
     private String invitacion;
     private String nombre;
+    private String descripcion;
     private Date fechaObjetivo;
 
     /**
@@ -72,7 +72,6 @@ public class ProyectoBean {
 
     @PostConstruct
     public void init() {
-        this.error = "";
         invitacion = "";
 
         // Comprobación para que no entre cuando se selecciona una tarea en tareas.xhtml
@@ -170,14 +169,6 @@ public class ProyectoBean {
         this.tareas = tareas;
     }
 
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
-
     public String getInvitacion() {
         return invitacion;
     }
@@ -198,6 +189,14 @@ public class ProyectoBean {
         this.nombre = nombre;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public Date getFechaObjetivo() {
         return fechaObjetivo;
     }
@@ -210,14 +209,17 @@ public class ProyectoBean {
         return "editarProyecto?faces-redirect=true";
     }
 
-    public String doGuardar() {
-        if (nombre == null || nombre.isEmpty()) {
-            error = "El nombre del proyecto tiene que tener al menos 1 caracter";
+    public String doGuardar() {        
+        if (nombre == null || nombre.trim().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage("proyecto", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El nombre del proyecto no puede estar vacío", ""));
             return "editarProyecto";
-        } else {
-            usuarioBean.getProyectoSeleccionado().setNombre(nombre);
         }
+        nombre = nombre.trim();
+        descripcion = descripcion.trim();
 
+        usuarioBean.getProyectoSeleccionado().setNombre(nombre);
+        usuarioBean.getProyectoSeleccionado().setDescripcion(descripcion);
+        
         if (fechaObjetivo != null && !fechaObjetivo.toString().isEmpty()) {
             usuarioBean.getProyectoSeleccionado().setFechaobjetivo(fechaObjetivo);
         } else {
@@ -227,7 +229,7 @@ public class ProyectoBean {
         if (!fondoBean.getFondo().equals(usuarioBean.getProyectoSeleccionado().getFondoId())) {
             usuarioBean.getProyectoSeleccionado().setFondoId(fondoBean.getFondo());
         }
-
+        
         proyectoFacade.edit(usuarioBean.getProyectoSeleccionado());
 
         return "proyecto?faces-redirect=true";
@@ -235,14 +237,14 @@ public class ProyectoBean {
 
     public String doEliminarUsuario(Usuario usuario) {
         if ((usuarioBean.getRolActual().equalsIgnoreCase("Líder") && (usuarioBean.getUsuario().getUsuario().equals(usuario.getUsuario())))) {
-            error = "No se puede eliminar el líder del proyecto";
+            FacesContext.getCurrentInstance().addMessage("proyecto", new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede eliminar el líder del proyecto", ""));
         } else if (!usuarioBean.getRolActual().equalsIgnoreCase("Líder") && (!usuarioBean.getUsuario().getUsuario().equals(usuario.getUsuario()))) {
-            error = "No tienes permiso para borrar a ese usuario";
+            FacesContext.getCurrentInstance().addMessage("proyecto", new FacesMessage(FacesMessage.SEVERITY_ERROR, "No tienes permiso para borrar a ese usuario", ""));
         } else {
             UsuarioProyecto up = this.usuarioProyectoFacade.findUsuarioProyectoByUsuarioAndProyecto(usuario.getUsuario(), usuarioBean.getProyectoSeleccionado().getId());
 
             if (up == null) {
-                error = "El usuario que intenta borrar no se encuentra en el proyecto";
+                FacesContext.getCurrentInstance().addMessage("proyecto", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario que intenta borrar no se encuentra en el proyecto", ""));
             } else {
                 this.usuarioProyectoFacade.remove(up);
                 listaMiembrosRoles.remove(up);
@@ -289,12 +291,12 @@ public class ProyectoBean {
     }
 
     public String doInvitar() {
-        error = "";
-        if (invitacion == null || invitacion.isEmpty()) {
+        if (invitacion == null || invitacion.trim().isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email o el nombre de usuarios no puede estar vacío", ""));
             return "proyecto";
         }
-
+        invitacion = invitacion.trim();
+        
         Usuario u;
         if (isValidEmail(invitacion)) {
             u = this.usuarioFacade.findUsuarioByEmail(invitacion);

@@ -43,14 +43,12 @@ public class ComentariosBean {
     private Proyecto proyectoSeleccionado;
     private String contenido;
     private Usuario usuarioLogueado;
-    private String error;
       
     public ComentariosBean() {
     }
     
     @PostConstruct
     public void init() { 
-        this.error = "";
         usuarioLogueado = usuarioFacade.findUsuarioByUsuario(this.usuarioBean.getUsuario().getUsuario());
         proyectoSeleccionado = usuarioBean.getProyectoSeleccionado();
         
@@ -108,18 +106,9 @@ public class ComentariosBean {
     public void setProyectoBean(ProyectoBean proyectoBean) {
         this.proyectoBean = proyectoBean;
     }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
     
-    public String doCrear() {       
-        if(this.contenido.isEmpty()) {
-            error = "El comentario no puede estar vacío";
+    public String doCrear() {     
+        if(this.contenido.trim().isEmpty()) {
             return "proyecto";
         }        
        

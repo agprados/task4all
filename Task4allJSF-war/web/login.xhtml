@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <h:panelGroup rendered="#{param.ok eq 'true'}">                                   
             #{usuarioBean.setProyectoInvitacion(param.proyectoId)}
@@ -91,9 +92,7 @@
                     <div class="separador"></div>
                     <br/>
                     <h:form>
-                        <h:panelGroup rendered="#{!usuarioBean.errorLogin.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert" style="width: 300px;">
-                            #{usuarioBean.errorLogin} 
-                        </h:panelGroup>                    
+                        <p:messages autoUpdate="true" style="width: 300px"/>                     
                         <div class="input-group" style="width: 300px;">
                             <h:inputText value="#{usuarioBean.identificador}" class="form-control" a:placeholder="Usuario" a:autofocus="true" />
                         </div>
@@ -101,8 +100,7 @@
                         <div class="input-group" style="width: 300px;">
                             <h:inputSecret value="#{usuarioBean.contrasena}" class="form-control" a:placeholder="Contraseña"/>
                         </div>
-                        <br/>                        
-                        #{usuarioBean.setErrorLogin("")}
+                        <br/>
                         <h:commandButton value="Iniciar sesión" action="#{usuarioBean.doLogin()}" class="btn btn-success">
                             <f:ajax execute="@form" render="@form"/>
                         </h:commandButton> 

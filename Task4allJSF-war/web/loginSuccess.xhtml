@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         #{usuarioBean.doFacebookLogin()}
         #{usuarioBean.doGoogleLogin()}
@@ -26,13 +27,8 @@
             <div class="container no-header" style="width: 400px;">
                 <center>
                     <h1>Solo un paso más</h1>
-                    <h:panelGroup rendered="#{!usuarioBean.errorRegistro.isEmpty()}" layout="block">
-                        <div layout="block" class="alert alert-danger" a:role="alert" style="width: 300px;">
-                            #{usuarioBean.errorRegistro}
-                        </div>
-                    </h:panelGroup>
-                    
                     <br/>
+                    <p:messages style="width: 300px"/>               
                     Elige un nombre de usuario
                     <br/>
                     
@@ -47,7 +43,6 @@
                             <br/>
                             <br/>
                         </h:panelGroup>
-                        #{usuarioBean.setErrorRegistro("")}
                         <h:commandButton value="¡Adelante!" action="#{usuarioBean.doCompletarRegistro()}" class="btn btn-success"></h:commandButton> 
                     </h:form>
                     <br/>

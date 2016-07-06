@@ -12,9 +12,11 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import task4all.ejb.ListaFacade;
 import task4all.ejb.TareaFacade;
 import task4all.ejb.UsuarioProyectoFacade;
@@ -44,9 +46,8 @@ public class TareaBean {
     @ManagedProperty(value = "#{proyectoBean}")
     private ProyectoBean proyectoBean;
 
-    private String error;
-    private String errorAsignado;
     private String nombre;
+    private String descripcion;
     private Date fechaObjetivo;
     private List<UsuarioProyecto> listaAsignados;
     private List<UsuarioProyecto> listaUsuariosSinAsignar;
@@ -59,8 +60,6 @@ public class TareaBean {
 
     @PostConstruct
     public void init() {
-        error = "";
-        errorAsignado = "";
         cargarLista();
     }
 
@@ -72,28 +71,20 @@ public class TareaBean {
         this.proyectoBean = proyectoBean;
     }
 
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
-
-    public String getErrorAsignado() {
-        return errorAsignado;
-    }
-
-    public void setErrorAsignado(String errorAsignado) {
-        this.errorAsignado = errorAsignado;
-    }
-
     public String getNombre() {
         return nombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public Date getFechaObjetivo() {
@@ -155,18 +146,21 @@ public class TareaBean {
     }
 
     public String doGuardar() {
-        if (nombre == null || nombre.isEmpty()) {
-            error = "El nombre de la tarea no puede estar vacío";
+        if (nombre == null || nombre.trim().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage("tarea", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El nombre de la tarea no puede estar vacío", ""));
             return "editarTarea";
         }
-
+        
         if (fechaObjetivo != null && !fechaObjetivo.toString().isEmpty()) {
             usuarioBean.getTareaSeleccionada().setFechaobjetivo(fechaObjetivo);
         } else {
             usuarioBean.getTareaSeleccionada().setFechaobjetivo(null);
         }
 
+        nombre = nombre.trim();
+        descripcion = descripcion.trim();
         usuarioBean.getTareaSeleccionada().setNombre(nombre);
+        usuarioBean.getTareaSeleccionada().setDescripcion(descripcion);
 
         if (usuarioBean.getTareaSeleccionada().getId() == null) {
             usuarioBean.getTareaSeleccionada().setFechacreacion(new Date());
@@ -192,7 +186,7 @@ public class TareaBean {
 
     public String doAsignarUsuario(Usuario u) {
         if (this.usuarioTareaFacade.findUsuarioTareaByUsuarioAndTarea(u.getUsuario(), usuarioBean.getTareaSeleccionada().getId()) != null) {
-            errorAsignado = "Ese usuario ya está asignado a la tarea";
+            FacesContext.getCurrentInstance().addMessage("tarea", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ese usuario ya está asignado a la tarea", ""));
             return "tarea";
         }
 
@@ -212,7 +206,7 @@ public class TareaBean {
     public String doEliminarUsuario(Usuario usuario) {
         UsuarioTarea ut = this.usuarioTareaFacade.findUsuarioTareaByUsuarioAndTarea(usuario.getUsuario(), usuarioBean.getTareaSeleccionada().getId());
         if (ut == null) {
-            errorAsignado = "El usuario que intenta borrar no se encuentra asignado a la tarea";
+            FacesContext.getCurrentInstance().addMessage("tarea", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario que intenta borrar no se encuentra asignado a la tarea", ""));
         } else {
             this.usuarioTareaFacade.remove(ut);
 

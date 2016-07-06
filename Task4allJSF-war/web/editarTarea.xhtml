@@ -50,10 +50,7 @@
                     </div>
                 </h:panelGroup>
                 <h:form>
-                    <h:panelGroup rendered="#{not empty tareaBean.error}" layout="block" class="alert alert-danger" a:role="alert">
-                        <center>#{tareaBean.error}</center>
-                    </h:panelGroup>
-
+                    <p:messages autoUpdate="true" for="tarea"/>
                     <h4>Nombre *</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
                         #{tareaBean.setNombre(usuarioBean.tareaSeleccionada.nombre)}
@@ -63,7 +60,8 @@
                     <br/>
                     <h4>Descripción</h4>
                     <div class="input-group input-group-lg" style="width: 500px;">
-                        <h:inputText value="#{usuarioBean.tareaSeleccionada.descripcion}" style="border-radius: 5px" class="form-control" />
+                        #{tareaBean.setDescripcion(usuarioBean.tareaSeleccionada.descripcion)}
+                        <h:inputText value="#{tareaBean.descripcion}" style="border-radius: 5px" class="form-control" />
                     </div>
                     <br/>
                     <h4>Fecha objetivo</h4>

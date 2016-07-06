@@ -5,7 +5,8 @@
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Task4all</title>
         <meta charset="UTF-8" />
@@ -35,10 +36,7 @@
                         <ul style="width: 300px; color: black; text-shadow: none;" class="dropdown-menu pull-right" aria-labelledby="dropdownProject">
                             <li style="padding: 10px;">
                                 <h:form>
-                                    <h:panelGroup rendered="#{!proyectosBean.error.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert" style="width: 280px;">
-                                        <center>#{proyectosBean.error} </center>
-                                    </h:panelGroup>
-
+                                    <p:messages autoUpdate="true" for="proyectos"/>
                                     <center>
                                         Serás el <b>líder</b> y podrás invitar a más usuarios a colaborar
                                     </center>
@@ -93,9 +91,6 @@
 
 
                     <h3>Invitaciones a proyectos</h3>
-                    <h:panelGroup rendered="#{!usuarioBean.errorLogin.isEmpty()}" layout="block" class="alert alert-danger" a:role="alert">
-                        #{usuarioBean.errorLogin} 
-                    </h:panelGroup>  
                     <h:form id="invitaciones" style="display: inline-block">
                         <c:forEach items="#{proyectosBean.proyectosInvitado}" var="proyecto">
                             <div style="border-top-color: #7f7e7d; background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="proyecto">

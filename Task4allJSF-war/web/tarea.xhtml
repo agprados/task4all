@@ -70,9 +70,7 @@
                 </center>
                 <h3>Usuarios implicados</h3>
                 <div class="separador"></div>
-                <h:panelGroup rendered="#{not empty tareaBean.errorAsignado}" layout="block" class="alert alert-danger" a:role="alert">
-                    #{tareaBean.errorAsignado}
-                </h:panelGroup>
+                <p:messages autoUpdate="true" for="tarea"/>
                 <h:form id="asignados">
                     <c:forEach items="#{tareaBean.listaAsignados}" var="asignado">                    
                         <h:panelGroup rendered="#{asignado.rol.toLowerCase().equalsIgnoreCase('líder')}">
