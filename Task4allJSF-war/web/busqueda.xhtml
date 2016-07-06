@@ -24,7 +24,7 @@
         <ui:include src="/includes/header.xhtml" />
         <center>            
             <div class="container">
-                <h:panelGroup id="busqueda"> 
+                <h:form>
                     <div class="containerHeader">                    
                         <h:panelGroup rendered="#{empty busquedaBean.resultadosProyectos and empty busquedaBean.resultadosListas and empty busquedaBean.resultadosTareas}">
                             <h2 style="float: left;">
@@ -39,16 +39,15 @@
                             </h2>
                         </h:panelGroup>
                     </div>
-                    <h:form>    
-                        <div class="input-group">
-                            <h:inputText maxlength="100" value="#{busquedaBean.cadenaABuscar}" style="height: 45px; font-size: 14pt; border: 1px solid #000;" class="form-control" a:placeholder="Quiero buscar..."/>
-                            <span class="input-group-btn">
-                                <h:commandButton style="height: 45px; font-size: 14pt; border: 1px solid #000;" actionListener="#{busquedaBean.doBuscar}" value="Buscar" class="btn btn-success" >
-                                    <f:ajax render="busqueda" execute="@form"/>
-                                </h:commandButton>
-                            </span>
-                        </div>
-                    </h:form>
+
+                    <div class="input-group">
+                        <h:inputText maxlength="100" value="#{busquedaBean.cadenaABuscar}" style="height: 45px; font-size: 14pt; border: 1px solid #000;" class="form-control" a:placeholder="Quiero buscar..."/>
+                        <span class="input-group-btn">
+                            <h:commandButton style="height: 45px; font-size: 14pt; border: 1px solid #000;" action="#{busquedaBean.doBuscar()}" value="Buscar" class="btn btn-success">
+                                <f:ajax render="@form" execute="@form"/>
+                            </h:commandButton>
+                        </span>
+                    </div>
                     <br/>
                     <div class="separador"></div>   
 
@@ -58,15 +57,13 @@
                         <h:outputText style="font-size: 12px; color: black; margin-left: 4px" value="#{busquedaBean.resultadosProyectos.size()} resultados" />
                         <h:panelGroup rendered="#{not empty busquedaBean.resultadosProyectos}">
                             <c:forEach items="#{busquedaBean.resultadosProyectos}" var="proyecto">
-                                <h:form>
-                                    <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="text-decoration: none;">
-                                        <div style="background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="container-proyectos-tareas-listas" >
-                                            <h:outputText style="color: black; font-size: 12pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
-                                            <h:outputText style="color: white; font-size: 12pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>
-                                            <br/>                               
-                                        </div>
-                                    </h:commandLink>  
-                                </h:form>
+                                <h:commandLink action="#{proyectosBean.doVerProyecto(proyecto)}" style="text-decoration: none;">
+                                    <div style="background-image: url(/Task4allJSF-war#{proyecto.fondoId.url})" class="container-proyectos-tareas-listas" >
+                                        <h:outputText style="color: black; font-size: 12pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '0'}"/>
+                                        <h:outputText style="color: white; font-size: 12pt; font-weight: bold" value="#{proyecto.nombre}" rendered="#{proyecto.fondoId.oscuro eq '1'}"/>
+                                        <br/>                               
+                                    </div>
+                                </h:commandLink>  
                             </c:forEach>
                         </h:panelGroup>
                         <br/><br/>
@@ -75,15 +72,13 @@
                         <h:outputText style="font-size: 12px; color: black; margin-left: 4px" value="#{busquedaBean.resultadosListas.size()} resultados" />
                         <h:panelGroup rendered="#{not empty busquedaBean.resultadosListas}">
                             <c:forEach items="#{busquedaBean.resultadosListas}" var="lista">
-                                <h:form>
-                                    <h:commandLink action="#{proyectosBean.doVerProyecto(lista.proyectoId)}" style="text-decoration: none;">
-                                        <div style="background-image: url(/Task4allJSF-war#{lista.proyectoId.fondoId.url})" class="container-proyectos-tareas-listas" >
-                                            <h:outputText style="color: black; font-size: 12pt; font-weight: bold" value="#{lista.nombre}" rendered="#{lista.proyectoId.fondoId.oscuro eq '0'}"/>
-                                            <h:outputText style="color: white; font-size: 12pt; font-weight: bold" value="#{lista.nombre}" rendered="#{lista.proyectoId.fondoId.oscuro eq '1'}"/>
-                                            <br/>                               
-                                        </div>   
-                                    </h:commandLink> 
-                                </h:form>
+                                <h:commandLink action="#{proyectosBean.doVerProyecto(lista.proyectoId)}" style="text-decoration: none;">
+                                    <div style="background-image: url(/Task4allJSF-war#{lista.proyectoId.fondoId.url})" class="container-proyectos-tareas-listas" >
+                                        <h:outputText style="color: black; font-size: 12pt; font-weight: bold" value="#{lista.nombre}" rendered="#{lista.proyectoId.fondoId.oscuro eq '0'}"/>
+                                        <h:outputText style="color: white; font-size: 12pt; font-weight: bold" value="#{lista.nombre}" rendered="#{lista.proyectoId.fondoId.oscuro eq '1'}"/>
+                                        <br/>                               
+                                    </div>   
+                                </h:commandLink> 
                             </c:forEach>
                         </h:panelGroup>
                         <br/><br/>
@@ -92,20 +87,18 @@
                         <h:outputText style="font-size: 12px; color: black; margin-left: 4px" value="#{busquedaBean.resultadosTareas.size()} resultados" />
                         <h:panelGroup rendered="#{not empty busquedaBean.resultadosTareas}">
                             <c:forEach items="#{busquedaBean.resultadosTareas}" var="tarea">
-                                <h:form>
-                                    <h:commandLink action="#{tareaBean.doMostrar(tarea.listaId.proyectoId, tarea.listaId, tarea)}" style="text-decoration: none;">
-                                        <div style="background-image: url(/Task4allJSF-war#{tarea.listaId.proyectoId.fondoId.url})" class="container-proyectos-tareas-listas" >
-                                            <h:outputText style="color: black; font-size: 12pt; font-weight: bold" value="#{tarea.nombre}" rendered="#{tarea.listaId.proyectoId.fondoId.oscuro eq '0'}"/>
-                                            <h:outputText style="color: white; font-size: 12pt; font-weight: bold" value="#{tarea.nombre}" rendered="#{tarea.listaId.proyectoId.fondoId.oscuro eq '1'}"/>
-                                            <br/>                               
-                                        </div>   
-                                    </h:commandLink>
-                                </h:form>
+                                <h:commandLink action="#{tareaBean.doMostrar(tarea.listaId.proyectoId, tarea.listaId, tarea)}" style="text-decoration: none;">
+                                    <div style="background-image: url(/Task4allJSF-war#{tarea.listaId.proyectoId.fondoId.url})" class="container-proyectos-tareas-listas" >
+                                        <h:outputText style="color: black; font-size: 12pt; font-weight: bold" value="#{tarea.nombre}" rendered="#{tarea.listaId.proyectoId.fondoId.oscuro eq '0'}"/>
+                                        <h:outputText style="color: white; font-size: 12pt; font-weight: bold" value="#{tarea.nombre}" rendered="#{tarea.listaId.proyectoId.fondoId.oscuro eq '1'}"/>
+                                        <br/>                               
+                                    </div>   
+                                </h:commandLink>
                             </c:forEach>
                         </h:panelGroup>
                     </h:panelGroup>
                     <br/>  
-                </h:panelGroup>
+                </h:form> 
             </div>
         </center>
         <ui:include src="/includes/footer.xhtml" />
