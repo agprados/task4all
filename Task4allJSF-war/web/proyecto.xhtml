@@ -184,7 +184,9 @@
                         <h:panelGroup rendered="#{usuarioBean.rolActual.equalsIgnoreCase('LÍDER')}" layout="block">
                             <p:commandButton class="btn btn-default usuario-invitacion" style="font-size: 20pt; padding: 0px" value="+" onclick="PF('invitacion').show();"/>
                             <p:dialog header="Invitación al proyecto" widgetVar="invitacion" modal="true" resizable="false" showEffect="clip" closeOnEscape="true">
-                                Puedes invitar a tantas personas como quieras (registradas o no en Task4all)
+                                Puedes invitar a tantas personas como quieras (registradas en Task4all).
+                                <br/>
+                                Si no están registradas, se les mandará un email para el registro.
                                 <br/>
                                 <br/>
                                 <h:panelGrid columns="2">

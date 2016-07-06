@@ -133,7 +133,7 @@
                             <span style="color: red;" class="fa fa-times"></span>
                             <p:tooltip for="noVerificada" value="Cuenta no verificada" position="bottom" /></h:panelGroup>
                         <br/>
-                        <h:commandLink style="font-size: 16px" value="Mandar email de verificación"/>                        
+                        <h:commandLink style="font-size: 16px" value="Mandar email de verificación" action="#{usuarioBean.enviarEmailVerificacion()}"/>                        
                     </h:panelGroup>
                     <br/><br/>
                     <h:commandButton value="Eliminar cuenta" onclick="PF('eliminacionUsuario').show(); return false;" class="btn btn-danger"/>
