@@ -42,7 +42,7 @@
                                     </center>
                                     <br/>
                                     <h:panelGrid columns="2">                                            
-                                        <h:inputText size="100" value="#{proyectosBean.nombre}" class="form-control" a:placeholder="Nombre del proyecto" a:autofocus="true"/>
+                                        <h:inputText maxlength="50" size="100" value="#{proyectosBean.nombre}" class="form-control" a:placeholder="Nombre del proyecto" a:autofocus="true"/>
                                         <h:commandButton style="margin-left: 3px" value="Crear" action="#{proyectosBean.doCrearProyecto()}" class="btn btn-primary" />   
                                     </h:panelGrid>     
                                 </h:form>

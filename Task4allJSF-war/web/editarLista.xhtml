@@ -2,7 +2,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
@@ -32,13 +31,13 @@
                     <h4>Nombre *</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
                         #{listaBean.setNombre(usuarioBean.listaSeleccionada.nombre)}
-                        <h:inputText value="#{listaBean.nombre}" style="border-radius: 5px" class="form-control" />
+                        <h:inputText maxlength="50" value="#{listaBean.nombre}" style="border-radius: 5px" class="form-control" />
                     </div>
                     <br/>
                     <h4>Descripción</h4>
                     <div class="input-group input-group-lg" style="width: 500px;">
                         #{listaBean.setDescripcion(usuarioBean.listaSeleccionada.descripcion)}
-                        <h:inputText value="#{listaBean.descripcion}" style="border-radius: 5px" class="form-control" />
+                        <h:inputText maxlength="100" value="#{listaBean.descripcion}" style="border-radius: 5px" class="form-control" />
                     </div>
                     <br/>
                     * Campo obligatorio

@@ -54,14 +54,14 @@
                     <h4>Nombre *</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
                         #{tareaBean.setNombre(usuarioBean.tareaSeleccionada.nombre)}
-                        <h:inputText rendered="#{usuarioBean.tareaSeleccionada.id eq null}" value="#{tareaBean.nombre}" style="border-radius: 5px" class="form-control" a:autofocus="true"/>
-                        <h:inputText rendered="#{usuarioBean.tareaSeleccionada.id ne null}" value="#{tareaBean.nombre}" style="border-radius: 5px" class="form-control" />                       
+                        <h:inputText maxlength="100" rendered="#{usuarioBean.tareaSeleccionada.id eq null}" value="#{tareaBean.nombre}" style="border-radius: 5px" class="form-control" a:autofocus="true"/>
+                        <h:inputText maxlength="100" rendered="#{usuarioBean.tareaSeleccionada.id ne null}" value="#{tareaBean.nombre}" style="border-radius: 5px" class="form-control" />                       
                     </div>
                     <br/>
                     <h4>Descripción</h4>
                     <div class="input-group input-group-lg" style="width: 500px;">
                         #{tareaBean.setDescripcion(usuarioBean.tareaSeleccionada.descripcion)}
-                        <h:inputText value="#{tareaBean.descripcion}" style="border-radius: 5px" class="form-control" />
+                        <h:inputText maxlength="2000" value="#{tareaBean.descripcion}" style="border-radius: 5px" class="form-control" />
                     </div>
                     <br/>
                     <h4>Fecha objetivo</h4>

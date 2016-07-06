@@ -35,13 +35,13 @@
                     <h4>Nombre *</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
                         #{proyectoBean.setNombre(usuarioBean.proyectoSeleccionado.nombre)}
-                        <h:inputText value="#{proyectoBean.nombre}" style="border-radius: 5px" class="form-control"/>
+                        <h:inputText maxlength="50" value="#{proyectoBean.nombre}" style="border-radius: 5px" class="form-control"/>
                     </div>
                     <br/>
                     <h4>Descripción</h4>
                     <div class="input-group input-group-lg" style="width: 500px;">
                         #{proyectoBean.setDescripcion(usuarioBean.proyectoSeleccionado.descripcion)}
-                        <h:inputText value="#{proyectoBean.descripcion}" style="border-radius: 5px" class="form-control" />
+                        <h:inputText maxlength="500" value="#{proyectoBean.descripcion}" style="border-radius: 5px" class="form-control" />
                     </div>
                     <br/>
                     <h4>Fecha objetivo</h4>

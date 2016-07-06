@@ -187,7 +187,7 @@
                                 <br/>
                                 <br/>
                                 <h:panelGrid columns="2">
-                                    <h:inputText size="54" value="#{proyectoBean.invitacion}" class="form-control" a:placeholder="Email o nombre de usuario" a:autofocus="true"/>
+                                    <h:inputText maxlength="80" size="54" value="#{proyectoBean.invitacion}" class="form-control" a:placeholder="Email o nombre de usuario" a:autofocus="true"/>
                                     <h:commandButton id="enviar" style="margin-left: 3px" value="Invitar" action="#{proyectoBean.doInvitar()}" class="btn btn-primary">
                                         <p:ajax oncomplete="PF('invitacion').hide();" process="usuarios" update="usuarios inviError"/>
                                     </h:commandButton>
@@ -249,7 +249,7 @@
                                 <center>
                                     <p:messages autoUpdate="true" for="lista"/>
                                     <h:panelGrid columns="2">                                            
-                                        <h:inputText size="100" value="#{listaBean.nombre}" class="form-control" a:placeholder="Nombre" />
+                                        <h:inputText maxlength="50" size="100" value="#{listaBean.nombre}" class="form-control" a:placeholder="Nombre" />
                                         <h:commandButton id="crearLista" style="margin-left: 3px" action="#{listaBean.doCrearLista()}" value="Crear" class="btn btn-primary" >                                
                                             <f:ajax execute="@form" render="@form" />
                                         </h:commandButton>

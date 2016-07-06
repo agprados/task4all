@@ -45,25 +45,25 @@
                     <h4>Usuario</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
                         #{usuarioBean.setNombreUsuario(usuarioBean.usuario.usuario)}
-                        <h:inputText value="#{usuarioBean.nombreUsuario}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
+                        <h:inputText maxlength="20" value="#{usuarioBean.nombreUsuario}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
                     </div>                    
                     <br/>
                     <h4>Nombre</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
                         #{usuarioBean.setNombre(usuarioBean.usuario.nombre)}
-                        <h:inputText value="#{usuarioBean.nombre}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
+                        <h:inputText maxlength="30" value="#{usuarioBean.nombre}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
                     </div>                    
                     <br/>
                     <h4>Apellidos</h4>
                     <div class="input-group input-group-lg" style="width: 500px;">
                         #{usuarioBean.setApellidos(usuarioBean.usuario.apellidos)}
-                        <h:inputText value="#{usuarioBean.apellidos}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
+                        <h:inputText maxlength="80" value="#{usuarioBean.apellidos}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
                     </div>
                     <br/>
                     <h4>Email</h4>
                     <div class="input-group input-group-lg" style="width: 500px;">
                         #{usuarioBean.setEmail(usuarioBean.usuario.email)}
-                        <h:inputText value="#{usuarioBean.email}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1"/>
+                        <h:inputText maxlength="80" value="#{usuarioBean.email}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1"/>
                     </div>
                     <br/>                    
                     <div class="separador"></div>                    
@@ -89,7 +89,7 @@
                     <br/>
                     <h:panelGroup layout="block" rendered="#{usuarioBean.isPasswordSet()}" class="input-group input-group-lg" style="width: 500px;">
                         <h4>Contraseña actual</h4>
-                        <h:inputSecret value="#{usuarioBean.contrasenaActual}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
+                        <h:inputSecret maxlength="25" value="#{usuarioBean.contrasenaActual}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
                     </h:panelGroup>
                     <h:panelGroup rendered="#{usuarioBean.isPasswordSet()}">
                         <h4>Contraseña nueva</h4>
@@ -98,7 +98,7 @@
                         <h4>Contraseña</h4>
                     </h:panelGroup>
                     <div class="input-group input-group-lg" style="width: 500px;">
-                        <h:inputSecret value="#{usuarioBean.contrasena}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
+                        <h:inputSecret maxlength="25" value="#{usuarioBean.contrasena}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
                     </div>
                     <h:panelGroup rendered="#{usuarioBean.isPasswordSet()}">
                         <h4>Confirma tu nueva contraseña</h4>
@@ -107,7 +107,7 @@
                         <h4>Confirma tu contraseña</h4>
                     </h:panelGroup>
                     <div class="input-group input-group-lg" style="width: 500px;">
-                        <h:inputSecret value="#{usuarioBean.verificaContrasena}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
+                        <h:inputSecret maxlength="25" value="#{usuarioBean.verificaContrasena}" style="border-radius: 5px" class="form-control" a:aria-describedby="sizing-addon1" />
                     </div>
                     <br/>  
                     <div class="separador"></div>

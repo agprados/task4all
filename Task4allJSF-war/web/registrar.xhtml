@@ -29,28 +29,28 @@
                         <br/>
                         <p:messages autoUpdate="true" style="width: 300px"/>
                         <div class="input-group" style="width: 300px;">
-                            <h:inputText value="#{usuarioBean.usuarioRegistro}" class="form-control" a:placeholder="Usuario *" a:autofocus="true"/>
+                            <h:inputText maxlength="20" value="#{usuarioBean.usuarioRegistro}" class="form-control" a:placeholder="Usuario *" a:autofocus="true"/>
                         </div>
                         <br/>                
                         <div class="input-group" style="width: 300px;">
-                            <h:inputText value="#{usuarioBean.nombre}" class="form-control" a:placeholder="Nombre" />
+                            <h:inputText maxlength="30" value="#{usuarioBean.nombre}" class="form-control" a:placeholder="Nombre" />
                         </div>
                         <br/>
                         <div class="input-group" style="width: 300px;">
-                            <h:inputText value="#{usuarioBean.apellidos}" class="form-control" a:placeholder="Apellidos" />
+                            <h:inputText maxlength="80" value="#{usuarioBean.apellidos}" class="form-control" a:placeholder="Apellidos" />
                         </div>
                         <br/>
                         <div class="input-group" style="width: 300px;">
-                            <h:inputText id="email" value="#{usuarioBean.email}" class="form-control" a:placeholder="Email *" />
+                            <h:inputText maxlength="80" id="email" value="#{usuarioBean.email}" class="form-control" a:placeholder="Email *" />
                         </div>
                         <br/>
                         <br/>
                         <div class="input-group" style="width: 300px;">
-                            <h:inputSecret value="#{usuarioBean.contrasena}" class="form-control" a:placeholder="Contraseña *" />
+                            <h:inputSecret maxlength="25" value="#{usuarioBean.contrasena}" class="form-control" a:placeholder="Contraseña *" />
                         </div>
                         <br/>
                         <div class="input-group" style="width: 300px;">
-                            <h:inputSecret value="#{usuarioBean.verificaContrasena}" class="form-control" a:placeholder="Confirmar contraseña *"/>
+                            <h:inputSecret maxlength="25" value="#{usuarioBean.verificaContrasena}" class="form-control" a:placeholder="Confirmar contraseña *"/>
                         </div>
                         <br/>
                         <p style="font-size: 13px; margin-left: 35px; text-align: left">* Campo obligatorio</p>
