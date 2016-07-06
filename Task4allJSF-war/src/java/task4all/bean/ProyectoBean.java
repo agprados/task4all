@@ -302,10 +302,23 @@ public class ProyectoBean {
             u = this.usuarioFacade.findUsuarioByUsuario(invitacion);
         }
 
+        // Invitación a usuario no registrado
+        if (u == null && isValidEmail(invitacion)) {  
+            try {
+                enviarEmailInvitacionTask4all(invitacion);
+                invitacion = "";
+                return "proyecto";
+            } catch (Exception e) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Se ha producido un error al enviar la invitación", ""));
+                return "proyecto";
+            }
+        }
+
         if (u == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario no se encuentra registrado en el sistema", ""));
             return "proyecto";
         }
+
         if (usuarioProyectoFacade.findUsuarioProyectoByEmailAndProyecto(u.getEmail(), usuarioBean.getProyectoSeleccionado().getId()) != null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ese usuario ya pertenece al proyecto", ""));
             invitacion = "";
@@ -313,10 +326,10 @@ public class ProyectoBean {
         }
 
         try {
-            mandarEmailInvitacion(u.getEmail(), usuarioBean.getProyectoSeleccionado().getId());
+            enviarEmailInvitacion(u.getEmail(), usuarioBean.getProyectoSeleccionado().getId());
             invitacion = "";
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "e ha producido un error al enviar la invitación", ""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Se ha producido un error al enviar la invitación", ""));
             return "proyecto";
         }
 
@@ -336,7 +349,7 @@ public class ProyectoBean {
         return "proyecto";
     }
 
-    private void mandarEmailInvitacion(String email, Integer proyectoId) throws Exception {
+    private void enviarEmailInvitacion(String email, Integer proyectoId) throws Exception {
 
         String remitente = "task4all.noreply@gmail.com";
         String contraseña = "task4all4";
@@ -359,6 +372,39 @@ public class ProyectoBean {
                 "<p>Ha recibido una invitaci&oacute;n de " + usuarioBean.getUsuario().getUsuario() + " para unirse al proyecto <i>" + usuarioBean.getProyectoSeleccionado().getNombre() + "</i> en Task4all.</p>"
                 + "<p>Puedes <a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?email=" + email + "&proyectoId=" + proyectoId + "&ok=" + true + ">unirte al proyecto</a>"
                 + " o <a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?email=" + email + "&proyectoId=" + proyectoId + "&ok=" + false + "> rechazar la invitación</a>.</p>"
+                + "<p>No responder a este mensaje.<p/>",
+                "ISO-8859-1",
+                "html");
+
+        Transport t = session.getTransport("smtp");
+        t.connect(remitente, contraseña);
+        t.sendMessage(message, message.getAllRecipients());
+        t.close();
+    }
+    
+    private void enviarEmailInvitacionTask4all(String email) throws Exception {
+
+        String remitente = "task4all.noreply@gmail.com";
+        String contraseña = "task4all4";
+
+        Properties props = new Properties();
+        props.setProperty("mail.smtp.host", "smtp.gmail.com");
+        props.setProperty("mail.smtp.starttls.enable", "true");
+        props.setProperty("mail.smtp.port", "587");
+        props.setProperty("mail.smtp.user", remitente);
+        props.setProperty("mail.smtp.auth", "true");
+
+        Session session = Session.getDefaultInstance(props);
+
+        MimeMessage message = new MimeMessage(session);
+        message.addRecipient(
+                Message.RecipientType.TO,
+                new InternetAddress(email));
+        message.setSubject("Invitación a un proyecto en Task4all");
+        message.setText(
+                "<p>Ha recibido una invitaci&oacute;n de " + usuarioBean.getUsuario().getUsuario() + " para unirse al proyecto <i>" + usuarioBean.getProyectoSeleccionado().getNombre()
+                + "</i> en Task4all. Desafortunadamente no estás registrado por lo que no puedes unirte al proyecto. Regístrate para poder disfrutar de Task4all.</p>"
+                + "<p><a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.do >Task4all</a>"
                 + "<p>No responder a este mensaje.<p/>",
                 "ISO-8859-1",
                 "html");

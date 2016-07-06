@@ -103,6 +103,8 @@ public class UsuarioBean implements Serializable {
     private Integer proyectoInvitacion;
     private String emailInvitacion;
     private boolean aceptarInvitacion;
+    private String usuarioVerificacion;
+    private boolean verificacion;
 
     /**
      * Creates a new instance of UsuarioBean
@@ -119,7 +121,7 @@ public class UsuarioBean implements Serializable {
         errorConfiguracion = "";
         correctaConfiguracion = "";
         errorSocial = "";
-        usuario = new Usuario();        
+        usuario = new Usuario();
     }
 
     public Usuario getUsuario() {
@@ -358,6 +360,22 @@ public class UsuarioBean implements Serializable {
         this.aceptarInvitacion = aceptarInvitacion;
     }
 
+    public String getUsuarioVerificacion() {
+        return usuarioVerificacion;
+    }
+
+    public void setUsuarioVerificacion(String usuarioVerificacion) {
+        this.usuarioVerificacion = usuarioVerificacion;
+    }
+
+    public boolean isVerificacion() {
+        return verificacion;
+    }
+
+    public void setVerificacion(boolean verificacion) {
+        this.verificacion = verificacion;
+    }
+
     public List<Proyecto> getProyectosConTareasAsignadas() {
         List<Proyecto> proyectosConTareasAsignadas = new ArrayList<>();
         Proyecto proyecto;
@@ -489,7 +507,7 @@ public class UsuarioBean implements Serializable {
             errorRecuperacion = "Introduzca el email o el nombre de usuario";
             return "recuperar";
         }
-        
+
         Usuario u;
         if (isValidEmail(identificadorRecuperacion)) {
             u = this.usuarioFacade.findUsuarioByEmail(identificadorRecuperacion);
@@ -501,11 +519,11 @@ public class UsuarioBean implements Serializable {
             errorRecuperacion = "No existe ningún usuario registrado con ese email o nombre de usuario";
             return "recuperar";
         }
-        mandarEmailContraseña(u);
+        enviarEmailContraseña(u);
         return "index?faces-redirect=true";
     }
 
-    private void mandarEmailContraseña(Usuario u) {
+    private void enviarEmailContraseña(Usuario u) {
         try {
             String remitente = "task4all.noreply@gmail.com";
             String contraseña = "task4all4";
@@ -607,6 +625,9 @@ public class UsuarioBean implements Serializable {
         okLogin = true;
 
         errorRegistro = "";
+
+        enviarEmailTrasRegistro();
+
         return "principal?faces-redirect=true";
     }
 
@@ -641,7 +662,7 @@ public class UsuarioBean implements Serializable {
             uuid = UUID.randomUUID().toString();
             exists = usuarioFacade.findUsuarioByUUID(uuid) != null;
         } while (exists);
-        
+
         usuario.setUsuario(usuarioRegistro);
         usuario.setUuid(uuid);
         usuario.setEmail(email);
@@ -652,11 +673,119 @@ public class UsuarioBean implements Serializable {
         Integer clave = this.usuarioFacade.findMaxUsuarioId();
         usuario.setId(clave);
 
+        enviarEmailTrasRegistro();
+
         errorRegistro = "";
         usuarioRegistro = "";
         email = "";
         usuario = new Usuario();
+
         return "login?faces-redirect=true";
+    }
+
+    private void enviarEmailTrasRegistro() {
+        try {
+            String remitente = "task4all.noreply@gmail.com";
+            String contraseña = "task4all4";
+
+            Properties props = new Properties();
+            props.setProperty("mail.smtp.host", "smtp.gmail.com");
+            props.setProperty("mail.smtp.starttls.enable", "true");
+            props.setProperty("mail.smtp.port", "587");
+            props.setProperty("mail.smtp.user", remitente);
+            props.setProperty("mail.smtp.auth", "true");
+
+            Session session = Session.getDefaultInstance(props);
+
+            MimeMessage message = new MimeMessage(session);
+            message.addRecipient(
+                    Message.RecipientType.TO,
+                    new InternetAddress(usuario.getEmail()));
+            message.setSubject("Bienvenido a Task4all");
+            message.setText(
+                    "<p>Hola <i>" + usuario.getUsuario() + "</i>, bienvenido a Task4all. Disfruta tu estancia!</p>"
+                    + "<p><font color='red'>AVISO</font>: No podrás crear proyectos hasta que verifiques tu cuenta. Para ello, pulse "
+                    + "<a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?usuario=" + usuario.getUsuario() + "&verificar=" + true + ">aquí</a>."
+                    + "<p>No responder a este mensaje.<p/>",
+                    "ISO-8859-1",
+                    "html");
+
+            Transport t = session.getTransport("smtp");
+            t.connect(remitente, contraseña);
+            t.sendMessage(message, message.getAllRecipients());
+            t.close();
+        } catch (Exception e) {
+        }
+    }
+    
+    public void enviarEmailVerificacion() {
+        try {
+            String remitente = "task4all.noreply@gmail.com";
+            String contraseña = "task4all4";
+
+            Properties props = new Properties();
+            props.setProperty("mail.smtp.host", "smtp.gmail.com");
+            props.setProperty("mail.smtp.starttls.enable", "true");
+            props.setProperty("mail.smtp.port", "587");
+            props.setProperty("mail.smtp.user", remitente);
+            props.setProperty("mail.smtp.auth", "true");
+
+            Session session = Session.getDefaultInstance(props);
+
+            MimeMessage message = new MimeMessage(session);
+            message.addRecipient(
+                    Message.RecipientType.TO,
+                    new InternetAddress(usuario.getEmail()));
+            message.setSubject("Verificar cuenta de Task4all");
+            message.setText("<a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?usuario=" + usuario.getUsuario() + "&verificar=" + true + ">Verificar cuenta</a>"
+                    + "<p>No responder a este mensaje.<p/>",
+                    "ISO-8859-1",
+                    "html");
+
+            Transport t = session.getTransport("smtp");
+            t.connect(remitente, contraseña);
+            t.sendMessage(message, message.getAllRecipients());
+            t.close();
+            
+            correctaConfiguracion = "Email enviado. Revise su bandeja de entrada";
+        } catch (Exception e) {
+        }
+    }
+    
+    private void enviarEmailDespedida() {
+        try {
+            String remitente = "task4all.noreply@gmail.com";
+            String contraseña = "task4all4";
+
+            Properties props = new Properties();
+            props.setProperty("mail.smtp.host", "smtp.gmail.com");
+            props.setProperty("mail.smtp.starttls.enable", "true");
+            props.setProperty("mail.smtp.port", "587");
+            props.setProperty("mail.smtp.user", remitente);
+            props.setProperty("mail.smtp.auth", "true");
+
+            Session session = Session.getDefaultInstance(props);
+
+            MimeMessage message = new MimeMessage(session);
+            message.addRecipient(
+                    Message.RecipientType.TO,
+                    new InternetAddress(usuario.getEmail()));
+            message.setSubject("Despedida de Task4all");
+            message.setText("<p>Sentimos que haya decidido borrar su cuenta en Task4all. Esperamos que haya disfrutado su estancia y que vuelva algun día.</p>"
+                    + "<p>Su nombre de usuario y email quedan libres para volver a usarse.</p>"
+                    + "<a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.do>Task4all</a>"
+                    + "<p>No responder a este mensaje.<p/>",
+                    "ISO-8859-1",
+                    "html");
+
+            Transport t = session.getTransport("smtp");
+            t.connect(remitente, contraseña);
+            t.sendMessage(message, message.getAllRecipients());
+            t.close();
+            
+            correctaConfiguracion = "Email enviado. Revise su bandeja de entrada";
+        } catch (Exception e) {
+        }
     }
 
     public String doLogin() {
@@ -675,36 +804,44 @@ public class UsuarioBean implements Serializable {
                 return "login";
             }
         }
-        okLogin = true;      
-        
+        okLogin = true;
+
+        comprobarVerificacionEmail();
         comprobarInvitacionEmail();
-                  
+
         return "principal?faces-redirect=true";
     }
     
+    private void comprobarVerificacionEmail() {
+        if (verificacion && usuario.getUsuario().equals(usuarioVerificacion)) {
+            usuario.setVerificado('1');            
+            this.usuarioFacade.edit(usuario);
+        }
+    }
+
     private void comprobarInvitacionEmail() {
-        if(proyectoInvitacion != null && usuario.getEmail().equals(emailInvitacion)) {
-            if(aceptarInvitacion) {
+        if (proyectoInvitacion != null && usuario.getEmail().equals(emailInvitacion)) {
+            if (aceptarInvitacion) {
                 aceptarInvitacionEmail();
             } else {
                 rechazarInvitacionEmail();
             }
-        }      
+        }
     }
-    
+
     private void aceptarInvitacionEmail() {
-        UsuarioProyecto up = this.usuarioProyectoFacade.findUsuarioProyectoByEmailAndProyecto(emailInvitacion, proyectoInvitacion);        
+        UsuarioProyecto up = this.usuarioProyectoFacade.findUsuarioProyectoByEmailAndProyecto(emailInvitacion, proyectoInvitacion);
         up.setRol("Miembro");
         this.usuarioProyectoFacade.edit(up);
-        
+
         proyectoInvitacion = null;
         emailInvitacion = "";
     }
-    
+
     private void rechazarInvitacionEmail() {
         UsuarioProyecto up = this.usuarioProyectoFacade.findUsuarioProyectoByEmailAndProyecto(emailInvitacion, proyectoInvitacion);
         this.usuarioProyectoFacade.remove(up);
-        
+
         proyectoInvitacion = null;
         emailInvitacion = "";
     }
@@ -924,6 +1061,7 @@ public class UsuarioBean implements Serializable {
     public void doCheckLogout() {
         try {
             if (okLogin) {
+                comprobarVerificacionEmail();
                 comprobarInvitacionEmail();
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
                 context.redirect(context.getRequestContextPath() + "/principal.do");
@@ -944,6 +1082,7 @@ public class UsuarioBean implements Serializable {
 
         try {
             if (okLogin) {
+                comprobarVerificacionEmail();
                 comprobarInvitacionEmail();
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
                 context.redirect(context.getRequestContextPath() + url);
@@ -1056,17 +1195,18 @@ public class UsuarioBean implements Serializable {
                 }
             }
         }
-        
-        for(Proyecto proyecto : proyectosLider) {
+
+        for (Proyecto proyecto : proyectosLider) {
             this.proyectoFacade.remove(proyecto);
         }
-        
+
         this.comentarioFacade.deleteComentariosByUsuario(usuario.getId());
         this.actividadFacade.deleteActividadesByUsuario(usuario.getId());
-        
+
         this.usuarioFacade.remove(usuario);
+        enviarEmailDespedida();
 
         return doLogout();
-    }  
+    }
 
 }

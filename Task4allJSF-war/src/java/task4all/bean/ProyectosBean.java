@@ -115,37 +115,42 @@ public class ProyectosBean {
     }
 
     public String doCrearProyecto() {
-        if (nombre != null && !nombre.isEmpty()) {
-            Proyecto proyecto = new Proyecto();
-            proyecto.setNombre(nombre);
-            proyecto.setFechacreacion(new Date());
-
-            Fondo fondo = this.fondoFacade.findFondoByNombre("fondo_default.png");                   
-            proyecto.setFondoId(fondo);
-            
-            proyectoFacade.create(proyecto);
-            int claveProyecto = proyectoFacade.findMaxProyectoId();
-            proyecto.setId(claveProyecto);
-
-            UsuarioProyecto up = new UsuarioProyecto();
-            up.setRol("líder");
-            up.setProyectoId(proyecto);
-            up.setUsuarioId(this.usuarioBean.getUsuario());
-            usuarioProyectoFacade.create(up);
-
-            if (proyecto.getUsuarioProyectoCollection() == null) {
-                proyecto.setUsuarioProyectoCollection(new ArrayList<>());
-            }
-            proyecto.getUsuarioProyectoCollection().add(up);
-            this.proyectoFacade.edit(proyecto);
-
-            usuarioBean.setProyectoSeleccionado(proyecto);
-
-            return "proyecto?faces-redirect=true";
-        } else {
-            this.error = "El nombre no puede estar vacío";
+        if (usuarioBean.getUsuario().getVerificado() == '0') {
+            error = "No puedes crear proyectos hasta verificar tu cuenta";
             return "principal";
         }
+
+        if (nombre == null || nombre.isEmpty()) {
+            error = "El nombre no puede estar vacío";
+            return "principal";
+        }
+
+        Proyecto proyecto = new Proyecto();
+        proyecto.setNombre(nombre);
+        proyecto.setFechacreacion(new Date());
+
+        Fondo fondo = this.fondoFacade.findFondoByNombre("fondo_default.png");
+        proyecto.setFondoId(fondo);
+
+        proyectoFacade.create(proyecto);
+        int claveProyecto = proyectoFacade.findMaxProyectoId();
+        proyecto.setId(claveProyecto);
+
+        UsuarioProyecto up = new UsuarioProyecto();
+        up.setRol("líder");
+        up.setProyectoId(proyecto);
+        up.setUsuarioId(this.usuarioBean.getUsuario());
+        usuarioProyectoFacade.create(up);
+
+        if (proyecto.getUsuarioProyectoCollection() == null) {
+            proyecto.setUsuarioProyectoCollection(new ArrayList<>());
+        }
+        proyecto.getUsuarioProyectoCollection().add(up);
+        this.proyectoFacade.edit(proyecto);
+
+        usuarioBean.setProyectoSeleccionado(proyecto);
+
+        return "proyecto?faces-redirect=true";
     }
 
     public String doVerProyecto(Proyecto p) {

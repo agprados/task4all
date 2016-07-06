@@ -16,6 +16,11 @@
             #{usuarioBean.setEmailInvitacion(param.email)}
             #{usuarioBean.setAceptarInvitacion(false)}            
         </h:panelGroup>
+
+        <h:panelGroup rendered="#{param.verificar eq 'true'}">                                   
+            #{usuarioBean.setUsuarioVerificacion(param.usuario)}
+            #{usuarioBean.setVerificacion(true)}            
+        </h:panelGroup>
         #{usuarioBean.doCheckLogout()}
         <title>Task4all - Login</title>
         <meta charset="UTF-8" />
@@ -54,6 +59,14 @@
                         #{usuarioBean.setProyectoInvitacion(param.proyectoId)}
                         #{usuarioBean.setEmailInvitacion(param.email)}
                         #{usuarioBean.setAceptarInvitacion(false)}
+                        <div class="separador"></div>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{param.verificar eq 'true'}" layout="block">
+                        <br/>
+                        <div layout="block" class="alert alert-info" a:role="alert" style="width: 300px;">Inicia sesión para verificar tu cuenta</div>                        
+                        #{usuarioBean.setUsuarioVerificacion(param.usuario)}
+                        #{usuarioBean.setVerificacion(true)}            
                         <div class="separador"></div>
                     </h:panelGroup>
 
