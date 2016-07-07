@@ -66,9 +66,7 @@ public class TareaBean {
     @PostConstruct
     public void init() {
         cargarListaAsignados();        
-        if(usuarioBean.getTareaSeleccionada() != null) {
-            listaAdjuntos = this.adjuntoFacade.findAdjuntosByTarea(usuarioBean.getTareaSeleccionada().getId());
-        }
+        cargarListaAdjuntos();
     }
 
     public void setUsuarioBean(UsuarioBean usuarioBean) {
@@ -260,5 +258,12 @@ public class TareaBean {
             }
         }
     }   
+    
+    public void cargarListaAdjuntos() {
+        listaAdjuntos = new ArrayList<>();
+        if(usuarioBean.getTareaSeleccionada() != null) {
+            listaAdjuntos = this.adjuntoFacade.findAdjuntosByTarea(usuarioBean.getTareaSeleccionada().getId());
+        }
+    }
 
 }

@@ -37,7 +37,7 @@ public class AdjuntoBean {
     private UsuarioBean usuarioBean;
     @ManagedProperty(value = "#{tareaBean}")
     private TareaBean tareaBean;
-
+    
     /**
      * Creates a new instance of AdjuntoBean
      */
@@ -102,7 +102,7 @@ public class AdjuntoBean {
                 int clave = this.adjuntoFacade.findMaxAdjuntoId();
                 a.setId(clave);
                 
-                this.tareaBean.getListaAdjuntos().add(a);
+                this.tareaBean.cargarListaAdjuntos();
             } catch (IOException ex) {
                 Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
             }
