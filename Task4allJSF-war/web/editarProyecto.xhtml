@@ -7,7 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Task4all - Ediar proyecto</title>
+        <title>Task4all - Editar proyecto</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -31,7 +31,7 @@
                     </h2>
                 </div>
                 <h:form>
-                    <p:messages autoUpdate="true" for="proyecto"/>
+                    <p:messages id="error" autoUpdate="true" for="proyecto"/>
                     <h4>Nombre *</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
                         #{proyectoBean.setNombre(usuarioBean.proyectoSeleccionado.nombre)}
@@ -78,7 +78,9 @@
                     <div class="containerFooter">
                         <center>
                             <h:button value="Cancelar" outcome="proyecto?faces-redirect=true" style="margin-top: 8px;" class="btn btn-default" a:aria-expanded="false" />
-                            <h:commandButton value="Guardar" action="#{proyectoBean.doGuardar()}" style="margin: 8px 0 0 5px;" class="btn btn-success" />
+                            <h:commandButton value="Guardar" action="#{proyectoBean.doGuardar()}" style="margin: 8px 0 0 5px;" class="btn btn-success" >
+                                <f:ajax execute="@form" render="error"/>
+                            </h:commandButton>
                         </center>
                     </div>
                 </h:form>

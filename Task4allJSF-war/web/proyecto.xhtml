@@ -212,9 +212,36 @@
                                     <div class="separador"></div>                       
                                     <c:forEach items="#{proyectoBean.tareas.get(bucle.index)}" var="tarea">                           
                                         <h:commandLink action="#{tareaBean.doMostrar(tarea)}" style="color: black; text-decoration: none;">                                 
-                                            <div class="tarea">
+                                            <h:panelGroup rendered="#{tarea.prioridad != 2}" class="tarea">
                                                 #{tarea.nombre}
-                                            </div>
+                                                <h:panelGroup id="objetivoNoAlta#{tarea.id}" rendered="#{tarea.fechaobjetivo ne null}" style="float: right" >
+                                                    <span style="float: right; margin-top: 3px; margin-left: 5px" class="fa fa-clock-o" aria-hidden="true"/>
+                                                    <p:tooltip for="objetivoNoAlta#{tarea.id}" position="bottom" >                                                   
+                                                        <h:outputText value="#{tarea.fechaobjetivo}" >
+                                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                                        </h:outputText> 
+                                                    </p:tooltip>
+                                                </h:panelGroup>
+                                                <h:panelGroup id="adjuntoNoAlta#{tarea.id}" rendered="#{not empty tarea.getAdjuntoCollection()}" style="float: right" >
+                                                    <span style="float: right; margin-top: 3px; margin-left: 5px" class="fa fa-paperclip" aria-hidden="true"/>
+                                                    <p:tooltip for="adjuntoNoAlta#{tarea.id}" value="Contiene archivos adjuntos" position="bottom" />
+                                                </h:panelGroup>                                            
+                                            </h:panelGroup>
+                                            <h:panelGroup rendered="#{tarea.prioridad == 2}" class="tarea tarea-alta">
+                                                #{tarea.nombre}
+                                                <h:panelGroup id="objetivoAlta#{tarea.id}" rendered="#{tarea.fechaobjetivo ne null}" style="float: right" >
+                                                    <span style="float: right; margin-top: 3px; margin-left: 5px" class="fa fa-clock-o" aria-hidden="true"/>
+                                                    <p:tooltip for="objetivoAlta#{tarea.id}" position="bottom" >                                                   
+                                                        <h:outputText value="#{tarea.fechaobjetivo}" >
+                                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                                        </h:outputText> 
+                                                    </p:tooltip>
+                                                </h:panelGroup>
+                                                <h:panelGroup id="adjuntoAlta#{tarea.id}" rendered="#{not empty tarea.getAdjuntoCollection()}" style="float: right" >
+                                                    <span style="float: right; margin-top: 3px; margin-left: 5px" class="fa fa-paperclip" aria-hidden="true"/>
+                                                    <p:tooltip for="adjuntoAlta#{tarea.id}" value="Contiene archivos adjuntos" position="bottom" />
+                                                </h:panelGroup>        
+                                            </h:panelGroup>  
                                         </h:commandLink>
                                     </c:forEach>
 

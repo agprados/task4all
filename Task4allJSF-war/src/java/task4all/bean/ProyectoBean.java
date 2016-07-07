@@ -244,7 +244,7 @@ public class ProyectoBean {
 
     public String doInvitar() {
         if (invitacion == null || invitacion.trim().isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email o el nombre de usuarios no puede estar vacío", ""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email o el nombre de usuario no puede estar vacío", ""));
             return "proyecto";
         }
         invitacion = invitacion.trim();

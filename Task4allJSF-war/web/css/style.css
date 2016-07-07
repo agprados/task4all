@@ -201,12 +201,17 @@ html body {
 }
 
 .tarea {
+    display: inline-block;
     width: 100%;
     border: 1px solid #cccccc;
     padding: 5px;
     border-radius: 5px;
     background: #fbfbfb;
-    margin: 10px 0;
+    margin-bottom: 10px;
+}
+
+.tarea-alta {
+    border-left: 2px solid red;
 }
 
 .tarea:hover {

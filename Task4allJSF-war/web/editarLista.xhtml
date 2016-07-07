@@ -3,9 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Task4all - Ediar tarea</title>
+        <title>Task4all - Editar lista</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -27,7 +28,7 @@
                     </h2>
                 </div>
                 <h:form>
-                    <p:messages autoUpdate="true" for="lista"/>
+                    <p:messages id="error" autoUpdate="true" for="lista"/>
                     <h4>Nombre *</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
                         #{listaBean.setNombre(usuarioBean.listaSeleccionada.nombre)}
@@ -44,7 +45,9 @@
                     <br/>
                     <center>
                         <h:button value="Cancelar" outcome="proyecto?faces-redirect=true" class="btn btn-default" />
-                        <h:commandButton value="Guardar" action="#{listaBean.doGuardar()}" class="btn btn-success" style="margin-left: 5px;" />
+                        <h:commandButton value="Guardar" action="#{listaBean.doGuardar()}" class="btn btn-success" style="margin-left: 5px;" >
+                            <f:ajax execute="@form" render="error"/>
+                        </h:commandButton>
                     </center>
                 </h:form>
             </div>
