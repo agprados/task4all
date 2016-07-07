@@ -458,7 +458,7 @@ public class UsuarioBean implements Serializable {
 
     public String doRecuperarContrasena() {
         if (identificadorRecuperacion == null || identificadorRecuperacion.trim().isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Introduzca el email o el nombre de usuario", ""));
+            FacesContext.getCurrentInstance().addMessage("recuperar", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Introduzca el email o el nombre de usuario", ""));
             return "recuperar";
         }
         identificadorRecuperacion = identificadorRecuperacion.trim();
@@ -471,7 +471,7 @@ public class UsuarioBean implements Serializable {
         }
 
         if (u == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No existe ningún usuario registrado con ese email o nombre de usuario", ""));
+            FacesContext.getCurrentInstance().addMessage("recuperar", new FacesMessage(FacesMessage.SEVERITY_ERROR, "No existe ningún usuario registrado con ese email o nombre de usuario", ""));
             return "recuperar";
         }
         enviarEmailContraseña(u);
@@ -479,33 +479,34 @@ public class UsuarioBean implements Serializable {
     }
 
     public String doCompletarRegistro() {
-        if (usuarioRegistro == null || usuarioRegistro.trim().isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El nombre de usuario no puede estar vacío", ""));
-            return "loginSuccess";
-        }
-
         if (email == null || email.trim().isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El campo email no puede estar vacío", ""));
+            FacesContext.getCurrentInstance().addMessage("completarRegistro", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El campo email no puede estar vacío", ""));
             return "loginSuccess";
         }
-
-        usuarioRegistro = usuarioRegistro.trim();
+        
         email = email.trim();
-
-        if (usuarioFacade.findUsuarioByUsuario(usuarioRegistro) != null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario ya existe", ""));
-            return "loginSuccess";
-        }
-
+        
         if (!isValidEmail(email)) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email no es válido", ""));
+            FacesContext.getCurrentInstance().addMessage("completarRegistro", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El email no es válido", ""));
             email = null;
             return "loginSuccess";
         }
 
         if (usuarioFacade.findUsuarioByEmail(email) != null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ya existe un usuario con este email", ""));
+            FacesContext.getCurrentInstance().addMessage("completarRegistro", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ya existe un usuario con este email", ""));
             email = null;
+            return "loginSuccess";
+        }
+        
+        if (usuarioRegistro == null || usuarioRegistro.trim().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage("completarRegistro", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El nombre de usuario no puede estar vacío", ""));
+            return "loginSuccess";
+        }
+
+        usuarioRegistro = usuarioRegistro.trim();
+        
+        if (usuarioFacade.findUsuarioByUsuario(usuarioRegistro) != null) {
+            FacesContext.getCurrentInstance().addMessage("completarRegistro", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario ya existe", ""));
             return "loginSuccess";
         }
 
@@ -514,7 +515,7 @@ public class UsuarioBean implements Serializable {
                 || usuarioRegistro == null || usuarioRegistro.isEmpty()
                 || email == null || email.isEmpty()
                 || usuario == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se ha podido completar el registro", ""));
+            FacesContext.getCurrentInstance().addMessage("completarRegistro", new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se ha podido completar el registro", ""));
             return "loginSuccess";
         }
 
@@ -613,7 +614,7 @@ public class UsuarioBean implements Serializable {
 
     public String doLogin() {
         if (identificador == null || identificador.trim().isEmpty() || contrasena == null || contrasena.trim().isEmpty()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hay campos vacíos", ""));
+            FacesContext.getCurrentInstance().addMessage("login", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hay campos vacíos", ""));
             return "login";
         }
         identificador = identificador.trim();
@@ -623,7 +624,7 @@ public class UsuarioBean implements Serializable {
         if (usuario == null) {
             usuario = usuarioFacade.findUsuarioByEmailAndContrasena(identificador, contrasena);
             if (usuario == null) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login incorrecto", ""));
+                FacesContext.getCurrentInstance().addMessage("login", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login incorrecto", ""));
                 return "login";
             }
         }

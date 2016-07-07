@@ -52,7 +52,7 @@
                 <h:panelGroup>     
                     <br/>
                     <center>
-                        <p:messages id="inviError" autoUpdate="true"/>                  
+                        <p:messages id="inviError" autoUpdate="true" globalOnly="true"/>                  
                         <h:outputText style="color: black; font-size: 10pt; font-style: italic; word-wrap:break-word;" value="#{usuarioBean.proyectoSeleccionado.descripcion}" rendered="#{usuarioBean.proyectoSeleccionado.fondoId.oscuro eq '0'}"/>
                         <h:outputText style="color: white; font-size: 10pt; font-style: italic; word-wrap:break-word;" value="#{usuarioBean.proyectoSeleccionado.descripcion}" rendered="#{usuarioBean.proyectoSeleccionado.fondoId.oscuro eq '1'}"/> 
                         <br/>
