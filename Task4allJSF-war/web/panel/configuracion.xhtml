@@ -212,7 +212,9 @@
                     <div class="separador"></div>
                     <center>                        
                         <h:commandButton value="Guardar" action="#{usuarioBean.doEditar()}" style="margin-left: 3px" class="btn btn-success"/>                        
-                    </center>
+                    </center>                    
+                    <p:commandButton id="dummy" process="@none" global="false" style="display:none;"/> 
+                    <p:defaultCommand target="dummy"/>
                 </h:form>
             </div>
         </center>

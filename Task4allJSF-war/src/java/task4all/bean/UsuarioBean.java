@@ -547,6 +547,10 @@ public class UsuarioBean implements Serializable {
     }
 
     public String doNuevo() {
+        if (usuario == null) {
+           usuario = new Usuario(); 
+        }
+        
         if (contrasena == null || contrasena.trim().isEmpty() || usuarioRegistro == null || usuarioRegistro.trim().isEmpty() || email == null || email.trim().isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hay campos obligatorios vacíos", ""));
             return "registrar";
@@ -596,8 +600,9 @@ public class UsuarioBean implements Serializable {
 
         usuarioRegistro = "";
         email = "";
-        usuario = new Usuario();
-
+        nombre = "";
+        apellidos = "";
+        
         return "login?faces-redirect=true";
     }
 
