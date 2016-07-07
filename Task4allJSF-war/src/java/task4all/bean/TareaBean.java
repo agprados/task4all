@@ -187,6 +187,7 @@ public class TareaBean {
         } else {
             tareaFacade.edit(usuarioBean.getTareaSeleccionada());
         }
+        
         cargarListaAsignados();
         return "tarea?faces-redirect=true";
     }
@@ -263,6 +264,7 @@ public class TareaBean {
         listaAdjuntos = new ArrayList<>();
         if(usuarioBean.getTareaSeleccionada() != null) {
             listaAdjuntos = this.adjuntoFacade.findAdjuntosByTarea(usuarioBean.getTareaSeleccionada().getId());
+            this.tareaFacade.borrarCache();
         }
     }
 

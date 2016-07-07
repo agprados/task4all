@@ -62,4 +62,7 @@ public class TareaFacade extends AbstractFacade<Tarea> {
         return q.getResultList();
     }
     
+    public void borrarCache() {
+        em.getEntityManagerFactory().getCache().evict(Tarea.class);
+    }
 }
