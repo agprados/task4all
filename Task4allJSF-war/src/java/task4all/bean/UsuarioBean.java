@@ -20,7 +20,6 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,11 +31,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.json.JSONException;
 import org.primefaces.json.JSONObject;
@@ -52,6 +46,7 @@ import task4all.entity.Proyecto;
 import task4all.entity.Tarea;
 import task4all.entity.Usuario;
 import task4all.entity.UsuarioProyecto;
+import static task4all.utils.Email.*;
 
 @ManagedBean
 @SessionScoped
@@ -332,7 +327,7 @@ public class UsuarioBean implements Serializable {
     public String doEditar() {
         Boolean cambiosCorrectos = false;
         Boolean cambioAvatar = false;
-        
+
         if (email == null || email.trim().isEmpty()) {
             FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El campo del email no puede estar vacío", ""));
             return "configuracion";
@@ -379,17 +374,20 @@ public class UsuarioBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "La contraseña no puede ser la misma", ""));
             return "configuracion";
         }
-        
-        if (!nombreUsuario.equals(usuario.getUsuario())) {
+
+        if (!nombreUsuario.equals(usuario.getUsuario()) && nombreUsuario.equalsIgnoreCase(usuario.getUsuario())) {
+            usuario.setUsuario(nombreUsuario);
+            cambiosCorrectos = true;
+        } else if (!nombreUsuario.equals(usuario.getUsuario())) {
             Usuario u = this.usuarioFacade.findUsuarioByUsuario(nombreUsuario);
-            if(u != null) {
+            if (u != null) {
                 FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El nombre de usuario no está disponible", ""));
                 return "configuracion";
             }
             usuario.setUsuario(nombreUsuario);
             cambiosCorrectos = true;
         }
-        
+
         if (!nombre.equals(usuario.getNombre()) || !apellidos.equals(usuario.getApellidos())) {
             usuario.setNombre(nombre);
             usuario.setApellidos(apellidos);
@@ -422,10 +420,10 @@ public class UsuarioBean implements Serializable {
                     in.close();
                     fos.close();
                 }
-                
+
                 usuario.setAvatar(crearRutaAvatar(f.getPath()));
                 cambiosCorrectos = true;
-                cambioAvatar = true;                
+                cambioAvatar = true;
 
             } catch (IOException ex) {
                 Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -433,9 +431,13 @@ public class UsuarioBean implements Serializable {
         }
 
         this.usuarioFacade.edit(usuario);
-        if(cambiosCorrectos) FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_INFO, "Cambios realizados satisfactoriamente", ""));
-        if(cambioAvatar) FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_INFO, "El avatar estará disponible en unos segundos", ""));
-        
+        if (cambiosCorrectos) {
+            FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_INFO, "Cambios realizados satisfactoriamente", ""));
+        }
+        if (cambioAvatar) {
+            FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_INFO, "El avatar estará disponible en unos segundos", ""));
+        }
+
         return "configuracion";
     }
 
@@ -476,52 +478,17 @@ public class UsuarioBean implements Serializable {
         return "index?faces-redirect=true";
     }
 
-    private void enviarEmailContraseña(Usuario u) {
-        try {
-            String remitente = "task4all.noreply@gmail.com";
-            String contraseña = "task4all4";
-
-            Properties props = new Properties();
-            props.setProperty("mail.smtp.host", "smtp.gmail.com");
-            props.setProperty("mail.smtp.starttls.enable", "true");
-            props.setProperty("mail.smtp.port", "587");
-            props.setProperty("mail.smtp.user", remitente);
-            props.setProperty("mail.smtp.auth", "true");
-
-            Session session = Session.getDefaultInstance(props);
-
-            MimeMessage message = new MimeMessage(session);
-            message.addRecipient(
-                    Message.RecipientType.TO,
-                    new InternetAddress(u.getEmail()));
-            message.setSubject("Recuperación de contraseña de Task4all");
-            message.setText(
-                    "<p>Esta es tu contraseña:</p>"
-                    + "<li>Contraseña: " + u.getContrasena() + "</li> "
-                    + "<p><a href=\"http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do\">Acceder a Task4all</a></p>"
-                    + "<p>No responder a este mensaje.<p/>",
-                    "ISO-8859-1",
-                    "html");
-
-            Transport t = session.getTransport("smtp");
-            t.connect(remitente, contraseña);
-            t.sendMessage(message, message.getAllRecipients());
-            t.close();
-        } catch (Exception e) {
-        }
-    }
-
     public String doCompletarRegistro() {
         if (usuarioRegistro == null || usuarioRegistro.trim().isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El nombre de usuario no puede estar vacío", ""));
             return "loginSuccess";
         }
-        
+
         if (email == null || email.trim().isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "El campo email no puede estar vacío", ""));
             return "loginSuccess";
         }
-        
+
         usuarioRegistro = usuarioRegistro.trim();
         email = email.trim();
 
@@ -574,7 +541,7 @@ public class UsuarioBean implements Serializable {
         usuario.setId(clave);
         okLogin = true;
 
-        enviarEmailTrasRegistro();
+        enviarConfirmacionRegistro(usuario);
 
         return "principal?faces-redirect=true";
     }
@@ -625,7 +592,7 @@ public class UsuarioBean implements Serializable {
         Integer clave = this.usuarioFacade.findMaxUsuarioId();
         usuario.setId(clave);
 
-        enviarEmailTrasRegistro();
+        enviarConfirmacionRegistro(usuario);
 
         usuarioRegistro = "";
         email = "";
@@ -634,108 +601,9 @@ public class UsuarioBean implements Serializable {
         return "login?faces-redirect=true";
     }
 
-    private void enviarEmailTrasRegistro() {
-        try {
-            String remitente = "task4all.noreply@gmail.com";
-            String contraseña = "task4all4";
-
-            Properties props = new Properties();
-            props.setProperty("mail.smtp.host", "smtp.gmail.com");
-            props.setProperty("mail.smtp.starttls.enable", "true");
-            props.setProperty("mail.smtp.port", "587");
-            props.setProperty("mail.smtp.user", remitente);
-            props.setProperty("mail.smtp.auth", "true");
-
-            Session session = Session.getDefaultInstance(props);
-
-            MimeMessage message = new MimeMessage(session);
-            message.addRecipient(
-                    Message.RecipientType.TO,
-                    new InternetAddress(usuario.getEmail()));
-            message.setSubject("Bienvenido a Task4all");
-            message.setText(
-                    "<p>Hola <i>" + usuario.getUsuario() + "</i>, bienvenido a Task4all. Disfruta tu estancia!</p>"
-                    + "<p><font color='red'>AVISO</font>: No podrás crear proyectos hasta que verifiques tu cuenta. Para ello, pulse "
-                    + "<a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?usuario=" + usuario.getUsuario() + "&verificar=" + true + ">aquí</a>."
-                    + "<p>No responder a este mensaje.<p/>",
-                    "ISO-8859-1",
-                    "html");
-
-            Transport t = session.getTransport("smtp");
-            t.connect(remitente, contraseña);
-            t.sendMessage(message, message.getAllRecipients());
-            t.close();
-        } catch (Exception e) {
-        }
-    }
-    
-    public void enviarEmailVerificacion() {
-        try {
-            String remitente = "task4all.noreply@gmail.com";
-            String contraseña = "task4all4";
-
-            Properties props = new Properties();
-            props.setProperty("mail.smtp.host", "smtp.gmail.com");
-            props.setProperty("mail.smtp.starttls.enable", "true");
-            props.setProperty("mail.smtp.port", "587");
-            props.setProperty("mail.smtp.user", remitente);
-            props.setProperty("mail.smtp.auth", "true");
-
-            Session session = Session.getDefaultInstance(props);
-
-            MimeMessage message = new MimeMessage(session);
-            message.addRecipient(
-                    Message.RecipientType.TO,
-                    new InternetAddress(usuario.getEmail()));
-            message.setSubject("Verificar cuenta de Task4all");
-            message.setText("Tal como ha solicitado, le enviamos el email de verificación de nuevo. Por favor, <a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?usuario=" + usuario.getUsuario() + "&verificar=" + true + ">verifique su cuenta</a>"
-                    + "<p>No responder a este mensaje.<p/>",
-                    "ISO-8859-1",
-                    "html");
-
-            Transport t = session.getTransport("smtp");
-            t.connect(remitente, contraseña);
-            t.sendMessage(message, message.getAllRecipients());
-            t.close();
-            
-            FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_INFO, "Email enviado. Revise su bandeja de entrada", ""));
-        } catch (Exception e) {
-        }
-    }
-    
-    private void enviarEmailDespedida() {
-        try {
-            String remitente = "task4all.noreply@gmail.com";
-            String contraseña = "task4all4";
-
-            Properties props = new Properties();
-            props.setProperty("mail.smtp.host", "smtp.gmail.com");
-            props.setProperty("mail.smtp.starttls.enable", "true");
-            props.setProperty("mail.smtp.port", "587");
-            props.setProperty("mail.smtp.user", remitente);
-            props.setProperty("mail.smtp.auth", "true");
-
-            Session session = Session.getDefaultInstance(props);
-
-            MimeMessage message = new MimeMessage(session);
-            message.addRecipient(
-                    Message.RecipientType.TO,
-                    new InternetAddress(usuario.getEmail()));
-            message.setSubject("Despedida de Task4all");
-            message.setText("<p>Sentimos que haya decidido borrar su cuenta en Task4all. Esperamos que haya disfrutado su estancia y que vuelva algun día.</p>"
-                    + "<p>Su nombre de usuario y email quedan libres para volver a usarse.</p>"
-                    + "<a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.do>Task4all</a>"
-                    + "<p>No responder a este mensaje.<p/>",
-                    "ISO-8859-1",
-                    "html");
-
-            Transport t = session.getTransport("smtp");
-            t.connect(remitente, contraseña);
-            t.sendMessage(message, message.getAllRecipients());
-            t.close();
-            
-        } catch (Exception e) {
-        }
+    public void solicitarEmailVerificacion() {
+        enviarEmailVerificacion(usuario);
+        FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_INFO, "Email enviado. Revise su bandeja de entrada", ""));
     }
 
     public String doLogin() {
@@ -744,7 +612,7 @@ public class UsuarioBean implements Serializable {
             return "login";
         }
         identificador = identificador.trim();
-        
+
         usuario = usuarioFacade.findUsuarioByUsuarioAndContrasena(identificador, contrasena);
 
         if (usuario == null) {
@@ -761,10 +629,10 @@ public class UsuarioBean implements Serializable {
 
         return "principal?faces-redirect=true";
     }
-    
+
     private void comprobarVerificacionEmail() {
         if (verificacion && usuario.getUsuario().equals(usuarioVerificacion)) {
-            usuario.setVerificado('1');            
+            usuario.setVerificado('1');
             this.usuarioFacade.edit(usuario);
         }
     }
@@ -1082,7 +950,7 @@ public class UsuarioBean implements Serializable {
 
         return "configuracion";
     }
-    
+
     private void desconectarFacebook() {
         try {
             URL url;
@@ -1115,7 +983,7 @@ public class UsuarioBean implements Serializable {
 
         return "configuracion";
     }
-    
+
     private void desconectarGoogle() {
         try {
             URL url;
@@ -1158,16 +1026,16 @@ public class UsuarioBean implements Serializable {
 
         this.comentarioFacade.deleteComentariosByUsuario(usuario.getId());
         this.actividadFacade.deleteActividadesByUsuario(usuario.getId());
-        
-        if(isFacebookConnected()) {
+
+        if (isFacebookConnected()) {
             desconectarFacebook();
         }
-        if(isGoogleConnected()) {
+        if (isGoogleConnected()) {
             desconectarGoogle();
         }
 
         this.usuarioFacade.remove(usuario);
-        enviarEmailDespedida();
+        enviarEmailDespedida(usuario);
 
         return doLogout();
     }
