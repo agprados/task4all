@@ -25,6 +25,7 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import task4all.ejb.AdjuntoFacade;
 import task4all.entity.Adjunto;
+import static task4all.utils.UtilsMix.*;
 
 @ManagedBean
 @RequestScoped
@@ -37,7 +38,7 @@ public class AdjuntoBean {
     private UsuarioBean usuarioBean;
     @ManagedProperty(value = "#{tareaBean}")
     private TareaBean tareaBean;
-    
+
     /**
      * Creates a new instance of AdjuntoBean
      */
@@ -96,25 +97,17 @@ public class AdjuntoBean {
                 a.setTamano(f.length());
                 a.setTareaId(usuarioBean.getTareaSeleccionada());
                 a.setTipo(adjunto.getFileName().substring(adjunto.getFileName().lastIndexOf("."), adjunto.getFileName().length()));
-                a.setUrl(crearRutaAdjunto(f.getPath()));
+                a.setUrl(crearRutaFichero(f.getPath(), "adjuntos"));
                 a.setUsuarioId(usuarioBean.getUsuario());
                 this.adjuntoFacade.create(a);
                 int clave = this.adjuntoFacade.findMaxAdjuntoId();
                 a.setId(clave);
-                
+
                 this.tareaBean.cargarListaAdjuntos();
             } catch (IOException ex) {
                 Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }
-
-    private String crearRutaAdjunto(String path) {
-        String ruta = path.substring(path.lastIndexOf(File.separator + "adjuntos"), path.length());
-        if (ruta.contains("\\")) {
-            ruta = ruta.replaceAll("\\\\", "/");
-        }
-        return ruta;
     }
 
     public String doBorrar(Adjunto adjunto) {
@@ -144,13 +137,6 @@ public class AdjuntoBean {
             Logger.getLogger(AdjuntoBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }
-
-    private String crearRutaParaLocalizarArchivo(String path) {
-        if (File.separator.equals("\\")) {
-            path = path.replaceAll("/", "\\\\");
-        }
-        return path;
     }
 
 }

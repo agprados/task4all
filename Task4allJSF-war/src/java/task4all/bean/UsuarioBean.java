@@ -422,7 +422,7 @@ public class UsuarioBean implements Serializable {
                     fos.close();
                 }
 
-                usuario.setAvatar(crearRutaAvatar(f.getPath()));
+                usuario.setAvatar(crearRutaFichero(f.getPath(), "images"));
                 cambiosCorrectos = true;
                 cambioAvatar = true;
 
@@ -440,14 +440,6 @@ public class UsuarioBean implements Serializable {
         }
 
         return "configuracion";
-    }
-
-    private String crearRutaAvatar(String path) {
-        String ruta = path.substring(path.lastIndexOf(File.separator + "images"), path.length());
-        if (ruta.contains("\\")) {
-            ruta = ruta.replaceAll("\\\\", "/");
-        }
-        return ruta;
     }
 
     public String doEliminarAvatar() {
@@ -468,13 +460,6 @@ public class UsuarioBean implements Serializable {
         usuario.setAvatar(null);
     }
     
-    private String crearRutaParaLocalizarArchivo(String path) {
-        if (File.separator.equals("\\")) {
-            path = path.replaceAll("/", "\\\\");
-        }
-        return path;
-    }
-
     public String doRecuperarContrasena() {
         if (identificadorRecuperacion == null || identificadorRecuperacion.trim().isEmpty()) {
             FacesContext.getCurrentInstance().addMessage("recuperar", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Introduzca el email o el nombre de usuario", ""));

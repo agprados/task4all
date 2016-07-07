@@ -373,6 +373,74 @@ a.btn.social-disconnected:hover {
     display: none;
 }
 
+.ui-fileupload-buttonbar {
+    background-color: #eeeeee;
+    padding: 5.5px 6.5px;
+}
+
+.ui-fileupload-content {
+    min-height: 50px;
+    margin-bottom: 15px;
+}
+
+.ui-fileupload-content:before {
+    content: "Arrastra aquí los archivos que quieras subir";
+    color: #7f7e7d;
+    font-weight: 300;
+    display: block;
+    padding-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.ui-fileupload-choose {
+    padding: 4px 4px !important;
+    background-image: none !important;
+    border-color: #ccc !important;
+    background-color: #FFFFFF !important;
+    font-size: 14px !important;
+    font-weight: 400;
+}
+
+.ui-fileupload-choose:hover {
+    background-color: #e6e6e6 !important;
+}
+
+.ui-fileupload-upload {
+    padding: 4px 4px !important;
+    background-image: none !important;
+    border-color: #ccc !important;
+    background-color: #FFFFFF !important;
+    font-size: 14px !important;
+    font-weight: 400;
+}
+
+.ui-fileupload-upload:hover {
+    background-color: #e6e6e6 !important;
+}
+
+.ui-fileupload-upload:disabled {
+    background-color: #FFFFFF !important;
+}
+
+.ui-fileupload-cancel {
+    padding: 4px 4px !important;
+    background-image: none !important;
+    border-color: #ccc !important;
+    background-color: #FFFFFF !important;
+    font-size: 14px !important;
+    font-weight: 400;
+    margin-left: 4%;
+}
+
+.ui-fileupload-cancel:hover {
+    background-color: #e6e6e6 !important;
+}
+
+.ui-fileupload-cancel:disabled {
+    background-color: #FFFFFF !important;
+}
+
 .cerrarSesion:hover{
     background-color: #F5F5F5;
 }
