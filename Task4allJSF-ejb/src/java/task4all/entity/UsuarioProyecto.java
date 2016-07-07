@@ -29,11 +29,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "UsuarioProyecto.findAll", query = "SELECT u FROM UsuarioProyecto u"),
     @NamedQuery(name = "UsuarioProyecto.findById", query = "SELECT u FROM UsuarioProyecto u WHERE u.id = :id"),
-    @NamedQuery(name = "UsuarioProyecto.findByRol", query = "SELECT u FROM UsuarioProyecto u WHERE u.rol = :rol"),
-    @NamedQuery(name = "UsuarioProyecto.findByUsuario", query = "SELECT u FROM UsuarioProyecto u WHERE u.usuarioId.usuario = :u"),
+    @NamedQuery(name = "UsuarioProyecto.findByRol", query = "SELECT u FROM UsuarioProyecto u WHERE UPPER(u.rol) = UPPER(:rol)"),
+    @NamedQuery(name = "UsuarioProyecto.findByUsuario", query = "SELECT u FROM UsuarioProyecto u WHERE UPPER(u.usuarioId.usuario) = UPPER(:u)"),
     @NamedQuery(name = "UsuarioProyecto.findByProyecto", query = "SELECT u FROM UsuarioProyecto u WHERE u.proyectoId.id = :id"),
-    @NamedQuery(name = "UsuarioProyecto.findByEmailAndProyecto", query = "SELECT u FROM UsuarioProyecto u WHERE u.usuarioId.email = :email AND u.proyectoId.id = :id"),
-    @NamedQuery(name = "UsuarioProyecto.findByUsuarioAndProyecto", query = "SELECT u FROM UsuarioProyecto u WHERE u.usuarioId.usuario = :u AND u.proyectoId.id = :id")})
+    @NamedQuery(name = "UsuarioProyecto.findByEmailAndProyecto", query = "SELECT u FROM UsuarioProyecto u WHERE UPPER(u.usuarioId.email) = UPPER(:email) AND u.proyectoId.id = :id"),
+    @NamedQuery(name = "UsuarioProyecto.findByUsuarioAndProyecto", query = "SELECT u FROM UsuarioProyecto u WHERE UPPER(u.usuarioId.usuario) = UPPER(:u) AND u.proyectoId.id = :id")})
 public class UsuarioProyecto implements Serializable {
 
     private static final long serialVersionUID = 1L;

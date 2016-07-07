@@ -29,7 +29,7 @@
                     <p:messages autoUpdate="true" style="width: 300px"/>
                     <h:form>
                         <div class="input-group" style="width: 300px;">
-                            <h:inputText value="#{usuarioBean.identificadorRecuperacion}" class="form-control" a:placeholder="Email o nombre de usuario" a:autofocus="true"/>
+                            <h:inputText maxlength="80" value="#{usuarioBean.identificadorRecuperacion}" class="form-control" a:placeholder="Email o nombre de usuario" a:autofocus="true"/>
                         </div>
                         <br/>
                         <h:commandButton action="#{usuarioBean.doRecuperarContrasena()}" value="Enviar" class="btn btn-success" />
