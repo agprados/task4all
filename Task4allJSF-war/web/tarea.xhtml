@@ -94,7 +94,7 @@
                                 <center>
                                     <b><h:outputText value="#{asignado.usuarioId.usuario}"/></b>
                                     <br/>
-                                     <h:graphicImage rendered="#{asignado.usuarioId.avatar eq null}" value="/images/avatares/default/avatar_miembro.jpg" height="65" width="65"/>
+                                    <h:graphicImage rendered="#{asignado.usuarioId.avatar eq null}" value="/images/avatares/default/avatar_miembro.jpg" height="65" width="65"/>
                                     <h:graphicImage rendered="#{asignado.usuarioId.avatar ne null}" value="#{asignado.usuarioId.avatar}" height="65" width="65"/>
                                     <br/>
                                     <i style="color: #aaaaaa;">#{asignado.rol.toLowerCase()}</i>
@@ -164,8 +164,7 @@
                                                 <br/>
                                                 <i style="color: #aaaaaa;">#{noAsignado.rol.toLowerCase()}</i>
                                                 <br/>                                                                                    
-                                            </center>
-                                            
+                                            </center>                                            
                                         </p:commandLink>
                                     </h:panelGroup>                                    
                                 </c:forEach> 
@@ -173,8 +172,28 @@
                             </center>
                         </h:panelGroup>
                     </p:dialog>
-
                 </h:form>
+
+                <h3>Adjuntos</h3>
+                <div class="separador"></div>
+                <h:form id="adjuntos" enctype="multipart/form-data">
+                    <c:forEach items="#{tareaBean.listaAdjuntos}" var="adjunto">
+                        <p:commandLink ajax="false" value="#{adjunto.nombre}" style="margin-left: 5px; font-size: 15px;" >
+                            <p:fileDownload value="#{adjuntoBean.getAdjuntoADescargar(adjunto)}" />
+                        </p:commandLink>
+                        <p:commandLink id="eliminarAdjunto#{adjunto.id}" update="@form" action="#{adjuntoBean.doBorrar(adjunto)}" styleClass="glyphicon glyphicon-remove" style="text-decoration: none; margin-left: 10px; font-size: 12px; color: #bb0000" />                                             
+                        <p:tooltip widgetVar="tooltip#{adjunto.id}" for="eliminarAdjunto#{adjunto.id}" value="Eliminar adjunto" position="bottom" />   
+                        <br/>
+                    </c:forEach>                        
+                    <p:fileUpload update="adjuntos" style="margin-top: 10px;" fileUploadListener="#{adjuntoBean.doSubirAdjunto}" mode="advanced" multiple="true" dragDropSupport="true" fileLimit="5" uploadLabel="Cargar" cancelLabel="Cancelar" label="Añadir" />                    
+                </h:form>
+                <script>
+                    function hideTooltips() {
+                        for (var w in PrimeFaces.widgets) {                            
+                                PrimeFaces.widgets[w]._hide();                            
+                        }
+                    }
+                </script>
 
                 <div class="containerFooter">
                     <center>

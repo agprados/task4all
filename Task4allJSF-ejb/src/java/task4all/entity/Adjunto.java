@@ -57,7 +57,7 @@ public class Adjunto implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "TAMANO")
-    private Integer tamano;
+    private long tamano;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3500)
@@ -77,7 +77,7 @@ public class Adjunto implements Serializable {
         this.id = id;
     }
 
-    public Adjunto(Integer id, String tipo, Integer tamano, String url) {
+    public Adjunto(Integer id, String tipo, long tamano, String url) {
         this.id = id;
         this.tipo = tipo;
         this.tamano = tamano;
@@ -108,11 +108,11 @@ public class Adjunto implements Serializable {
         this.tipo = tipo;
     }
 
-    public Integer getTamano() {
+    public long getTamano() {
         return tamano;
     }
 
-    public void setTamano(Integer tamano) {
+    public void setTamano(long tamano) {
         this.tamano = tamano;
     }
 

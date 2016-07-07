@@ -401,6 +401,7 @@ public class UsuarioBean implements Serializable {
 
         if (avatar != null && avatar.getFileName() != null && !avatar.getFileName().isEmpty()) {
             try {
+                eliminarAvatar();
                 InputStream in = avatar.getInputstream();
                 String ruta = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/")).getAbsolutePath();
                 ruta = ruta.substring(0, ruta.lastIndexOf("dist"));
@@ -450,10 +451,28 @@ public class UsuarioBean implements Serializable {
     }
 
     public String doEliminarAvatar() {
-        usuario.setAvatar(null);
-        this.usuarioFacade.edit(usuario);
+        eliminarAvatar();
+        this.usuarioFacade.edit(usuario);     
 
         return "configuracion";
+    }
+    
+    private void eliminarAvatar() {
+        String ruta = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/")).getAbsolutePath();
+        ruta = ruta.substring(0, ruta.lastIndexOf("dist"));
+        ruta = ruta.concat("Task4allJSF-war" + File.separator + "web" + usuario.getAvatar());
+        ruta = crearRutaParaLocalizarArchivo(ruta);
+        File f = new File(ruta);
+        f.delete();
+        
+        usuario.setAvatar(null);
+    }
+    
+    private String crearRutaParaLocalizarArchivo(String path) {
+        if (File.separator.equals("\\")) {
+            path = path.replaceAll("/", "\\\\");
+        }
+        return path;
     }
 
     public String doRecuperarContrasena() {

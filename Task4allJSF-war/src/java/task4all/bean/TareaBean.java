@@ -17,10 +17,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import task4all.ejb.AdjuntoFacade;
 import task4all.ejb.ListaFacade;
 import task4all.ejb.TareaFacade;
 import task4all.ejb.UsuarioProyectoFacade;
 import task4all.ejb.UsuarioTareaFacade;
+import task4all.entity.Adjunto;
 import task4all.entity.Lista;
 import task4all.entity.Proyecto;
 import task4all.entity.Tarea;
@@ -40,6 +42,8 @@ public class TareaBean {
     private UsuarioTareaFacade usuarioTareaFacade;
     @EJB
     private UsuarioProyectoFacade usuarioProyectoFacade;
+    @EJB
+    private AdjuntoFacade adjuntoFacade;
 
     @ManagedProperty(value = "#{usuarioBean}")
     private UsuarioBean usuarioBean;
@@ -51,6 +55,7 @@ public class TareaBean {
     private Date fechaObjetivo;
     private List<UsuarioProyecto> listaAsignados;
     private List<UsuarioProyecto> listaUsuariosSinAsignar;
+    private List<Adjunto> listaAdjuntos;
 
     /**
      * Creates a new instance of TareasBean
@@ -60,7 +65,10 @@ public class TareaBean {
 
     @PostConstruct
     public void init() {
-        cargarLista();
+        cargarListaAsignados();        
+        if(usuarioBean.getTareaSeleccionada() != null) {
+            listaAdjuntos = this.adjuntoFacade.findAdjuntosByTarea(usuarioBean.getTareaSeleccionada().getId());
+        }
     }
 
     public void setUsuarioBean(UsuarioBean usuarioBean) {
@@ -111,18 +119,27 @@ public class TareaBean {
         this.listaUsuariosSinAsignar = listaUsuariosSinAsignar;
     }
 
+    public List<Adjunto> getListaAdjuntos() {
+        return listaAdjuntos;
+    }
+
+    public void setListaAdjuntos(List<Adjunto> listaAdjuntos) {
+        this.listaAdjuntos = listaAdjuntos;
+    }
+
     public String doMostrar(Tarea t) {
         usuarioBean.setTareaSeleccionada(t);
-        cargarLista();
+        cargarListaAsignados();
+        
         return "/tarea?faces-redirect=true";
     }
-    
+
     public String doMostrar(Proyecto p, Lista l, Tarea t) {
         usuarioBean.setProyectoSeleccionado(p);
         usuarioBean.setListaSeleccionada(l);
         usuarioBean.setTareaSeleccionada(t);
-        
-        cargarLista();
+
+        cargarListaAsignados();
         return "/tarea?faces-redirect=true";
     }
 
@@ -150,7 +167,7 @@ public class TareaBean {
             FacesContext.getCurrentInstance().addMessage("tarea", new FacesMessage(FacesMessage.SEVERITY_ERROR, "El nombre de la tarea no puede estar vacío", ""));
             return "editarTarea";
         }
-        
+
         if (fechaObjetivo != null && !fechaObjetivo.toString().isEmpty()) {
             usuarioBean.getTareaSeleccionada().setFechaobjetivo(fechaObjetivo);
         } else {
@@ -172,7 +189,7 @@ public class TareaBean {
         } else {
             tareaFacade.edit(usuarioBean.getTareaSeleccionada());
         }
-        cargarLista();
+        cargarListaAsignados();
         return "tarea?faces-redirect=true";
     }
 
@@ -197,8 +214,8 @@ public class TareaBean {
 
         usuarioBean.getTareaSeleccionada().getUsuarioTareaCollection().add(ut);
         this.tareaFacade.edit(usuarioBean.getTareaSeleccionada());
-        
-        cargarLista();
+
+        cargarListaAsignados();
 
         return "tarea";
     }
@@ -210,13 +227,13 @@ public class TareaBean {
         } else {
             this.usuarioTareaFacade.remove(ut);
 
-            cargarLista();
+            cargarListaAsignados();
         }
 
         return "tarea";
     }
 
-    public void cargarLista() {
+    public void cargarListaAsignados() {
         listaAsignados = new ArrayList<>();
         listaUsuariosSinAsignar = new ArrayList<>();
         if (usuarioBean.getTareaSeleccionada() != null) {
@@ -242,6 +259,6 @@ public class TareaBean {
                 }
             }
         }
+    }   
 
-    }
 }

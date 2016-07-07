@@ -5,9 +5,11 @@
  */
 package task4all.ejb;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import task4all.entity.Adjunto;
 
 
@@ -24,6 +26,22 @@ public class AdjuntoFacade extends AbstractFacade<Adjunto> {
 
     public AdjuntoFacade() {
         super(Adjunto.class);
+    }
+    
+    public Integer findMaxAdjuntoId () {
+        Query q;
+        
+        q = em.createQuery("SELECT MAX(a.id) FROM Adjunto a");
+        return (Integer)q.getSingleResult();
+    }
+    
+    public List<Adjunto> findAdjuntosByTarea (Integer tarea) {
+        Query q;
+        
+        q = em.createQuery("SELECT a FROM Adjunto a WHERE a.tareaId.id = :tarea");
+        q.setParameter("tarea", tarea);
+        
+        return q.getResultList();
     }
     
 }
