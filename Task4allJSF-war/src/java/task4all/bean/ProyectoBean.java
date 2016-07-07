@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -23,6 +22,7 @@ import task4all.entity.Tarea;
 import task4all.entity.Usuario;
 import task4all.entity.UsuarioProyecto;
 import static task4all.utils.Email.*;
+import static task4all.utils.UtilsMix.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -87,49 +87,6 @@ public class ProyectoBean {
                 }
             }
         }
-    }
-
-    private void ordenarListaMiembros() {
-        Collections.sort(listaMiembrosRoles, (UsuarioProyecto o1, UsuarioProyecto o2) -> {
-            switch (o1.getRol().toUpperCase()) {
-                case "LÍDER":
-                    if (o2.getRol().equalsIgnoreCase("LÍDER")) {
-                        return 0;
-                    }
-                    if (o2.getRol().equalsIgnoreCase("MIEMBRO")) {
-                        return -1;
-                    }
-                    if (o2.getRol().equalsIgnoreCase("INVITADO")) {
-                        return -1;
-                    }
-                    break;
-                case "MIEMBRO":
-                    if (o2.getRol().equalsIgnoreCase("LÍDER")) {
-                        return 1;
-                    }
-                    if (o2.getRol().equalsIgnoreCase("MIEMBRO")) {
-                        return 0;
-                    }
-                    if (o2.getRol().equalsIgnoreCase("INVITADO")) {
-                        return -1;
-                    }
-                    break;
-                case "INVITADO":
-                    if (o2.getRol().equalsIgnoreCase("LÍDER")) {
-                        return 1;
-                    }
-                    if (o2.getRol().equalsIgnoreCase("MIEMBRO")) {
-                        return 1;
-                    }
-                    if (o2.getRol().equalsIgnoreCase("INVITADO")) {
-                        return 0;
-                    }
-                    break;
-                default:
-                    return 0;
-            }
-            return 0;
-        });
     }
 
     public void setUsuarioBean(UsuarioBean usuarioBean) {
@@ -345,11 +302,48 @@ public class ProyectoBean {
 
         return "proyecto";
     }
-
-    public boolean isValidEmail(String email) {
-        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        return pattern.matcher(email).matches();
+    
+    private void ordenarListaMiembros() {
+        Collections.sort(listaMiembrosRoles, (UsuarioProyecto o1, UsuarioProyecto o2) -> {
+            switch (o1.getRol().toUpperCase()) {
+                case "LÍDER":
+                    if (o2.getRol().equalsIgnoreCase("LÍDER")) {
+                        return 0;
+                    }
+                    if (o2.getRol().equalsIgnoreCase("MIEMBRO")) {
+                        return -1;
+                    }
+                    if (o2.getRol().equalsIgnoreCase("INVITADO")) {
+                        return -1;
+                    }
+                    break;
+                case "MIEMBRO":
+                    if (o2.getRol().equalsIgnoreCase("LÍDER")) {
+                        return 1;
+                    }
+                    if (o2.getRol().equalsIgnoreCase("MIEMBRO")) {
+                        return 0;
+                    }
+                    if (o2.getRol().equalsIgnoreCase("INVITADO")) {
+                        return -1;
+                    }
+                    break;
+                case "INVITADO":
+                    if (o2.getRol().equalsIgnoreCase("LÍDER")) {
+                        return 1;
+                    }
+                    if (o2.getRol().equalsIgnoreCase("MIEMBRO")) {
+                        return 1;
+                    }
+                    if (o2.getRol().equalsIgnoreCase("INVITADO")) {
+                        return 0;
+                    }
+                    break;
+                default:
+                    return 0;
+            }
+            return 0;
+        });
     }
 
 }

@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -47,6 +46,7 @@ import task4all.entity.Tarea;
 import task4all.entity.Usuario;
 import task4all.entity.UsuarioProyecto;
 import static task4all.utils.Email.*;
+import static task4all.utils.UtilsMix.*;
 
 @ManagedBean
 @SessionScoped
@@ -914,12 +914,6 @@ public class UsuarioBean implements Serializable {
         } catch (IOException ex) {
             Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public boolean isValidEmail(String email) {
-        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        return pattern.matcher(email).matches();
     }
 
     public boolean isFacebookConnected() {
