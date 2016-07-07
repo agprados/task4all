@@ -7,7 +7,8 @@
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Task4all - Editar tarea</title>
+        <h:panelGroup rendered="#{usuarioBean.tareaSeleccionada.id eq null}"><title>Task4all - Crear tarea</title></h:panelGroup>
+        <h:panelGroup rendered="#{usuarioBean.tareaSeleccionada.id ne null}"><title>Task4all - Editar tarea</title></h:panelGroup>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -50,7 +51,7 @@
                     </div>
                 </h:panelGroup>
                 <h:form>
-                    <p:messages autoUpdate="true" for="tarea"/>
+                    <p:messages id="error" autoUpdate="true" for="tarea"/>
                     <h4>Nombre *</h4>
                     <div class="input-group input-group-lg" style="width: 300px;">
                         #{tareaBean.setNombre(usuarioBean.tareaSeleccionada.nombre)}
@@ -98,8 +99,12 @@
                     <center>
                         <h:button rendered="#{usuarioBean.tareaSeleccionada.id eq null}" value="Cancelar" style="margin-top: 8px;" outcome="proyecto?faces-redirect=true" class="btn btn-default" a:aria-expanded="false" />
                         <h:button rendered="#{usuarioBean.tareaSeleccionada.id ne null}" value="Cancelar" style="margin-top: 8px;" outcome="tarea?faces-redirect=true" class="btn btn-default" a:aria-expanded="false" />
-                        <h:commandButton rendered="#{usuarioBean.tareaSeleccionada.id eq null}" value="Crear tarea" action="#{tareaBean.doGuardar()}" style="margin: 8px 0 0 5px;" class="btn btn-success" a:aria-expanded="false" />
-                        <h:commandButton rendered="#{usuarioBean.tareaSeleccionada.id ne null}" value="Guardar" action="#{tareaBean.doGuardar()}" style="margin: 8px 0 0 5px;" class="btn btn-success" a:aria-expanded="false" />
+                        <h:commandButton rendered="#{usuarioBean.tareaSeleccionada.id eq null}" value="Crear tarea" action="#{tareaBean.doGuardar()}" style="margin: 8px 0 0 5px;" class="btn btn-success" a:aria-expanded="false" >
+                            <f:ajax execute="@form" render="error"/>
+                        </h:commandButton>
+                        <h:commandButton rendered="#{usuarioBean.tareaSeleccionada.id ne null}" value="Guardar" action="#{tareaBean.doGuardar()}" style="margin: 8px 0 0 5px;" class="btn btn-success" a:aria-expanded="false" >
+                            <f:ajax execute="@form" render="error"/>
+                        </h:commandButton>
                     </center>
                 </h:form>                
             </div>
