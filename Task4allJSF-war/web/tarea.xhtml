@@ -51,15 +51,11 @@
                 </div>
                 <br/>
                 <center>
-                    <h:panelGroup rendered="#{usuarioBean.tareaSeleccionada.prioridad == 0}" layout="block" style="width: 300px; background: #efffef; padding: 10px; border: 1px solid #cccccc; border-radius: 5px;">
-                        <b>Prioridad:</b> Baja
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{usuarioBean.tareaSeleccionada.prioridad == 1}" layout="block" style="width: 300px; background: #efefff; padding: 10px; border: 1px solid #cccccc; border-radius: 5px;">
-                        <b>Prioridad:</b> Media
-                    </h:panelGroup>
-                    <h:panelGroup rendered="#{usuarioBean.tareaSeleccionada.prioridad == 2}" layout="block" style="width: 300px; background: #ffefef; padding: 10px; border: 1px solid #cccccc; border-radius: 5px;">
-                        <b>Prioridad:</b> Alta
-                    </h:panelGroup>
+                    <h:outputText value="Prioridad:" style="font-size: 16px" />
+                    <h:outputText rendered="#{usuarioBean.tareaSeleccionada.prioridad == 0}" value=" Baja" style="color: limegreen; font-size: 16px" />
+                    <h:outputText rendered="#{usuarioBean.tareaSeleccionada.prioridad == 1}" value=" Media" style="color: #80ccff; font-size: 16px" />
+                    <h:outputText rendered="#{usuarioBean.tareaSeleccionada.prioridad == 2}" value=" Alta" style="color: red; font-size: 16px" />
+                    <br/>
                     <br/>
                     <div class="separador"></div>
                     <br/>
@@ -181,7 +177,7 @@
                             <p:fileDownload value="#{adjuntoBean.getAdjuntoADescargar(adjunto)}" />
                         </p:commandLink>
                         <p:commandLink id="eliminarAdjunto#{adjunto.id}" update="@form" action="#{adjuntoBean.doBorrar(adjunto)}" styleClass="glyphicon glyphicon-remove" style="text-decoration: none; margin-left: 10px; font-size: 12px; color: #bb0000"/>                                             
-                        <p:tooltip widgetVar="tooltip#{adjunto.id}" for="eliminarAdjunto#{adjunto.id}" value="Eliminar adjunto" position="bottom" />   
+                        <p:tooltip for="eliminarAdjunto#{adjunto.id}" value="Eliminar adjunto" position="bottom" />   
                         <br/>
                     </c:forEach>                        
                     <p:fileUpload update="adjuntos" style="margin-top: 10px;" fileUploadListener="#{adjuntoBean.doSubirAdjunto}" mode="advanced" multiple="true" dragDropSupport="true" fileLimit="5" uploadLabel="Subir" cancelLabel="Cancelar" label="Añadir" />                    
