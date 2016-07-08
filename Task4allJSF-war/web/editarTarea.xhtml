@@ -60,9 +60,9 @@
                     </div>
                     <br/>
                     <h4>Descripción</h4>
-                    <div class="input-group input-group-lg" style="width: 500px;">
+                    <div class="input-group input-group-lg" style="width: 600px;">
                         #{tareaBean.setDescripcion(usuarioBean.tareaSeleccionada.descripcion)}
-                        <h:inputText maxlength="2000" value="#{tareaBean.descripcion}" style="border-radius: 5px" class="form-control" />
+                        <p:inputTextarea rows="5" cols="500" maxlength="2000" autoResize="false" value="#{tareaBean.descripcion}" style="border-radius: 5px; resize: none; height: 142px;" class="form-control" />
                     </div>
                     <br/>
                     <h4>Fecha objetivo</h4>

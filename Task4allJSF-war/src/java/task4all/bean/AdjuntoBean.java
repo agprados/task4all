@@ -119,7 +119,9 @@ public class AdjuntoBean {
         ruta = ruta.concat("Task4allJSF-war" + File.separator + "web" + adjunto.getUrl());
         ruta = crearRutaParaLocalizarArchivo(ruta);
         File f = new File(ruta);
-        f.delete();
+        if(f.exists()) {
+            f.delete();
+        }
 
         return "tarea";
     }

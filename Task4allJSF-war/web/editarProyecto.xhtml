@@ -41,7 +41,7 @@
                     <h4>Descripción</h4>
                     <div class="input-group input-group-lg" style="width: 500px;">
                         #{proyectoBean.setDescripcion(usuarioBean.proyectoSeleccionado.descripcion)}
-                        <h:inputText maxlength="500" value="#{proyectoBean.descripcion}" style="border-radius: 5px" class="form-control" />
+                        <p:inputTextarea rows="3" autoResize="true" maxlength="500" value="#{proyectoBean.descripcion}" style="border-radius: 5px;" class="form-control"/>
                     </div>
                     <br/>
                     <h4>Fecha objetivo</h4>

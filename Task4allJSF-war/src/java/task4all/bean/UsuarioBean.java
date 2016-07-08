@@ -27,6 +27,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -46,6 +47,7 @@ import task4all.entity.Tarea;
 import task4all.entity.Usuario;
 import task4all.entity.UsuarioProyecto;
 import static task4all.utils.Email.*;
+import task4all.utils.ProyectoBienvenida;
 import static task4all.utils.UtilsMix.*;
 
 @ManagedBean
@@ -64,6 +66,9 @@ public class UsuarioBean implements Serializable {
     private ProyectoFacade proyectoFacade;
     @EJB
     private ActividadFacade actividadFacade;
+    
+    @ManagedProperty(value = "#{proyectoBienvenida}")
+    private ProyectoBienvenida proyectoBienvenida;
 
     private final String FB_ID = "747075862097456";
     private final String FB_SECRET = "cb65b5382724343d60019074e274e058";
@@ -106,6 +111,10 @@ public class UsuarioBean implements Serializable {
     public void init() {
         okLogin = false;
         usuario = new Usuario();
+    }
+
+    public void setProyectoBienvenida(ProyectoBienvenida proyectoBienvenida) {
+        this.proyectoBienvenida = proyectoBienvenida;
     }
 
     public Usuario getUsuario() {
@@ -545,6 +554,7 @@ public class UsuarioBean implements Serializable {
         Integer clave = this.usuarioFacade.findMaxUsuarioId();
         usuario.setId(clave);
         
+        proyectoBienvenida.crearProyectoBienvenida(usuario);
         enviarConfirmacionRegistro(usuario);        
         okLogin = true;
         
@@ -602,6 +612,7 @@ public class UsuarioBean implements Serializable {
         Integer clave = this.usuarioFacade.findMaxUsuarioId();
         usuario.setId(clave);
 
+        proyectoBienvenida.crearProyectoBienvenida(usuario);
         enviarConfirmacionRegistro(usuario);
 
         usuarioRegistro = "";
@@ -1043,6 +1054,20 @@ public class UsuarioBean implements Serializable {
         enviarEmailDespedida(usuario);
 
         return doLogout();
+    }
+    
+    public String descripcionProyectoAdaptada() {
+        if (proyectoSeleccionado.getDescripcion() != null) {
+            return proyectoSeleccionado.getDescripcion().replaceAll(System.getProperty("line.separator"), "<br/>");
+        }
+        return null;
+    }
+    
+    public String descripcionTareaAdaptada() {
+        if(tareaSeleccionada.getDescripcion() != null) {
+            return tareaSeleccionada.getDescripcion().replaceAll(System.getProperty("line.separator"), "<br/>");
+        }
+        return null;
     }
 
 }

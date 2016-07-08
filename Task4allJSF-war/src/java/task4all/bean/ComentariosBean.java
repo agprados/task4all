@@ -7,6 +7,7 @@ package task4all.bean;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -36,10 +37,8 @@ public class ComentariosBean {
     
     @ManagedProperty(value="#{usuarioBean}")
     private UsuarioBean usuarioBean;
-    @ManagedProperty(value="#{proyectoBean}")
-    private ProyectoBean proyectoBean;
         
-    private List<Comentario> listaComentarios;
+    private LinkedList<Comentario> listaComentarios;
     private Proyecto proyectoSeleccionado;
     private String contenido;
     private Usuario usuarioLogueado;
@@ -55,7 +54,7 @@ public class ComentariosBean {
         // Comprobación para que no entre cuando se accede a proyectos.xhtml sin iniciar sesión
         if(proyectoSeleccionado != null) {
             listaComentarios =  comentarioFacade.findComentariosByProyecto(proyectoSeleccionado.getId());
-            adaptarContenido();
+            adaptarContenidoComentarios();
         }
     }
 
@@ -63,7 +62,7 @@ public class ComentariosBean {
         return listaComentarios;
     }
 
-    public void setListaComentarios(List<Comentario> listaComentarios) {
+    public void setListaComentarios(LinkedList<Comentario> listaComentarios) {
         this.listaComentarios = listaComentarios;
     }
 
@@ -91,20 +90,8 @@ public class ComentariosBean {
         this.contenido = contenido;
     }
 
-    public UsuarioBean getUsuarioBean() {
-        return usuarioBean;
-    }
-
     public void setUsuarioBean(UsuarioBean usuarioBean) {
         this.usuarioBean = usuarioBean;
-    }
-
-    public ProyectoBean getProyectoBean() {
-        return proyectoBean;
-    }
-
-    public void setProyectoBean(ProyectoBean proyectoBean) {
-        this.proyectoBean = proyectoBean;
     }
     
     public String doCrear() {     
@@ -134,7 +121,7 @@ public class ComentariosBean {
         this.usuarioFacade.edit(usuarioLogueado);
         a.setComentario(comentario);
         this.actividadFacade.edit(a);
-        listaComentarios.add(comentario);
+        listaComentarios.addFirst(comentario);
         this.contenido="";
         return "proyecto";
     }
@@ -176,7 +163,7 @@ public class ComentariosBean {
         else return "";
     }
     
-    public void adaptarContenido() {
+    public void adaptarContenidoComentarios() {
         for(int i = 0; i<listaComentarios.size(); i++) {
             (listaComentarios.get(i).getContenido()).replaceAll(System.getProperty("line.separator"), "<br/>");
         }

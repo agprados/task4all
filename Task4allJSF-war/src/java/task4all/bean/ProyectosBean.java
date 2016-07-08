@@ -171,5 +171,5 @@ public class ProyectosBean {
         proyectosInvitado.remove(p);
 
         return "principal";
-    }
+    }   
 }

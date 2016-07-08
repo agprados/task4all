@@ -5,7 +5,7 @@
  */
 package task4all.ejb;
 
-import java.util.List;
+import java.util.LinkedList;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -29,13 +29,13 @@ public class ComentarioFacade extends AbstractFacade<Comentario> {
         super(Comentario.class);
     }
     
-    public List<Comentario> findComentariosByProyecto(Integer proyecto) {
+    public LinkedList<Comentario> findComentariosByProyecto(Integer proyecto) {
         Query q;
         
         q = em.createNamedQuery("Comentario.findByProyecto");
         q.setParameter("id", proyecto);
         
-        return q.getResultList();
+        return new LinkedList<>(q.getResultList());
     }
     
      public Integer findMaxComentarioId() {
