@@ -70,7 +70,7 @@ public class ProyectoBienvenida {
         Proyecto proyecto = new Proyecto();
         proyecto.setNombre("Proyecto de bienvenida");
         proyecto.setFechacreacion(new Date());
-        proyecto.setDescripcion("Este es un proyecto en el que se muestran algunas funciones que podrás realizar en Task4all. Anímate a probarlo todo.");
+        proyecto.setDescripcion("Este es un proyecto en el que se muestran algunas funciones que podrás realizar en Task4all.\n Anímate a probarlo todo.");
         Fondo fondo = fondoFacade.findFondoByNombre("fondo_default.png");
         proyecto.setFondoId(fondo);
         proyectoFacade.create(proyecto);
@@ -102,14 +102,14 @@ public class ProyectoBienvenida {
 
         // Ahora se crea un par de listas
         Lista lista = new Lista();
-        lista.setNombre("Lista de Prueba");
+        lista.setNombre("Una lista con tareas");
         lista.setProyectoId(proyecto);
         listaFacade.create(lista);
         Integer clave = listaFacade.findMaxListaId();
         lista.setId(clave);
         
         Lista lista2 = new Lista();
-        lista2.setNombre("Otra lista de prueba");
+        lista2.setNombre("Una lista vacía");
         lista2.setDescripcion("A las listas se les puede añadir una pequeña descripción");
         lista2.setProyectoId(proyecto);
         listaFacade.create(lista2);
@@ -157,7 +157,7 @@ public class ProyectoBienvenida {
         tarea.setListaId(lista);
         tarea.setPrioridad(new BigInteger("0"));
         tarea.setFechacreacion(new Date());
-        tarea.setNombre("También se pueden adjuntar ficheros");
+        tarea.setNombre("Se pueden adjuntar ficheros a las tareas");
         tarea.setDescripcion("");
         tareaFacade.create(tarea);
         clave = tareaFacade.findMaxTareaId();

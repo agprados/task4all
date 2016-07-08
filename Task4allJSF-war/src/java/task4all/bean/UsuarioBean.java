@@ -1030,7 +1030,7 @@ public class UsuarioBean implements Serializable {
         for (Proyecto proyecto : proyectosLider) {
             for (UsuarioProyecto usuarioProyecto : proyecto.getUsuarioProyectoCollection()) {
                 if (usuarioProyecto.getRol().equalsIgnoreCase("miembro")) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede borrar la cuenta ya que tienes proyectos siendo líder con más de un miembro. Pasa el liderazgo a otro miembro", ""));
+                    FacesContext.getCurrentInstance().addMessage("configuracion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se puede borrar la cuenta ya que tienes proyectos siendo líder con más de un miembro. Pasa el liderazgo a otro miembro", ""));
                     return "configuracion";
                 }
             }
