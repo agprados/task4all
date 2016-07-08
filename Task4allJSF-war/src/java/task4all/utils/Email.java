@@ -60,17 +60,27 @@ public class Email {
     public static void enviarConfirmacionRegistro(Usuario u) {
 
         String subject = "Bienvenido a Task4all";
-        String text = "<p>Hola <i>" + u.getUsuario() + "</i>, bienvenido a Task4all. Disfruta tu estancia!</p>"
+        String text;
+        
+        if(u.getVerificado().equals('0')) {
+            text = "<p>Hola <i>" + u.getUsuario() + "</i>, bienvenido a Task4all. Disfruta tu estancia!</p>"
                 + "<p><font color='red'>AVISO</font>: No podrás crear proyectos hasta que verifiques tu cuenta. Para ello, pulse "
-                + "<a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?usuario=" + u.getUsuario() + "&verificar=" + true + ">aquí</a>."
+                + "<a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?usuario=" + u.getId() + "&verificar=" + true + ">aquí</a>.</p>"
                 + "<p>No responder a este mensaje.<p/>";
+        } else {
+            text = "<p>Hola <i>" + u.getUsuario() + "</i>, bienvenido a Task4all. Disfruta tu estancia!</p>"
+                + "<p> Puedes iniciar sesón pulsando "
+                + "<a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do>aquí</a>.</p>"
+                + "<p>No responder a este mensaje.<p/>";
+        }
+        
 
         sendEmail(u.getEmail(), subject, text);
     }
 
     public static void enviarEmailVerificacion(Usuario u) {
         String subject = "Verificar cuenta de Task4all";
-        String text = "Hola <i>" + u.getUsuario() + "</i>, tal como ha solicitado, le enviamos el email de verificación de nuevo. Por favor, <a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?usuario=" + u.getUsuario() + "&verificar=" + true + ">verifique su cuenta</a>"
+        String text = "Hola <i>" + u.getUsuario() + "</i>, tal como ha solicitado, le enviamos el email de verificación de nuevo. Por favor, <a href=http://localhost:8080" + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/login.do?usuario=" + u.getId() + "&verificar=" + true + ">verifique su cuenta</a>"
                 + "<p>No responder a este mensaje.<p/>";
 
         sendEmail(u.getEmail(), subject, text);

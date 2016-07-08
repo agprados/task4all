@@ -93,7 +93,7 @@ public class UsuarioBean implements Serializable {
     private Integer proyectoInvitacion;
     private String emailInvitacion;
     private boolean aceptarInvitacion;
-    private String usuarioVerificacion;
+    private Integer usuarioIdVerificacion;
     private boolean verificacion;
 
     /**
@@ -296,12 +296,12 @@ public class UsuarioBean implements Serializable {
         this.aceptarInvitacion = aceptarInvitacion;
     }
 
-    public String getUsuarioVerificacion() {
-        return usuarioVerificacion;
+    public Integer getUsuarioIdVerificacion() {
+        return usuarioIdVerificacion;
     }
 
-    public void setUsuarioVerificacion(String usuarioVerificacion) {
-        this.usuarioVerificacion = usuarioVerificacion;
+    public void setUsuarioIdVerificacion(Integer usuarioIdVerificacion) {
+        this.usuarioIdVerificacion = usuarioIdVerificacion;
     }
 
     public boolean isVerificacion() {
@@ -544,9 +544,10 @@ public class UsuarioBean implements Serializable {
         this.usuarioFacade.create(usuario);
         Integer clave = this.usuarioFacade.findMaxUsuarioId();
         usuario.setId(clave);
+        
+        enviarConfirmacionRegistro(usuario);        
         okLogin = true;
-
-        enviarConfirmacionRegistro(usuario);
+        
 
         return "principal?faces-redirect=true";
     }
@@ -641,7 +642,7 @@ public class UsuarioBean implements Serializable {
     }
 
     private void comprobarVerificacionEmail() {
-        if (verificacion && usuario.getUsuario().equalsIgnoreCase(usuarioVerificacion)) {
+        if (verificacion && usuario.getId() == usuarioIdVerificacion) {
             usuario.setVerificado('1');            
             this.usuarioFacade.edit(usuario);
         }
