@@ -36,7 +36,7 @@
                 <div class="row" style="padding-top: 10px; padding-left: 55px; padding-right: 55px;">
                     <div class="col-md-6" style="padding-left: 35px; padding-right: 35px; padding-bottom: 40px;">
                         <div class="img-with-text">
-                            <p:lightBox styleClass="imagebox" id="lighbox1">
+                            <p:lightBox styleClass="imagebox">
                                 <h:outputLink value="images/captura_index_1.png">
                                     <h:graphicImage value="images/captura_index_1.png" class="img-responsive"/>
                                 </h:outputLink>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="col-md-6" style="padding-left: 35px; padding-right: 35px; padding-bottom: 40px;">
                         <div class="img-with-text">
-                             <p:lightBox styleClass="imagebox" id="lighbox2">
+                            <p:lightBox styleClass="imagebox">
                                 <h:outputLink value="images/captura_index_2.png">
                                     <h:graphicImage value="images/captura_index_2.png" class="img-responsive"/>
                                 </h:outputLink>
@@ -57,14 +57,34 @@
                 </div>
                 <div class="row" style="padding-left: 55px; padding-right: 55px;">
                     <div class="col-md-6 col-md-offset-3" style="padding-left: 35px; padding-right: 35px;">
-                        <div class="img-with-text">
-                             <p:lightBox styleClass="imagebox" id="lighbox3">
-                                <h:outputLink value="images/captura_index_3.png">
-                                    <h:graphicImage value="images/captura_index_3.png" class="img-responsive"/>
+                        <p:imageSwitch effect="fade" slideshowSpeed="4500">
+                                <div class="img-with-text">
+                                <p:lightBox styleClass="imagebox">
+                                    <h:outputLink value="images/captura_index_3.png">
+                                        <h:graphicImage value="images/captura_index_3.png" class="img-responsive"/>
+                                    </h:outputLink>
+                                </p:lightBox>
+                                    <p>Comenta dentro de cada proyecto con los integrantes del proyecto para estar al día informando de las últimas novedades o simplemente úsalo como chat</p>
+                                    </div>
+                                <div class="img-with-text">
+                                 <p:lightBox styleClass="imagebox">
+                                <h:outputLink value="images/captura_index_2.png">
+                                    <h:graphicImage value="images/captura_index_2.png" class="img-responsive"/>
                                 </h:outputLink>
                             </p:lightBox>
-                            <p>Comenta dentro de cada proyecto con los integrantes del proyecto para estar al día informando de las últimas novedades o simplemente úsalo como chat</p>
-                        </div>
+                                    <p>Crea listas de tareas para tenerlo todo bien organizado dentro de cada proyecto. Asigna usuarios a las tareas, adjunta archivos, dales una prioridad...</p>
+                                </div>
+                                <div class="img-with-text">
+                                <p:lightBox styleClass="imagebox">
+                                <h:outputLink value="images/captura_index_1.png">
+                                    <h:graphicImage value="images/captura_index_1.png" class="img-responsive"/>
+                                </h:outputLink>
+                            </p:lightBox>
+                                    <p>Comenta dentro de cada proyecto con los integrantes del proyecto para estar al día informando de las últimas novedades o simplemente úsalo como chat</p>
+                    </div>
+                            </p:imageSwitch>
+                            
+                 
                     </div>   
                 </div>
                 <br/>
