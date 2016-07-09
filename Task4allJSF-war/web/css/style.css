@@ -112,11 +112,9 @@ html body {
     margin: 10px 0;
 }
 
-.img-with-text {
-    margin-left: 20px;    
+.img-with-text {    
     color: white;
     text-align: center;
-    width: 500px;
 }
 
 .img-with-text img {
