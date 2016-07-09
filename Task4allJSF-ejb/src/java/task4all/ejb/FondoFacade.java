@@ -57,4 +57,12 @@ public class FondoFacade extends AbstractFacade<Fondo> {
         
         return q.getResultList();
     }
+    
+    public List<Fondo> findAllFondoOrderById(){
+        Query q;
+        
+        q = em.createQuery("SELECT f FROM Fondo f ORDER BY f.id");
+        
+        return q.getResultList();
+    }
 }

@@ -18,7 +18,7 @@ import task4all.entity.Fondo;
 @ManagedBean
 @ViewScoped
 public class FondoBean implements Serializable {
-    
+
     @EJB
     private FondoFacade fondoFacade;
 
@@ -32,17 +32,17 @@ public class FondoBean implements Serializable {
     @PostConstruct
     public void init() {
         fondos = new ArrayList<>();
-        fondos = this.fondoFacade.findAll();
+        fondos = this.fondoFacade.findAllFondoOrderById();
     }
 
     public List<Fondo> getFondos() {
         return fondos;
     }
 
-     public void setFondos(List<Fondo> fondos) {
+    public void setFondos(List<Fondo> fondos) {
         this.fondos = fondos;
     }
-    
+
     public Fondo getFondo() {
         return fondo;
     }
@@ -64,7 +64,7 @@ public class FondoBean implements Serializable {
         }
         fondo = fondos.get(indice);
     }
-    
+
     public String colorPorFondo(Character c) {
         return c.equals('1') ? "white" : "black";
     }

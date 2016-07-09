@@ -13,10 +13,8 @@ import java.util.List;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 import task4all.ejb.ActividadFacade;
 import task4all.ejb.AdjuntoFacade;
 import task4all.ejb.ComentarioFacade;
@@ -37,7 +35,6 @@ import task4all.entity.Tarea;
 import task4all.entity.Usuario;
 import task4all.entity.UsuarioProyecto;
 import task4all.entity.UsuarioTarea;
-import static task4all.utils.UtilsMix.isValidEmail;
 
 @ManagedBean(eager = true)
 @ApplicationScoped
@@ -259,88 +256,169 @@ public class ProyectoBienvenida {
     
     private void cargarFondos() {
         
-        // Fondo claro 1
+        // Fondo por defecto (blanco)
         Fondo f = new Fondo();
-        f.setNombre("");
+        f.setNombre("fondo_default.png");
         f.setOscuro('0');
-        f.setUrl("");        
+        f.setUrl("/images/fondos/fondo_default.png");        
         fondoFacade.create(f);
+        
+        // Colores sólidos primero (primero claros, luego oscuros)
         
         // Fondo claro 1
         f = new Fondo();
-        f.setNombre("");
+        f.setNombre("fondo_claro_1.png");
         f.setOscuro('0');
-        f.setUrl("");        
+        f.setUrl("/images/fondos/fondo_claro_1.png");        
         fondoFacade.create(f);
         
-        // Fondo claro 1
+        // Fondo claro 2
         f = new Fondo();
-        f.setNombre("");
+        f.setNombre("fondo_claro_2.png");
         f.setOscuro('0');
-        f.setUrl("");        
+        f.setUrl("/images/fondos/fondo_claro_2.png");        
         fondoFacade.create(f);
         
-        // Fondo claro 1
+        // Fondo claro 3
         f = new Fondo();
-        f.setNombre("");
+        f.setNombre("fondo_claro_3.png");
         f.setOscuro('0');
-        f.setUrl("");        
+        f.setUrl("/images/fondos/fondo_claro_3.png");        
         fondoFacade.create(f);
         
-        // Fondo claro 1
+        // Fondo claro 4
         f = new Fondo();
-        f.setNombre("");
+        f.setNombre("fondo_claro_4.png");
         f.setOscuro('0');
-        f.setUrl("");        
+        f.setUrl("/images/fondos/fondo_claro_4.png");        
         fondoFacade.create(f);
         
-        // Fondo claro 1
+        // Fondo claro 5
         f = new Fondo();
-        f.setNombre("");
+        f.setNombre("fondo_claro_5.png");
         f.setOscuro('0');
-        f.setUrl("");        
-        fondoFacade.create(f);
-        
-        // Fondo claro 1
-        f = new Fondo();
-        f.setNombre("");
-        f.setOscuro('0');
-        f.setUrl("");        
-        fondoFacade.create(f);
-        
-        // Fondo claro 1
-        f = new Fondo();
-        f.setNombre("");
-        f.setOscuro('0');
-        f.setUrl("");        
+        f.setUrl("/images/fondos/fondo_claro_5.png");        
         fondoFacade.create(f);
         
         // Fondo oscuro 1
         f = new Fondo();
-        f.setNombre("");
-        f.setOscuro('0');
-        f.setUrl("");        
+        f.setNombre("fondo_oscuro_1.jpg");
+        f.setOscuro('1');
+        f.setUrl("/images/fondos/fondo_oscuro_1.jpg");        
         fondoFacade.create(f);
         
-        // Fondo oscuro 1
+        // Fondo oscuro 2
         f = new Fondo();
-        f.setNombre("");
-        f.setOscuro('0');
-        f.setUrl("");        
+        f.setNombre("fondo_oscuro_2.jpg");
+        f.setOscuro('1');
+        f.setUrl("/images/fondos/fondo_oscuro_2.jpg");        
         fondoFacade.create(f);
         
-        // Fondo oscuro 1
+        // El resto de fondos (claros y oscuros intercalados)
+        
+        // Fondo claro 6
         f = new Fondo();
-        f.setNombre("");
+        f.setNombre("fondo_claro_6.png");
         f.setOscuro('0');
-        f.setUrl("");        
+        f.setUrl("/images/fondos/fondo_claro_6.png");        
         fondoFacade.create(f);
         
-        // Fondo oscuro 1
+        // Fondo oscuro 3
         f = new Fondo();
-        f.setNombre("");
+        f.setNombre("fondo_oscuro_3.jpg");
+        f.setOscuro('1');
+        f.setUrl("/images/fondos/fondo_oscuro_3.jpg");        
+        fondoFacade.create(f);
+        
+        // Fondo claro 7
+        f = new Fondo();
+        f.setNombre("fondo_claro_7.png");
         f.setOscuro('0');
-        f.setUrl("");        
+        f.setUrl("/images/fondos/fondo_claro_7.png");        
+        fondoFacade.create(f);
+        
+        // Fondo oscuro 4
+        f = new Fondo();
+        f.setNombre("fondo_oscuro_4.jpg");
+        f.setOscuro('1');
+        f.setUrl("/images/fondos/fondo_oscuro_4.jpg");        
+        fondoFacade.create(f);
+        
+        // Fondo claro 8
+        f = new Fondo();
+        f.setNombre("fondo_claro_8.jpg");
+        f.setOscuro('0');
+        f.setUrl("/images/fondos/fondo_claro_8.jpg");        
+        fondoFacade.create(f);
+        
+        // Fondo oscuro 5
+        f = new Fondo();
+        f.setNombre("fondo_oscuro_5.jpg");
+        f.setOscuro('1');
+        f.setUrl("/images/fondos/fondo_oscuro_5.jpg");        
+        fondoFacade.create(f);
+        
+        // Fondo claro 9
+        f = new Fondo();
+        f.setNombre("fondo_claro_9.jpg");
+        f.setOscuro('0');
+        f.setUrl("/images/fondos/fondo_claro_9.jpg");        
+        fondoFacade.create(f);
+        
+        // Fondo oscuro 6
+        f = new Fondo();
+        f.setNombre("fondo_oscuro_6.gif");
+        f.setOscuro('1');
+        f.setUrl("/images/fondos/fondo_oscuro_6.gif");        
+        fondoFacade.create(f);
+        
+        // Fondo claro 10
+        f = new Fondo();
+        f.setNombre("fondo_claro_10.gif");
+        f.setOscuro('0');
+        f.setUrl("/images/fondos/fondo_claro_10.gif");        
+        fondoFacade.create(f);
+        
+        // Fondo oscuro 7
+        f = new Fondo();
+        f.setNombre("fondo_oscuro_7.png");
+        f.setOscuro('1');
+        f.setUrl("/images/fondos/fondo_oscuro_7.png");        
+        fondoFacade.create(f);
+        
+        // Fondo claro 11
+        f = new Fondo();
+        f.setNombre("fondo_claro_11.jpg");
+        f.setOscuro('0');
+        f.setUrl("/images/fondos/fondo_claro_11.jpg");        
+        fondoFacade.create(f);
+        
+        // Fondo oscuro 8
+        f = new Fondo();
+        f.setNombre("fondo_oscuro_8.jpg");
+        f.setOscuro('1');
+        f.setUrl("/images/fondos/fondo_oscuro_8.jpg");        
+        fondoFacade.create(f);
+        
+        // Fondo claro 12
+        f = new Fondo();
+        f.setNombre("fondo_claro_12.png");
+        f.setOscuro('0');
+        f.setUrl("/images/fondos/fondo_claro_12.png");        
+        fondoFacade.create(f);
+        
+        // Fondo oscuro 9
+        f = new Fondo();
+        f.setNombre("fondo_oscuro_9.png");
+        f.setOscuro('1');
+        f.setUrl("/images/fondos/fondo_oscuro_9.png");        
+        fondoFacade.create(f);
+        
+        // Fondo oscuro 10
+        f = new Fondo();
+        f.setNombre("fondo_oscuro_10.png");
+        f.setOscuro('1');
+        f.setUrl("/images/fondos/fondo_oscuro_10.png");        
         fondoFacade.create(f);
     }
 }
