@@ -107,6 +107,11 @@ public class ProyectoBienvenida {
             usuario.setVerificado('1');
             this.usuarioFacade.create(usuario);
         }
+        
+        List<Fondo> fondos = fondoFacade.findAll();
+        if (fondos.isEmpty()) {
+            cargarFondos();
+        }
     }
 
     public void crearProyectoBienvenida(Usuario usuario) {
@@ -250,5 +255,92 @@ public class ProyectoBienvenida {
         proyectoFacade.edit(p);
 
         return actividad;
+    }
+    
+    private void cargarFondos() {
+        
+        // Fondo claro 1
+        Fondo f = new Fondo();
+        f.setNombre("");
+        f.setOscuro('0');
+        f.setUrl("");        
+        fondoFacade.create(f);
+        
+        // Fondo claro 1
+        f = new Fondo();
+        f.setNombre("");
+        f.setOscuro('0');
+        f.setUrl("");        
+        fondoFacade.create(f);
+        
+        // Fondo claro 1
+        f = new Fondo();
+        f.setNombre("");
+        f.setOscuro('0');
+        f.setUrl("");        
+        fondoFacade.create(f);
+        
+        // Fondo claro 1
+        f = new Fondo();
+        f.setNombre("");
+        f.setOscuro('0');
+        f.setUrl("");        
+        fondoFacade.create(f);
+        
+        // Fondo claro 1
+        f = new Fondo();
+        f.setNombre("");
+        f.setOscuro('0');
+        f.setUrl("");        
+        fondoFacade.create(f);
+        
+        // Fondo claro 1
+        f = new Fondo();
+        f.setNombre("");
+        f.setOscuro('0');
+        f.setUrl("");        
+        fondoFacade.create(f);
+        
+        // Fondo claro 1
+        f = new Fondo();
+        f.setNombre("");
+        f.setOscuro('0');
+        f.setUrl("");        
+        fondoFacade.create(f);
+        
+        // Fondo claro 1
+        f = new Fondo();
+        f.setNombre("");
+        f.setOscuro('0');
+        f.setUrl("");        
+        fondoFacade.create(f);
+        
+        // Fondo oscuro 1
+        f = new Fondo();
+        f.setNombre("");
+        f.setOscuro('0');
+        f.setUrl("");        
+        fondoFacade.create(f);
+        
+        // Fondo oscuro 1
+        f = new Fondo();
+        f.setNombre("");
+        f.setOscuro('0');
+        f.setUrl("");        
+        fondoFacade.create(f);
+        
+        // Fondo oscuro 1
+        f = new Fondo();
+        f.setNombre("");
+        f.setOscuro('0');
+        f.setUrl("");        
+        fondoFacade.create(f);
+        
+        // Fondo oscuro 1
+        f = new Fondo();
+        f.setNombre("");
+        f.setOscuro('0');
+        f.setUrl("");        
+        fondoFacade.create(f);
     }
 }

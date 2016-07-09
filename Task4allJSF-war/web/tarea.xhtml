@@ -37,23 +37,29 @@
                     </h2>                     
                 </div>
                 <div style="text-align: center;">
-                    <div style="text-align: right;">
-                        Creación:
-                        <h:outputText value="#{usuarioBean.tareaSeleccionada.fechacreacion}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
-                        </h:outputText>
-                        <h:outputText rendered="#{usuarioBean.tareaSeleccionada.fechacreacion == null}" value="--/--/--  --:--" />
-                        <br/>
-                        Objetivo:
-                        <h:outputText value="#{usuarioBean.tareaSeleccionada.fechaobjetivo}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
-                        </h:outputText>
-                        <h:outputText rendered="#{usuarioBean.tareaSeleccionada.fechaobjetivo == null}" value="--/--/--  --:--" />
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-5">    
+                            <br/>
+                            <h:outputText value="Prioridad:" style="font-size: 16px" />
+                            <h:outputText rendered="#{usuarioBean.tareaSeleccionada.prioridad == 0}" value=" Baja" style="color: limegreen; font-size: 16px" />
+                            <h:outputText rendered="#{usuarioBean.tareaSeleccionada.prioridad == 1}" value=" Media" style="color: #80ccff; font-size: 16px" />
+                            <h:outputText rendered="#{usuarioBean.tareaSeleccionada.prioridad == 2}" value=" Alta" style="color: red; font-size: 16px" />        
+                        </div>
+                        <div class="col-md-3 col-md-offset-2" style="text-align: right;">
+                            Creación:
+                            <h:outputText value="#{usuarioBean.tareaSeleccionada.fechacreacion}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                            </h:outputText>
+                            <h:outputText rendered="#{usuarioBean.tareaSeleccionada.fechacreacion == null}" value="--/--/----  --:--" />
+                            <br/>
+                            Objetivo:
+                            <h:outputText value="#{usuarioBean.tareaSeleccionada.fechaobjetivo}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                            </h:outputText>
+                            <h:outputText rendered="#{usuarioBean.tareaSeleccionada.fechaobjetivo == null}" value="--/--/----  --:--" />&nbsp;
+                        </div>
+
                     </div>
-                    <h:outputText value="Prioridad:" style="font-size: 16px" />
-                    <h:outputText rendered="#{usuarioBean.tareaSeleccionada.prioridad == 0}" value=" Baja" style="color: limegreen; font-size: 16px" />
-                    <h:outputText rendered="#{usuarioBean.tareaSeleccionada.prioridad == 1}" value=" Media" style="color: #80ccff; font-size: 16px" />
-                    <h:outputText rendered="#{usuarioBean.tareaSeleccionada.prioridad == 2}" value=" Alta" style="color: red; font-size: 16px" />        
                     <br/>
                     <div class="separador"></div>
                     <br/>

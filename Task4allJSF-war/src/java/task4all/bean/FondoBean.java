@@ -32,8 +32,7 @@ public class FondoBean implements Serializable {
     @PostConstruct
     public void init() {
         fondos = new ArrayList<>();
-        fondos = this.fondoFacade.findFondoByOscuro('0');
-        fondos.addAll(this.fondoFacade.findFondoByOscuro('1'));
+        fondos = this.fondoFacade.findAll();
     }
 
     public List<Fondo> getFondos() {
@@ -64,5 +63,9 @@ public class FondoBean implements Serializable {
             indice = (indice - 1) % fondos.size();
         }
         fondo = fondos.get(indice);
+    }
+    
+    public String colorPorFondo(Character c) {
+        return c.equals('1') ? "white" : "black";
     }
 }

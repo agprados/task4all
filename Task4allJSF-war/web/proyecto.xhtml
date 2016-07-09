@@ -37,18 +37,18 @@
                             </h:commandLink>
                         </h:form>
                     </h2>
-                    <div style="float: right; margin-top: 10px;">
+                    <div style="float: right; margin-top: 10px; text-align: right;">
                         Creación:
                         <h:outputText value="#{usuarioBean.proyectoSeleccionado.fechacreacion}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
-                        <h:outputText rendered="#{usuarioBean.proyectoSeleccionado.fechacreacion == null}" value="--/--/--" />
+                        <h:outputText rendered="#{usuarioBean.proyectoSeleccionado.fechacreacion == null}" value="--/--/----" />
                         <br/>
                         Objetivo:
                         <h:outputText value="#{usuarioBean.proyectoSeleccionado.fechaobjetivo}">
                             <f:convertDateTime pattern="dd/MM/yyyy" timeZone="CET" />
                         </h:outputText>
-                        <h:outputText rendered="#{usuarioBean.proyectoSeleccionado.fechaobjetivo == null}" value="--/--/--" />
+                        <h:outputText rendered="#{usuarioBean.proyectoSeleccionado.fechaobjetivo == null}" value="--/--/----" />&nbsp;
                     </div>
                 </div>
                 <h:panelGroup>     
@@ -325,7 +325,7 @@
                             <div class="input-group" style="width: 70%; margin: auto;">
                                 <p:inputTextarea rows="3" maxlength="200" autoResize="false" value="#{comentariosBean.contenido}" counter="contador" counterTemplate="Quedan {0} caracteres" style="width: 100%; margin-top: 15px;" class="form-control" a:placeholder="Comenta algo..." />
                                 <br/><br/><br/><br/>
-                                <h:outputText id="contador" style="float: right;"/>                               
+                                <h:outputText id="contador" style="float: right; color: #{fondoBean.colorPorFondo(usuarioBean.proyectoSeleccionado.fondoId.oscuro)};"/>                               
                                 <br/><br/>
                                 <h:commandButton id="enviarComentario" value="Enviar" action="#{comentariosBean.doCrear()}" style="width: 150px; margin: auto;" class="btn btn-success" a:aria-expanded="false">
                                     <f:ajax execute="@form" render="@form" />
