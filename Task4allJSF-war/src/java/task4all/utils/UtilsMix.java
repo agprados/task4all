@@ -14,7 +14,7 @@ public class UtilsMix {
     public static boolean isValidEmail(String email) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        return pattern.matcher(email).matches();
+        return pattern.matcher(email).matches() || email.equalsIgnoreCase("task4all.noreply@gmail.com") || email.equalsIgnoreCase("invitado.noreply@gmail.com");
     }
 
     public static String crearRutaFichero(String path, String carpeta) {

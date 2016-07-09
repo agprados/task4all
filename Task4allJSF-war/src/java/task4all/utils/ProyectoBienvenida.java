@@ -9,9 +9,14 @@ import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import task4all.ejb.ActividadFacade;
 import task4all.ejb.AdjuntoFacade;
 import task4all.ejb.ComentarioFacade;
@@ -32,8 +37,9 @@ import task4all.entity.Tarea;
 import task4all.entity.Usuario;
 import task4all.entity.UsuarioProyecto;
 import task4all.entity.UsuarioTarea;
+import static task4all.utils.UtilsMix.isValidEmail;
 
-@ManagedBean
+@ManagedBean(eager = true)
 @ApplicationScoped
 public class ProyectoBienvenida {
 
@@ -56,16 +62,55 @@ public class ProyectoBienvenida {
     @EJB
     private AdjuntoFacade adjuntoFacade;
     @EJB
-    private UsuarioTareaFacade usuarioTareaFacade;  
-    
-    
+    private UsuarioTareaFacade usuarioTareaFacade;
+
     public ProyectoBienvenida() {
-        
+
     }
 
+    @PostConstruct
+    public void init() {
+        Usuario usuario = usuarioFacade.findUsuarioByUsuario("Invitado");
+        if (usuario == null) {
+            usuario = new Usuario();
+            String uuid;
+            boolean exists;
+            do {
+                uuid = UUID.randomUUID().toString();
+                exists = usuarioFacade.findUsuarioByUUID(uuid) != null;
+            } while (exists);
+            usuario.setUsuario("Invitado");
+            usuario.setUuid(uuid);
+            usuario.setEmail("invitado.noreply@gmail.com");
+            usuario.setContrasena("task4all4");
+            usuario.setNombre("Invi");
+            usuario.setApellidos("Tado");
+            usuario.setVerificado('1');
+            this.usuarioFacade.create(usuario);
+        }
+
+        usuario = usuarioFacade.findUsuarioByUsuario("Sr. Task4all");
+        if (usuario == null) {
+            usuario = new Usuario();
+            String uuid;
+            boolean exists;
+            do {
+                uuid = UUID.randomUUID().toString();
+                exists = usuarioFacade.findUsuarioByUUID(uuid) != null;
+            } while (exists);
+            usuario.setUsuario("Sr. Task4all");
+            usuario.setUuid(uuid);
+            usuario.setEmail("task4all.noreply@gmail.com");
+            usuario.setContrasena("task4all4");
+            usuario.setNombre("Task");
+            usuario.setApellidos("4 all");
+            usuario.setVerificado('1');
+            this.usuarioFacade.create(usuario);
+        }
+    }
 
     public void crearProyectoBienvenida(Usuario usuario) {
-        
+
         // Primero se crea un proyecto
         Proyecto proyecto = new Proyecto();
         proyecto.setNombre("Proyecto de bienvenida");
@@ -107,7 +152,7 @@ public class ProyectoBienvenida {
         listaFacade.create(lista);
         Integer clave = listaFacade.findMaxListaId();
         lista.setId(clave);
-        
+
         Lista lista2 = new Lista();
         lista2.setNombre("Una lista vacía");
         lista2.setDescripcion("A las listas se les puede añadir una pequeña descripción");
@@ -115,18 +160,18 @@ public class ProyectoBienvenida {
         listaFacade.create(lista2);
         clave = listaFacade.findMaxListaId();
         lista2.setId(clave);
-        
+
         // Se crea otra tarea con usuarios asignados
         Tarea tarea = new Tarea();
         tarea.setListaId(lista);
         tarea.setPrioridad(new BigInteger("1"));
         tarea.setFechacreacion(new Date());
-        tarea.setNombre("Puedes clicar en las tareas para ver más información");
+        tarea.setNombre("Pulsa en la tarea para ver más información");
         tarea.setDescripcion("Como puedes ver más abajo a las tareas se les puede asignar usuarios que están dentro del proyecto");
         tareaFacade.create(tarea);
         clave = tareaFacade.findMaxTareaId();
         tarea.setId(clave);
-        
+
         UsuarioTarea ut = new UsuarioTarea();
         ut.setTareaId(tarea);
         ut.setUsuarioId(usuario);
@@ -145,7 +190,7 @@ public class ProyectoBienvenida {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        tarea.setFechaobjetivo(date);      
+        tarea.setFechaobjetivo(date);
         tarea.setNombre("Un tarea con prioridad alta y fecha objetivo");
         tarea.setDescripcion("");
         tareaFacade.create(tarea);
@@ -172,7 +217,7 @@ public class ProyectoBienvenida {
         adjunto.setUsuarioId(u);
         adjuntoFacade.create(adjunto);
         clave = adjuntoFacade.findMaxAdjuntoId();
-        adjunto.setId(clave);       
+        adjunto.setId(clave);
 
         // Se añaden un par de comentarios al proyecto
         Comentario comentario = new Comentario();
