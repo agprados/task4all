@@ -125,7 +125,7 @@ html body {
     box-shadow: 0px 0px 6px 1px black;
 }
 .img-with-text img:hover {
-     transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .proyecto {
@@ -445,6 +445,17 @@ a.btn.social-disconnected:hover {
 
 .ui-fileupload-cancel:hover {
     background-color: #e6e6e6 !important;
+}
+
+.ui-lightbox-nav-right{
+    visibility: hidden !important;
+}
+.ui-lightbox-nav-left{
+    visibility: hidden !important;
+}
+
+.ui-lightbox-caption {
+    display: none !important;
 }
 
 .ui-fileupload-cancel:disabled {

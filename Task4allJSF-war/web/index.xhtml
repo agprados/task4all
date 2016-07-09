@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         #{usuarioBean.doCheckLogout()}
         <title>Task4all</title>
@@ -35,13 +36,21 @@
                 <div class="row" style="padding-top: 10px; padding-left: 55px; padding-right: 55px;">
                     <div class="col-md-6" style="padding-left: 35px; padding-right: 35px; padding-bottom: 40px;">
                         <div class="img-with-text">
-                            <img src="images/captura_index_1.png" class="img-responsive"/>
+                            <p:lightBox styleClass="imagebox" id="lighbox1">
+                                <h:outputLink value="images/captura_index_1.png">
+                                    <h:graphicImage value="images/captura_index_1.png" class="img-responsive"/>
+                                </h:outputLink>
+                            </p:lightBox>
                             <p>Crea proyectos para todo lo que se te ocurra (trabajo, organizar una escapada, un cumpleaños o dominar el mundo) e invita a quien tú quieras</p>
                         </div>
                     </div>
                     <div class="col-md-6" style="padding-left: 35px; padding-right: 35px; padding-bottom: 40px;">
                         <div class="img-with-text">
-                            <img src="images/captura_index_1.png" class="img-responsive"/>
+                             <p:lightBox styleClass="imagebox" id="lighbox2">
+                                <h:outputLink value="images/captura_index_1.png">
+                                    <h:graphicImage value="images/captura_index_1.png" class="img-responsive"/>
+                                </h:outputLink>
+                            </p:lightBox>
                             <p>Crea listas de tareas para tenerlo todo bien organizado dentro de cada proyecto. Asigna usuarios a las tareas, adjunta archivos, dales una prioridad...</p>
                         </div>
                     </div>                                     
@@ -49,7 +58,11 @@
                 <div class="row" style="padding-left: 55px; padding-right: 55px;">
                     <div class="col-md-6 col-md-offset-3" style="padding-left: 35px; padding-right: 35px;">
                         <div class="img-with-text">
-                            <img src="images/captura_index_1.png" class="img-responsive"/>
+                             <p:lightBox styleClass="imagebox" id="lighbox3">
+                                <h:outputLink value="images/captura_index_1.png">
+                                    <h:graphicImage value="images/captura_index_1.png" class="img-responsive"/>
+                                </h:outputLink>
+                            </p:lightBox>
                             <p>Comenta dentro de cada proyecto con los integrantes del proyecto para estar al día informando de las últimas novedades o simplemente úsalo como chat</p>
                         </div>
                     </div>   

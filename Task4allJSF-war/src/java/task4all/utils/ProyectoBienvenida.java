@@ -420,5 +420,12 @@ public class ProyectoBienvenida {
         f.setOscuro('1');
         f.setUrl("/images/fondos/fondo_oscuro_10.png");        
         fondoFacade.create(f);
+        
+        // Fondo oscuro 11
+        f = new Fondo();
+        f.setNombre("fondo_oscuro_11.jpg");
+        f.setOscuro('1');
+        f.setUrl("/images/fondos/fondo_oscuro_11.jpg");        
+        fondoFacade.create(f);
     }
 }
