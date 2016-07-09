@@ -8,7 +8,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" type="text/css" href="css/style.css" />
-        
+
         <!-- Compiled and minified Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
         <!-- Compiled and minified Bootstrap JavaScript -->
@@ -26,28 +26,34 @@
             </h:form>
         </center>
         <br/>        
-        <div class="container no-header">            
+        <div class="container no-header" style="border-radius: 0; border: none; width: 100%; background-color:rgba(255, 255, 255, 0.2);">            
             <center>
-                <h2>Organízate con Task4all</h2>
-                <div class="separador"></div>
-                <h4>La herramienta para organizar tareas con tus amigos más fácil e intuitiva</h4>
+                <h2 style="color: white; font-weight: bold">Organízate con Task4all</h2>
+                <h4 style="color: white">La herramienta para organizar tareas más fácil e intuitiva</h4>
                 <br/>
-                <img class="imagen" src="images/captura_index_1.png" width="900" /> <br/>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="img-with-text">
+                            <img src="images/captura_index_1.png" width="500px" />
+                            <p>Crea proyectos para todo lo que se te ocurra (trabajo, organizar una escapada, un cumpleaños o dominar el mundo) e invita a quien tú quieras</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="img-with-text">
+                            <img src="images/captura_index_1.png" width="500px" />
+                            <p>Crea proyectos para todo lo que se te ocurra (trabajo, organizar una escapada, un cumpleaños o dominar el mundo) e invita a quien tú quieras</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="img-with-text">
+                            <img src="images/captura_index_1.png" width="500px" />
+                            <p>Crea proyectos para todo lo que se te ocurra (trabajo, organizar una escapada, un cumpleaños o dominar el mundo) e invita a quien tú quieras</p>
+                        </div>
+                    </div>                    
+                </div>    
                 <br/>
-                <h4>Puedes crear proyectos para todo lo que se te ocurra e invitar a tus amigos</h4>
-                (trabajo, organizar una escapada, un cumpleaños o dominar el mundo)
-                <br/>
-                <br/>
-                <div class="separador"></div>
-                <h2>Crea listas de tareas y comenta en los proyectos</h2>
-                <h4>Ahora puedes organizar tus tareas en listar y comentar proyectos con tus amigos ¡mejor imposible!</h4>
-                <br/>
-                <img style="margin-right: 10px;" class="imagen" src="images/captura_index_2.png" width="500" />
-                <img style="margin-left: 10px;" class="imagen" src="images/captura_index_3.png" width="500" />
-                <br/>
-                <br/>
-                <div class="separador"></div>
-                <h3>© Task4all 2016</h3>
+                <div class="separador" style="background: black"></div>
+                <h3 style="color: white">© Task4all 2016</h3>
             </center>
         </div>
         <ui:include src="/includes/footer.xhtml" />
