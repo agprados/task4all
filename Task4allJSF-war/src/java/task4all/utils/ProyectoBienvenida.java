@@ -193,7 +193,7 @@ public class ProyectoBienvenida {
             e.printStackTrace();
         }
         tarea.setFechaobjetivo(date);
-        tarea.setNombre("Un tarea con prioridad alta y fecha objetivo");
+        tarea.setNombre("Una tarea con prioridad alta y fecha objetivo");
         tarea.setDescripcion("");
         tareaFacade.create(tarea);
         clave = tareaFacade.findMaxTareaId();

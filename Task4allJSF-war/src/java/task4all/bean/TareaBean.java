@@ -65,7 +65,7 @@ public class TareaBean {
 
     @PostConstruct
     public void init() {
-        cargarListaAsignados();        
+        cargarListaAsignados();
         cargarListaAdjuntos();
     }
 
@@ -128,7 +128,7 @@ public class TareaBean {
     public String doMostrar(Tarea t) {
         usuarioBean.setTareaSeleccionada(t);
         cargarListaAsignados();
-        
+
         return "/tarea?faces-redirect=true";
     }
 
@@ -187,7 +187,7 @@ public class TareaBean {
         } else {
             tareaFacade.edit(usuarioBean.getTareaSeleccionada());
         }
-        
+
         cargarListaAsignados();
         return "tarea?faces-redirect=true";
     }
@@ -258,11 +258,11 @@ public class TareaBean {
                 }
             }
         }
-    }   
-    
+    }
+
     public void cargarListaAdjuntos() {
         listaAdjuntos = new ArrayList<>();
-        if(usuarioBean.getTareaSeleccionada() != null) {
+        if (usuarioBean.getTareaSeleccionada() != null) {
             listaAdjuntos = this.adjuntoFacade.findAdjuntosByTarea(usuarioBean.getTareaSeleccionada().getId());
             this.tareaFacade.borrarCache();
         }
