@@ -323,7 +323,7 @@
                             </div>
 
                             <div class="input-group" style="width: 70%; margin: auto;">
-                                <p:inputTextarea rows="3" maxlength="200" autoResize="false" value="#{comentariosBean.contenido}" counter="contador" counterTemplate="Quedan {0} caracteres" style="width: 100%; margin-top: 15px;" class="form-control" a:placeholder="Comenta algo..." />
+                                <p:inputTextarea rows="3" maxlength="200" autoResize="true" value="#{comentariosBean.contenido}" counter="contador" counterTemplate="Quedan {0} caracteres" style="width: 100%; margin-top: 15px;" class="form-control" a:placeholder="Comenta algo..." />
                                 <br/><br/><br/><br/>
                                 <h:outputText id="contador" style="float: right; color: #{fondoBean.colorPorFondo(usuarioBean.proyectoSeleccionado.fondoId.oscuro)};"/>                               
                                 <br/><br/>
